@@ -1,0 +1,240 @@
+head, body{
+    font-family: "Open Sans",sans-serif;
+    font-size: 100%;
+}
+
+body a{
+    transition: all 0.5s ease 0s;
+}
+
+ul{
+    margin: 0;
+}
+
+h1,h2,h3,h4,h5.h6{
+    margin: 0;
+}
+
+.brit_top_strip{
+    background: #252525 none repeat scroll 0 0;
+}
+
+.brit_top_strip_content{
+    padding: 9px 0 8px;
+}
+
+.brit_top_strip_content_right{
+    color: #ffffff;
+    float: left;
+    margin-top: -5px;
+}
+
+.brit_top_strip_content_right ul {
+    list-style: outside none none;
+    padding: 0;
+}
+
+.brit_top_strip_content_right ul li{
+    border-right: 1px solid #ffffff;
+    display: inline-block;
+    margin: 0;
+}
+
+.brit_top_strip_content_right ul li a{
+    color: #ffffff;
+    display: block;
+    font-size: 12px;
+    padding: 0 13px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out 0s;
+}
+
+.brit_header_top_content{
+    padding: 1em 0;
+}
+
+.brit_header_top_content_logo{
+    float: left;
+    margin: 1.5em 0;
+}
+
+.brit_header_top_content_logo a h1{
+    color: #18c9d2;
+    font-family: "Roboto Slab",serif;
+    font-size: 2.7em;
+    font-weight: 400;
+}
+
+.brit_header_top_content_logo h1 span{
+    color: #333;
+}
+
+.brit_header_top_content_cart{
+    position: relative;
+    float: right;
+    margin-top: 1em;
+}
+
+.brit_header_top_content_cart_box{
+    float: right;
+    margin-top: 5px;
+}
+
+.brit_header_top_content_cart_box_total{
+    color: #18c9d2;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.brit_header_top_content_cart_box p{
+    margin: 0 0 0 8px;
+}
+
+a.simpleCart_empty{
+    color: #555;
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+ul.megamenu.skyblue{
+    background: #f5f5f5 none repeat scroll 0 0;
+}
+
+.brit_banner{
+    margin-top: 3em;
+}
+
+.brit_banner_wood{
+    padding-left: 0;
+}
+
+.brit_banner_wood_img{
+    float: left;
+    margin-top: 1em;
+    padding: 0;
+    width: 70%;
+}
+
+.brit_banner_wood_text{
+    float: right;
+    width: 28%;
+}
+
+h3.b-tittle{
+    color: #252525;
+    font-size: 1.2em;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+
+a.collection{
+    color: #555;
+    display: inline-block;
+    font-size: 0.9em;
+    margin-top:0.5em;
+}
+
+a.collection i{
+    color: #18c9d2;
+    font-size: 1em;
+    margin: 0 0.3em;
+    vertical-align: middle;
+}
+
+.brit_jewellary_section{
+    padding: 4em 0;
+}
+
+.brit_jewellary_section_info{
+    margin-top: 3em;
+}
+
+.brit_item_grid{
+    padding-left: 0;
+}
+
+figure.effect-bubba{
+    background-color: rgba(24, 201, 210, 0.84);
+}
+
+.brit_item_grid figure{
+    cursor: pointer;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+.brit_footer{
+    padding: 4em 0 1em;
+}
+
+.brit_footer_left{
+    border-right: 1px solid #555;
+    width: 20%;
+}
+
+.brit_footer_left h3{
+    border-bottom: 1px solid #ababb1;
+    color: #333;
+    font-size: 1.2em;
+    font-weight: 400;
+    margin: 0;
+    padding-bottom: 0.5em;
+    text-transform: uppercase;
+}
+
+.brit_footer_left ul{
+    margin:  4% 0 0;
+    padding: 0;
+}
+
+.brit_footer_left ul li{
+    list-style: outside none none;
+    margin: 5px 0;
+}
+
+.brit_footer_left ul li a{
+    color: #999;
+    font-size: 0.85em;
+}
+
+.brit_footer_left.lost{
+    border: medium none;
+}
+
+ul.brit_socials{
+    background-color: #333;
+    margin: 2% auto 1%;
+    padding-top: 5px;
+    text-align: center;
+}
+
+ul.brit_socials li{
+    display: inline-block;
+    list-style: outside none none;
+}
+
+.brit_socials li .brit_soc1{
+    background: rgba(0, 0, 0, 0) url("../images/social-1.png") no-repeat scroll 0 100%;
+}
+
+.brit_socials li .brit_soc1{
+    background: rgba(0, 0, 0, 0) url("../images/social-2.png") no-repeat scroll 0 100%;
+}
+
+.brit_socials li .brit_soc1{
+    background: rgba(0, 0, 0, 0) url("../images/social-3.png") no-repeat scroll 0 100%;
+}
+
+.brit_socials li a {
+    display: inline-block;
+    height: 51px !important;
+    overflow: hidden;
+    position: relative;
+    width: 51px !important;
+}
+

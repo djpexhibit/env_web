@@ -1,0 +1,455 @@
+html, body{
+    font-family: "Open Sans",sans-serif;
+    font-size: 100%;
+}
+
+body a{
+    transition: all 0.5s ease 0s;
+}
+
+body a:focus, body a:hover{
+    text-decoration: none;
+}
+
+ul{
+    margin: 0;
+}
+
+h1,h2,h3,h4,h5.h6{
+    margin: 0;
+    font-family: 'Roboto Slab', serif;
+}
+
+.shoe-img{
+    float: left;
+}
+
+.brit_top_strip{
+    background: #252525 none repeat scroll 0 0;
+}
+
+.brit_top_strip_content{
+    padding: 9px 0 8px;
+}
+
+.brit_top_strip_content_right{
+    color: #ffffff;
+    float: left;
+    margin-top: -5px;
+}
+
+.brit_top_strip_content_right ul {
+    list-style: outside none none;
+    padding: 0;
+}
+
+.brit_top_strip_content_right ul li{
+    border-right: 1px solid #ffffff;
+    display: inline-block;
+    margin: 0;
+}
+
+.brit_top_strip_content_right ul li a{
+    color: #ffffff;
+    display: block;
+    font-size: 12px;
+    padding: 0 13px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out 0s;
+}
+
+.brit_header_top_content{
+   /* padding: 1em 0;*/
+}
+
+.brit_header_top_content_logo{
+    float: left;
+    margin: 1.5em 0;
+}
+
+.brit_header_top_content_logo a h1{
+    color: #18c9d2;
+    font-family: "Roboto Slab",serif;
+    font-size: 2.7em;
+    font-weight: 400;
+}
+
+.brit_header_top_content_logo h1 span{
+    color: #333;
+}
+
+.brit_header_top_content_cart{
+    position: relative;
+    float: right;
+    margin-top: 1em;
+}
+
+.brit_header_top_content_cart_box{
+    float: right;
+    margin-top: 5px;
+}
+
+.brit_header_top_content_cart_box i{
+    color: #242424;
+}
+
+.brit_header_top_content_cart_box_total{
+    color: #18c9d2;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.brit_header_top_content_cart_box p{
+    margin: 0 0 0 8px;
+}
+
+a.simpleCart_empty{
+    color: #555;
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+ul.megamenu.skyblue{
+    background: #f5f5f5 none repeat scroll 0 0;
+}
+
+.brit_banner{
+    margin-top: 3em;
+}
+
+.brit_banner_wood{
+    padding-left: 0;
+}
+
+.brit_banner_wood_img{
+    float: left;
+    margin-top: 1em;
+    padding: 0;
+    width: 70%;
+}
+
+.brit_banner_wood_text{
+    float: right;
+    width: 28%;
+}
+
+h3.b-tittle{
+    color: #252525;
+    font-size: 1.2em;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+
+a.collection{
+    color: #555;
+    display: inline-block;
+    font-size: 0.9em;
+    margin-top:0.5em;
+}
+
+a.collection i{
+    color: #18c9d2;
+    font-size: 1em;
+    margin: 0 0.3em;
+    vertical-align: middle;
+}
+
+.brit_jewellary_section{
+    padding: 4em 0;
+}
+
+.brit_jewellary_section_info{
+    margin-top: 3em;
+}
+
+.brit_item_grid{
+    padding-left: 0;
+}
+
+figure.effect-bubba{
+    background-color: rgba(24, 201, 210, 0.84);
+}
+
+.brit_item_grid figure{
+    cursor: pointer;
+    float: left;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+.brit_footer{
+    padding: 4em 0 1em;
+}
+
+.brit_footer_left{
+    border-right: 1px solid #555;
+    width: 20%;
+}
+
+.brit_footer_left h3{
+    border-bottom: 1px solid #ababb1;
+    color: #333;
+    font-size: 1.2em;
+    font-weight: 400;
+    margin: 0;
+    padding-bottom: 0.5em;
+    text-transform: uppercase;
+}
+
+.brit_footer_left ul{
+    margin:  4% 0 0;
+    padding: 0;
+}
+
+.brit_footer_left ul li{
+    list-style: outside none none;
+    margin: 5px 0;
+}
+
+.brit_footer_left ul li a{
+    color: #999;
+    font-size: 0.85em;
+}
+
+.brit_footer_left.lost{
+    border: medium none;
+}
+
+ul.brit_socials{
+    background-color: #333;
+    margin: 2% auto 1%;
+    padding-top: 5px;
+    text-align: center;
+}
+
+ul.brit_socials li{
+    display: inline-block;
+    list-style: outside none none;
+}
+
+.brit_socials li .brit_soc1{
+    background: rgba(0, 0, 0, 0) ;/*url("../images/social-1.png") no-repeat scroll 0 100%;*/
+}
+
+.brit_socials li .brit_soc1{
+    background: rgba(0, 0, 0, 0) ;/*url("../images/social-2.png") no-repeat scroll 0 100%;*/
+}
+
+.brit_socials li .brit_soc1{
+    background: rgba(0, 0, 0, 0); /* url("../images/social-3.png") no-repeat scroll 0 100%;*/
+}
+
+.brit_socials li a {
+    display: inline-block;
+    height: 51px !important;
+    overflow: hidden;
+    position: relative;
+    width: 51px !important;
+}
+
+.brit_product_buttons .brit_products{
+    max-height: 55px;
+}
+
+
+.brit_product{
+    text-align: center;
+    
+  position: relative;
+  z-index: 90;
+}
+    
+
+.slick-slide{
+    border-left: 1px solid #eee;
+}
+
+.slick-slide:nth-child(4n+1){
+    border-left: 0 none;
+    
+}
+
+
+.brit_product_price{
+    color: #333;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0 0 10px
+}
+
+.brit_product_name {
+    font-size: 13px;
+    height: 36px;
+    line-height: 18px;
+    margin: 5px 0 8px;
+    overflow: hidden;
+    padding: 0 15px;
+}
+
+.brit_product_thumbnail{
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 190px;
+    margin: 0 auto;
+    max-width: 190px;
+    width: 100%;
+}
+
+.brit_product_tags{
+    height: 20px;
+    margin-top: 155px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+
+body.product h1{
+    color: #000;
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0 0 20px;
+}
+
+div.panel-default{
+    border-radius: 0;
+}
+
+.brit_product_images{
+    padding: 0 15px;
+}
+
+.brit_image_full{
+    height: 460px;
+    overflow: hidden;
+    padding: 0;
+      position: relative;
+  z-index: 90;
+}
+
+.brit_no_padding_left{
+    padding-left: 0;
+}
+
+#brit_product_info{
+    margin-bottom: 15px;
+}
+
+#brit_product_tabs{
+    color: #222;
+    font-family: Arial;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+
+.search_field{
+   /* background: #f5f5f5 none repeat scroll 0 0;*/
+    min-height: 38px;
+    padding-top: 2px;
+}
+
+.search_field_left{
+    padding-right: 0px;
+}
+
+.slides {
+  position: relative;
+}
+.slick-prev:before, .slick-next:before { 
+    color:#333 !important;
+}
+
+.slick-next::before {
+    content: url(../images/next.png) !important;
+    font-size: 40px !important;
+    font-weight: bold !important;
+    font-family: 'Roboto Slab', serif !important;
+}
+
+.slick-prev::before {
+    /*content: "<" !important;*/
+    content: url(../images/prev.png) !important;
+    font-size: 40px !important;
+    font-weight: bold !important;
+    font-family: 'Roboto Slab', serif !important;
+}
+
+.brit_item_detail_main{
+    margin-top: 30px;
+}
+
+.brit_checkout_main{
+    margin-top: 10px;
+}
+
+.brit_discount_price{
+    text-decoration: line-through;
+    margin-right: 5px;
+    color: darkred
+}
+
+.brit_social{
+    float: right;
+    margin: 5px 10px 10px 5px;
+}
+
+
+
+
+
+
+
+.ribbon-wrapper-green {
+  width: 85px;
+  height: 88px;
+  overflow: hidden;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+}
+
+.ribbon-green {
+  font: bold 15px Sans-Serif;
+  color: #333;
+  text-align: center;
+  text-shadow: rgba(255,255,255,0.5) 0px 1px 0px;
+  -webkit-transform: rotate(45deg);
+  -moz-transform:    rotate(45deg);
+  -ms-transform:     rotate(45deg);
+  -o-transform:      rotate(45deg);
+  position: relative;
+  padding: 7px 0;
+  left: -5px;
+  top: 15px;
+  width: 120px;
+  background-color: #BFDC7A;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#BFDC7A), to(#8EBF45)); 
+  background-image: -webkit-linear-gradient(top, #BFDC7A, #8EBF45); 
+  background-image:    -moz-linear-gradient(top, #BFDC7A, #8EBF45); 
+  background-image:     -ms-linear-gradient(top, #BFDC7A, #8EBF45); 
+  background-image:      -o-linear-gradient(top, #BFDC7A, #8EBF45); 
+  color: #6a6340;
+  -webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+  -moz-box-shadow:    0px 0px 3px rgba(0,0,0,0.3);
+  box-shadow:         0px 0px 3px rgba(0,0,0,0.3);
+}
+
+.ribbon-green:before, .ribbon-green:after {
+  content: "";
+  border-top:   3px solid #6e8900;   
+  border-left:  3px solid transparent;
+  border-right: 3px solid transparent;
+  position:absolute;
+  bottom: -3px;
+}
+
+.ribbon-green:before {
+  left: 0;
+}
+.ribbon-green:after {
+  right: 0;
+}
