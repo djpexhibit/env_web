@@ -2,6 +2,7 @@ import delay from './delay';
 
 class ItemApi {
   static getAllItems() {
+        console.log(">>>>>>>>>>>>>>>>")
       return fetch('/getItems')
         .then((response) => response.json())
         .then((responseJson) => {

@@ -23,26 +23,26 @@ function returnCategoryId(type){
 
 
 function sendConfirmMail(checkout){
-   /* var transporter = nodemailer.createTransport({
+    var transporter = nodemailer.createTransport({
         service:'Gmail',
         auth:{
             user:'prasad.wanigasinghe.test@gmail.com',
             pass:'Pras777@dan'
         }
-    });*/
+    });
    // var transporter = nodemailer.createTransport('smtps://info@capitalbritannia:Rajiv1234@smtp.domain.com');
 
-   var transporter = nodemailer.createTransport(smtpTransport({
+   /*var transporter = nodemailer.createTransport(smtpTransport({
     host: 'https://emailmg.domain.com/roundcube/',
     port: 25,
     auth: {
         user: 'info@capitalbritannia.com',
         pass: 'Rajiv1234'
     }
-}));
+}));*/
     
     var mailOptions = {
-        from: '<info@capitalbritannia.com>',
+        from: 'prasad.wanigasinghe.test@gmail.com',
         to: 'prasad.wanigasinghe.test@gmail.com',
         subject: 'Capital Britannia - Placed Order Details !!!',
         html: confirmTemplate(checkout)
@@ -86,28 +86,28 @@ function orderTemplate(checkout) {
 }
 
 function sendMail(checkout,type){
-   /* var transporter = nodemailer.createTransport({
+    var transporter = nodemailer.createTransport({
         service:'Gmail',
         auth:{
             user:'prasad.wanigasinghe.test@gmail.com',
             pass:'Pras777@dan'
         }
-    });*/
+    });
     //var transporter = nodemailer.createTransport('smtps://visionx.prasad%40gmail.com:pras777dan031607@smtp.gmail.com');
 
-       var transporter = nodemailer.createTransport(smtpTransport({
+       /*var transporter = nodemailer.createTransport(smtpTransport({
     host: 'https://emailmg.domain.com/roundcube/',
     port: 25,
     auth: {
         user: 'info@capitalbritannia.com',
         pass: 'Rajiv1234'
     }
-}));
+}));*/
 
     var text = 'Hello world from \n\n' + 'name here';
     
     var mailOptions = {
-        from: '<info@capitalbritannia.com>',
+        from: 'prasad.wanigasinghe.test@gmail.com',
         to: 'prasad.wanigasinghe.test@gmail.com',
         subject: 'Capital Britannia - Your Order Has Been Confirmed !!!',
         //text: text //, // plaintext body
@@ -125,6 +125,7 @@ function sendMail(checkout,type){
 
 function Item() {
     this.get = function (res) {
+        console.log(">>>>>>>>>>>>")
         connection.acquire(function (err, con) {
             con.query('select * from items', function (err, result) {
                 con.release();
