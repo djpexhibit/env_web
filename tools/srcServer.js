@@ -5,6 +5,8 @@ import config from '../webpack.config.dev';
 import open from 'open';
 var item = require('../src/models/itemModel');
 var connection = require('../src/DB/connection');
+var user = require('../src/models/userModel');
+var complain = require('../src/models/complainModel');
 
 var bodyParser = require('body-parser')
 
@@ -34,6 +36,12 @@ app.post('/api/users', jsonParser, function (req, res) {
   if (!req.body) return res.sendStatus(400)
   // create user in req.body
 })*/
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 
 app.use(require('webpack-dev-middleware')(compiler, {
@@ -97,6 +105,42 @@ app.post('/buyItems',jsonParser,function(req,res){
 
   
 });
+
+
+app.get('/loadComplains', function(req,res){
+  console.log("LOADING COMPLAINS")
+  complain.loadComplains(res);
+})
+
+app.post('/loadComplain', jsonParser ,function(req,res){
+  console.log("LOADING ONE COMPLAIN");
+  let comp_id = req.body.comp_id;
+  console.log(comp_id)
+  complain.loadComplain(res,comp_id);
+})
+
+app.get('/loadPollutionTypes', function(req,res){
+  console.log("LOADING POLLUTION TYPES")
+  complain.loadPollutionTypes(res);
+})
+
+
+app.post('/login', jsonParser, function(req,res){
+  console.log("FFFFFFFFFFF")
+  let credentials = req.body.credentials;
+  console.log(credentials)
+  user.getUserByUsername(res,credentials); 
+
+})
+
+
+app.post('/addComplain', jsonParser, function(req,res){
+  console.log("ADDING COMPLAIN")
+  let complain = req.body.complain;
+  console.log(complian)
+  complain.addComplain(res,complain); 
+
+})
 
 
 

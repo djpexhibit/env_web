@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import * as itemActions from '../../actions/itemActions';
-import * as cartActions from '../../actions/cartActions';
 import {bindActionCreators}  from 'redux';
 import {
   ShareButtons,
@@ -150,7 +149,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch){
     return{
-        actions : bindActionCreators(Object.assign({}, itemActions, cartActions),dispatch)
+        actions : bindActionCreators(Object.assign({}, itemActions),dispatch)
     };
 }
 

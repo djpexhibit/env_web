@@ -9,7 +9,7 @@ function Connection() {
             host: 'localhost',
             user: 'root',
             password: '1234',
-            database: 'britanic'
+            database: 'env_web'
         });
     };
     

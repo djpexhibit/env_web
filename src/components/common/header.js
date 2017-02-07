@@ -37,11 +37,7 @@ class Header extends React.Component{
     render(){
 
         // Calculating total
-        let total = this.props.cart.reduce((total,item) => {
-          //return total+item.price;
-          let price = item.isDiscounted?(item.price - item.price*item.discountPercentage/100):item.price;
-          return total + price;
-        },0);
+        let total = 0;
 
         const menuStyle_hide = {
             display:'none'
@@ -76,7 +72,7 @@ class Header extends React.Component{
                 <div className="brit_header_top">
                   <div className="brit_header_top_content">
                     <div className="brit_header_top_content_logo">
-                      <Link  to="/"><h1>Capital <span>Britannia</span></h1> </Link>
+                      <Link  to="/"><h1>TEST</h1> </Link>
                     </div>
                     <div className="brit_header_top_content_cart">
                       <div className="brit_header_top_content_cart_box">
@@ -84,7 +80,7 @@ class Header extends React.Component{
                           <div className="brit_header_top_content_cart_box_total">
                             <span className="simpleCart_total">${total} </span>
                             (
-                              <span id="simpleCart_quantity" className="simpleCart_quantity">{this.props.cart.length} items</span>
+                              <span id="simpleCart_quantity" className="simpleCart_quantity">{0} items</span>
                             )
                           </div>
                           <i className="glyphicon glyphicon-shopping-cart"></i>
@@ -116,21 +112,7 @@ class Header extends React.Component{
                             <i className="glyphicon glyphicon-home"></i>  Home
                           </IndexLink>
                         </li>
-                        <li className={this.state.activeMenu==1?"active grid":"grid"} style={menuStyle_show} >
-                          <Link className="color2" to="/items/cosmetics" onClick={(e) => this.selectMenu(e,1) } >
-                              Cosmetics
-                          </Link>
-                        </li>
-                        <li className={this.state.activeMenu==2?"active grid":"grid"} style={menuStyle_show}>
-                          <Link  className="color4" to="/items/perfumes" onClick={(e) => this.selectMenu(e,2) } >
-                              Perfumes
-                          </Link>
-                        </li>
-                        <li className={this.state.activeMenu==3?"active grid":"grid"} style={menuStyle_show}>
-                          <Link  className="color4" to="/items/travel_accessories"   onClick={(e) => this.selectMenu(e,3) } >
-                             Travel Accessories
-                          </Link>
-                        </li>
+                        
                       </ul>
                     </div>
                     
