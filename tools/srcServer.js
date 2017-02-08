@@ -137,9 +137,9 @@ app.post('/login', jsonParser, function(req,res){
 app.post('/addComplain', jsonParser, function(req,res){
   console.log("ADDING COMPLAIN");
   console.log(JSON.stringify(req.body));
-  let recieve = req.body.toSend;
+  let recieve = req.body.complain;
   console.log(recieve)
-  //complain.addComplain(res,recieve); 
+  complain.addComplain(res,recieve); 
 
 })
 
