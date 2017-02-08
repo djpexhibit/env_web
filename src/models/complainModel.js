@@ -32,7 +32,7 @@ function Complain() {
         });
     };
 
-    this.addComplian = function(res, complain){
+    this.addComplain = function(res, complain){
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
                 if(err) {throw err;}
