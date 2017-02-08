@@ -32,11 +32,11 @@ function Complain() {
         });
     };
 
-    this.addComplain = function(res, complain){
+    this.addComplain = function(res, details){
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
                 if(err) {throw err;}
-                con.query('insert into complains(type,res_person,details) values (?,?,?)', [complain.type,complain.person,complain.details], function(err, result){
+                con.query('insert into complains(type,res_person,details) values (?,?,?)', [details.complain.type,details.complain.person,details.complain.details], function(err, result){
                     if (err) {
                         con.rollback(function() { throw err; });
                     }
