@@ -25,7 +25,7 @@ function Complain() {
 
     this.loadComplain = function (res, comp_id) {
         connection.acquire(function (err, con) {
-            con.query('select * from complains c join complain_images i where c.id = ? and c.id = i.complain_id', comp_id ,function (err, result) {
+            con.query('select c.type as type, c.res_person as res_person, c.details as details, i.image as image from complains c join complain_images i where c.id = ? and c.id = i.complain_id', comp_id ,function (err, result) {
                 con.release();
                 console.log(JSON.stringify(result))
                 res.json(result);
