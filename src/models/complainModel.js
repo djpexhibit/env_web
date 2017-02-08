@@ -40,14 +40,22 @@ function Complain() {
                     if (err) {
                         con.rollback(function() { throw err; });
                     }
+
+
+                    con.query('insert into complain_images(complain_id, image) values(?,?)',[1,details.images] , function(err, result){
+                        if(err) {throw err;}
+
+                        con.commit(function(err) { 
+                            if (err) { 
+                                con.rollback(function() { throw err; }); 
+                            }
+                            res.send({ status: 0, message: 'Complain added successfully' });
+                            console.log('success!'); 
+                        }); 
+
+                    });
  
-                    con.commit(function(err) { 
-                        if (err) { 
-                            con.rollback(function() { throw err; }); 
-                        }
-                        res.send({ status: 0, message: 'Complain added successfully' });
-                        console.log('success!'); 
-                    }); 
+                    
                 }); 
             })
 
