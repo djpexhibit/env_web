@@ -36,7 +36,7 @@ function Complain() {
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
                 if(err) {throw err;}
-                con.query('insert into complain() values ()', [checkout.user], function(err, result){
+                con.query('insert into complains(type,res_person,details) values (?,?,?)', [complain.type,complain.person,complain.details], function(err, result){
                     if (err) {
                         con.rollback(function() { throw err; });
                     }
@@ -45,7 +45,7 @@ function Complain() {
                         if (err) { 
                             con.rollback(function() { throw err; }); 
                         }
-                        res.send({ status: 0, message: 'Order created successfully' });
+                        res.send({ status: 0, message: 'Complain added successfully' });
                         console.log('success!'); 
                     }); 
                 }); 
