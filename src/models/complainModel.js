@@ -27,6 +27,7 @@ function Complain() {
         connection.acquire(function (err, con) {
             con.query('select * from complains c join complain_images i where id = ? and c.id = i.complain_id', comp_id ,function (err, result) {
                 con.release();
+                console.log(JSON.stringify(result))
                 res.json(result);
             });
         });
