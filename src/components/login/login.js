@@ -1,7 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import TextInput from '../common/TextInput'
+import TextInput from '../common/TextInput';
+import * as sessionActions from '../../actions/sessionActions';
+import {browserHistory} from 'react-router';
+
 
 class Login extends React.Component{
 
@@ -14,6 +17,9 @@ class Login extends React.Component{
 				password:''
 			}
 		}
+
+		this.onChange = this.onChange.bind(this);
+		this.onSave = this.onSave.bind(this);
 	}
 
 	onChange(event){
@@ -25,7 +31,9 @@ class Login extends React.Component{
 
 	onSave(event) {
 		event.preventDefault();
-		//this.props.actions.logInUser(this.state.credentials);
+		this.props.actions.logInUser(this.state.credentials);
+		console.log("sssssssss")
+		browserHistory.push("/complains");
 	}
 
 	render() {
@@ -45,7 +53,7 @@ class Login extends React.Component{
 
 function mapDispatchToProps(dispatch) {
 	return {
-		//actions: bindActionCreators(sessionActions, dispatch)
+		actions : bindActionCreators(Object.assign({}, sessionActions),dispatch)
 	};
 }
 

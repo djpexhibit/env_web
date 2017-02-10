@@ -133,6 +133,13 @@ app.post('/login', jsonParser, function(req,res){
 
 })
 
+app.post('/loginAdmin', jsonParser, function(req,res){
+  console.log("Login Admin...")
+  let credentials = req.body.credentials;
+  console.log(credentials)
+  res.json({success:true});
+})
+
 
 app.post('/addComplain', jsonParser, function(req,res){
   console.log("ADDING COMPLAIN 1");

@@ -7,7 +7,8 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import Item from './components/items/item';
-import Login from './components/login/login'
+import Login from './components/login/login';
+import Complains from './components/complains/complains';
 
 
 
@@ -22,6 +23,7 @@ ReactDOM.render((
         <Route path = "/" component = {App}>
             <IndexRoute component = {Login} />
             <Route path = "home" component = {Home} />
+            <Route path = "complains" component = {Complains} />
             <Route path = "about" component = {About} />
       	</Route>
     </Router>
