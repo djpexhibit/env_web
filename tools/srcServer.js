@@ -124,6 +124,10 @@ app.get('/loadPollutionTypes', function(req,res){
   complain.loadPollutionTypes(res);
 })
 
+app.get('/loadExpectedActions', function(req,res){
+  console.log("LOADING EXPECTED ACTIONS")
+  complain.loadExpectedActions(res);
+})
 
 app.post('/login', jsonParser, function(req,res){
   console.log("FFFFFFFFFFF")

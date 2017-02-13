@@ -23,6 +23,17 @@ function Complain() {
         });
     };
 
+    this.loadExpectedActions = function (res) {
+        connection.acquire(function (err, con) {
+            con.query('select * from expected_action',function (err, result) {
+                con.release();
+                res.json(result);
+            });
+        });
+    };
+
+
+
     this.loadComplain = function (res, comp_id) {
         connection.acquire(function (err, con) {
             con.query('select c.type as type, c.res_person as res_person, c.details as details, i.image as image from complains c join complain_images i where c.id = ? and c.id = i.complain_id', comp_id ,function (err, result) {
@@ -43,7 +54,7 @@ function Complain() {
                     }
 
 
-                    for(let image in images){
+                    for(let image in details.images){
                         con.query('insert into complain_images(complain_id, image) values(?,?)',[1,image] , function(err, result){
                             if(err) {throw err;}
                         });
