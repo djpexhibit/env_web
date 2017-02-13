@@ -7,7 +7,7 @@ function Complain() {
 
     this.loadComplains = function (res) {
         connection.acquire(function (err, con) {
-            con.query('select * from complains',function (err, result) {
+            con.query('select id, type,res_person,SUBSTRING(details,1,20) as details from complains',function (err, result) {
                 con.release();
                 res.json(result);
             });
