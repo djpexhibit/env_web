@@ -61,7 +61,7 @@ function Complain() {
                         lstId = result[0].NID;
 
                         console.log("KKKKKKKKKK")
-                        conssole.log(lstId)
+                        console.log(lstId)
 
                         for(let image in details.images){
                             con.query('insert into complain_images(complain_id, image) values(?,?)',[lstId,image] , function(err, result){
