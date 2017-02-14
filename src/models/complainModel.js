@@ -7,7 +7,7 @@ function Complain() {
 
     this.loadComplains = function (res) {
         connection.acquire(function (err, con) {
-            con.query('select id, type,res_person,SUBSTRING(details,1,20) as details from complains',function (err, result) {
+            con.query('select id, type,res_person,SUBSTRING(details,1,50) as details from complains',function (err, result) {
                 con.release();
                 res.json(result);
             });
@@ -58,7 +58,8 @@ function Complain() {
                     con.query('SELECT LAST_INSERT_ID()',function(err,result){
                         lstId = result;
                     })
-
+                    console.log("KKKKKKKKKK")
+                    console.log(lstId)
 
                     for(let image in details.images){
                         con.query('insert into complain_images(complain_id, image) values(?,?)',[lstId,image] , function(err, result){
