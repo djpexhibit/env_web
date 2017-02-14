@@ -56,6 +56,8 @@ function Complain() {
                     let lstId = 0;
 
                     con.query('SELECT LAST_INSERT_ID()',function(err,result){
+                        console.log("EEEEEEEEE")
+                        console.log(result)
                         lstId = result;
                     })
                     console.log("KKKKKKKKKK")
