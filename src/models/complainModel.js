@@ -59,25 +59,25 @@ function Complain() {
                         console.log("EEEEEEEEE")
                         console.log(result)
                         lstId = result[0].NID;
-                    })
-                    console.log("KKKKKKKKKK")
-                    console.log(lstId)
 
-                    for(let image in details.images){
-                        con.query('insert into complain_images(complain_id, image) values(?,?)',[lstId,image] , function(err, result){
+                        console.log("KKKKKKKKKK")
+                        conssole.log(lstId)
+
+                        for(let image in details.images){
+                            con.query('insert into complain_images(complain_id, image) values(?,?)',[lstId,image] , function(err, result){
                             if(err) {throw err;}
-                        });
-                    }
+                            });
+                        }
 
                    
-                    con.commit(function(err) { 
-                        if (err) { 
-                            con.rollback(function() { throw err; }); 
-                        }
-                        res.send({ status: 0, message: 'Complain added successfully' });
-                        console.log('success!'); 
-                    }); 
-
+                        con.commit(function(err) { 
+                            if (err) { 
+                                con.rollback(function() { throw err; }); 
+                            }
+                            res.send({ status: 0, message: 'Complain added successfully' });
+                            console.log('success!'); 
+                        }); 
+                    })
                 
  
                     
