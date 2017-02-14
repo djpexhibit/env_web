@@ -55,10 +55,10 @@ function Complain() {
 
                     let lstId = 0;
 
-                    con.query('SELECT LAST_INSERT_ID()',function(err,result){
+                    con.query('SELECT LAST_INSERT_ID() AS NID',function(err,result){
                         console.log("EEEEEEEEE")
                         console.log(result)
-                        lstId = result;
+                        lstId = result[0].NID;
                     })
                     console.log("KKKKKKKKKK")
                     console.log(lstId)
