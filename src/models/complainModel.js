@@ -74,7 +74,7 @@ function Complain() {
                             if (err) { 
                                 con.rollback(function() { throw err; }); 
                             }
-                            res.send({ status: 0, message: 'Complain added successfully' });
+                            res.send({ status: true, message: 'Complain added successfully' });
                             console.log('success!'); 
                         }); 
                     })
