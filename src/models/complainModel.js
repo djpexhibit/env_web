@@ -63,13 +63,16 @@ function Complain() {
                         console.log("KKKKKKKKKK")
                         console.log(lstId)
 
+                        console.log(details)
+
                         for(let image in details.images){
+                            console.log(image)
                             con.query('insert into complain_images(complain_id, image) values(?,?)',[lstId,image] , function(err, result){
                             if(err) {throw err;}
                             });
                         }
 
-                   
+                        console.log(">>>>>>>>>")
                         con.commit(function(err) { 
                             if (err) { 
                                 con.rollback(function() { throw err; }); 
