@@ -98,7 +98,7 @@ function Complain() {
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
                 if(err) {throw err;}
-                con.query('insert into comments(type,user_id,details,complain_id) values (?,?,?,?)', [details.comment.type,details.comment.user_id,details.complain.details, details.complain.complain_id], function(err, result){
+                con.query('insert into comments(type,user_id,details,complain_id) values (?,?,?,?)', [details.type,details.user_id,details.details, details.complain_id], function(err, result){
                     if (err) {
                         con.rollback(function() { throw err; });
                     }
