@@ -119,6 +119,12 @@ app.post('/loadComplain', jsonParser ,function(req,res){
   complain.loadComplain(res,comp_id);
 })
 
+app.post('/loadComments', jsonParser ,function(req,res){
+  console.log("LOADING ONE COMMENTS");
+  let comp_id = req.body.comp_id;
+  complain.loadComments(res,comp_id);
+})
+
 app.get('/loadPollutionTypes', function(req,res){
   console.log("LOADING POLLUTION TYPES")
   complain.loadPollutionTypes(res);
@@ -151,6 +157,16 @@ app.post('/addComplain', jsonParser, function(req,res){
   let details = req.body.details;
   console.log(details)
   complain.addComplain(res,details); 
+
+})
+
+
+app.post('/addComment', jsonParser, function(req,res){
+  console.log("ADDING COMMENT");
+  console.log(JSON.stringify(req.body));
+  let details = req.body.details;
+  console.log(details)
+  complain.addComment(res,details); 
 
 })
 

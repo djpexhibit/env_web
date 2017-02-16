@@ -44,6 +44,17 @@ function Complain() {
         });
     };
 
+
+    this.loadComments = function (res, comp_id) {
+        connection.acquire(function (err, con) {
+            con.query('select * from comments where complain_id = ?', comp_id ,function (err, result) {
+                con.release();
+                console.log(JSON.stringify(result))
+                res.json(result);
+            });
+        });
+    };
+
     this.addComplain = function(res, details){
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
@@ -74,6 +85,31 @@ function Complain() {
                     })
                 
  
+                    
+                }); 
+            })
+
+        });
+    }
+
+
+
+    this.addComment = function(res, details){
+        connection.acquire( function(err,con){
+            con.beginTransaction(function(err){
+                if(err) {throw err;}
+                con.query('insert into comments(type,user_id,details,complain_id) values (?,?,?,?)', [details.comment.type,details.comment.user_id,details.complain.details, details.complain.complain_id], function(err, result){
+                    if (err) {
+                        con.rollback(function() { throw err; });
+                    }
+
+                    con.commit(function(err) { 
+                        if (err) { 
+                            con.rollback(function() { throw err; }); 
+                        }
+                        res.send({ status: true, message: 'Comment added successfully' });
+                        console.log('success!'); 
+                    }); 
                     
                 }); 
             })
