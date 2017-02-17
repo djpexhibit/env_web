@@ -37,8 +37,8 @@ function Complain() {
     this.loadComplain = function (res, comp_id) {
         connection.acquire(function (err, con) {
             con.query(`select p.type as type, c.res_person as res_person, c.details as details, i.image as image,`
-            +` c.lat as lat, c.lng as lng from complains c join complain_images i join pollution_type p where c.id = ? `
-            + `and c.id = i.complain_id and p.id = c.type `, comp_id ,function (err, result) {
+            +` c.lat as lat, c.lng as lng, c.date as date, u.name as user from complains c join complain_images i join pollution_type p join user_details u where c.id = ? `
+            + `and c.id = i.complain_id and p.id = c.type and c.user_id = u.id `, comp_id ,function (err, result) {
                 con.release();
                 console.log(JSON.stringify(result))
                 res.json(result);
@@ -49,7 +49,7 @@ function Complain() {
 
     this.loadComments = function (res, comp_id) {
         connection.acquire(function (err, con) {
-            con.query('select * from comments where complain_id = ?', comp_id ,function (err, result) {
+            con.query('select c.type as type, u.name as user, c.details as details, c.date as date from comments c join user_details u where c.complain_id = ? and c.user_id = u.id ', comp_id ,function (err, result) {
                 con.release();
                 console.log(JSON.stringify(result))
                 res.json(result);
@@ -61,7 +61,7 @@ function Complain() {
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
                 if(err) {throw err;}
-                con.query('insert into complains(type,res_person,details,location,lat,lng) values (?,?,?,?,?,?)', [details.complain.type,details.complain.person,details.complain.details, details.complain.location, details.complain.lat, details.complain.lng], function(err, result){
+                con.query('insert into complains(type,res_person,details,location,user_id,lat,lng,date) values (?,?,?,?,?,?,?,now())', [details.complain.type,details.complain.person,details.complain.details, details.complain.location, details.complain.user ,details.complain.lat, details.complain.lng], function(err, result){
                     if (err) {
                         con.rollback(function() { throw err; });
                     }
@@ -100,7 +100,7 @@ function Complain() {
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
                 if(err) {throw err;}
-                con.query('insert into comments(type,user_id,details,complain_id) values (?,?,?,?)', [details.type,details.user_id,details.details, details.complain_id], function(err, result){
+                con.query('insert into comments(type,user_id,details,complain_id,date) values (?,?,?,?,now())', [details.type,details.user_id,details.details, details.complain_id], function(err, result){
                     if (err) {
                         con.rollback(function() { throw err; });
                     }
