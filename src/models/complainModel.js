@@ -60,10 +60,10 @@ function Complain() {
     this.addComplain = function(res, details){
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
-                if(err) {throw err;}
+                if(err) {res.send({ status: false, message: 'Error' }); return;}
                 con.query('insert into complains(type,res_person,details,location,user_id,lat,lng,date) values (?,?,?,?,?,?,?,now())', [details.complain.type,details.complain.person,details.complain.details, details.complain.location, details.complain.user ,details.complain.lat, details.complain.lng], function(err, result){
                     if (err) {
-                        con.rollback(function() { throw err; });
+                        con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                     }
 
                     let lstId = 0;
@@ -73,13 +73,13 @@ function Complain() {
 
                         for(let index in details.images){
                             con.query('insert into complain_images(complain_id, image) values(?,?)',[lstId,details.images[index]] , function(err, result){
-                            if(err) {throw err;}
+                            if(err) {res.send({ status: false, message: 'Error' }); return;}
                             });
                         }
 
                         con.commit(function(err) { 
                             if (err) { 
-                                con.rollback(function() { throw err; }); 
+                                con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
                             }
                             res.send({ status: true, message: 'Complain added successfully' });
                             console.log('success!'); 
@@ -99,15 +99,15 @@ function Complain() {
     this.addComment = function(res, details){
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
-                if(err) {throw err;}
+                if(err) { res.send({ status: false, message: 'Error' }); return;}
                 con.query('insert into comments(type,user_id,details,complain_id,date) values (?,?,?,?,now())', [details.type,details.user_id,details.details, details.complain_id], function(err, result){
                     if (err) {
-                        con.rollback(function() { throw err; });
+                        con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                     }
 
                     con.commit(function(err) { 
                         if (err) { 
-                            con.rollback(function() { throw err; }); 
+                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
                         }
                         res.send({ status: true, message: 'Comment added successfully' });
                         console.log('success!'); 

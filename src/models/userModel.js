@@ -15,7 +15,6 @@ function User() {
                 con.release();
 
                 if(err){
-                    console.log("222222222")
                     res.json({status:"ERROR",error:"400"});return;
                 }
 
@@ -28,11 +27,9 @@ function User() {
                     name:""
                 }
                 if(!result && !result[0]){
-                    console.log("333333333")
                     session.status="ERROR",
                     session.error="400";
                 }else{
-                    console.log("444444444")
                     let user=result[0];
                     if(user && credentials.password===user.password){
                         session.status="OK",
@@ -57,16 +54,21 @@ function User() {
 
     this.register = function(res, details){
         connection.acquire( function(err,con){
+            if(err){
+                res.send({ status: false, message: 'Error' }); return;
+            }
             con.beginTransaction(function(err){
-                if(err) {throw err;}
+                if(err){
+                    res.send({ status: false, message: 'Error' }); return;
+                }
                 con.query('insert into user_details(name,username,password,email) values (?,?,?,?)', [details.name,details.username,details.password, details.email], function(err, result){
                     if (err) {
-                        con.rollback(function() { throw err; });
+                        con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                     }
 
                     con.commit(function(err) { 
                         if (err) { 
-                            con.rollback(function() { throw err; }); 
+                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
                         }
                         res.send({ status: true, message: 'User added successfully' });
                         console.log('success!'); 
