@@ -37,7 +37,7 @@ function Complain() {
     this.loadComplain = function (res, comp_id) {
         connection.acquire(function (err, con) {
             con.query(`select p.type as type, c.res_person as res_person, c.details as details, i.image as image,`
-            +` c.lat as lat, c.lng as lng, c.date as date, u.name as user from complains c join complain_images i join pollution_type p join user_details u where c.id = ? `
+            +` c.lat as lat, c.lng as lng, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user from complains c join complain_images i join pollution_type p join user_details u where c.id = ? `
             + `and c.id = i.complain_id and p.id = c.type and c.user_id = u.id `, comp_id ,function (err, result) {
                 con.release();
                 console.log(JSON.stringify(result))
@@ -49,7 +49,7 @@ function Complain() {
 
     this.loadComments = function (res, comp_id) {
         connection.acquire(function (err, con) {
-            con.query('select c.type as type, u.name as user, c.details as details, c.date as date from comments c join user_details u where c.complain_id = ? and c.user_id = u.id ', comp_id ,function (err, result) {
+            con.query('select c.type as type, u.name as user, c.details as details, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date from comments c join user_details u where c.complain_id = ? and c.user_id = u.id ', comp_id ,function (err, result) {
                 con.release();
                 console.log(JSON.stringify(result))
                 res.json(result);
