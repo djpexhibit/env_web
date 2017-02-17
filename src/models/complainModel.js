@@ -37,7 +37,7 @@ function Complain() {
     this.loadComplain = function (res, comp_id) {
         connection.acquire(function (err, con) {
             con.query(`select p.type as type, c.res_person as res_person, c.details as details, i.image as image,`
-            +` c.lat as lat, c.lng as lng from complains c join complain_images i joind pollution_type p where c.id = ? `
+            +` c.lat as lat, c.lng as lng from complains c join complain_images i join pollution_type p where c.id = ? `
             + `and c.id = i.complain_id and p.id = c.type `, comp_id ,function (err, result) {
                 con.release();
                 console.log(JSON.stringify(result))
