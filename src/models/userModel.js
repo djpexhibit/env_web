@@ -8,12 +8,14 @@ function User() {
     this.getUserByUsername = function (res, credentials) {
         connection.acquire(function (err, con) {
             if(err){
+                console.log("1111")
                 res.json({status:"ERROR",error:"400"});return;
             }
             con.query('select * from user_details where email = ?', credentials.email, function (err, result) {
                 con.release();
 
                 if(err){
+                    console.log("222222222")
                     res.json({status:"ERROR",error:"400"});return;
                 }
 
@@ -26,9 +28,11 @@ function User() {
                     name:""
                 }
                 if(result && result[0]){
+                    console.log("333333333")
                     session.status="ERROR",
                     session.error="400";
                 }else{
+                    console.log("444444444")
                     let user=result[0];
                     if(user && credentials.password===user.password){
                         session.status="OK",
