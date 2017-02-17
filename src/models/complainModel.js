@@ -49,7 +49,7 @@ function Complain() {
 
     this.loadComments = function (res, comp_id) {
         connection.acquire(function (err, con) {
-            con.query('select c.type as type, u.name as user, c.details as details, DATE_FORMAT(c.date,`%b %d %Y %h:%i %p`) as date from comments c join user_details u where c.complain_id = ? and c.user_id = u.id ', comp_id ,function (err, result) {
+            con.query(`select c.type as type, u.name as user, c.details as details, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date from comments c join user_details u where c.complain_id = ? and c.user_id = u.id `, comp_id ,function (err, result) {
                 con.release();
                 console.log(JSON.stringify(result))
                 res.json(result);
