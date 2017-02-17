@@ -15,7 +15,7 @@ function User() {
                 }
 
                 let user=result[0];
-                if(credentials.password===user.password){
+                if(user && credentials.password===user.password){
                     session.status="OK",
                     session.error=null
                 }else{
