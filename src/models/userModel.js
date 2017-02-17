@@ -11,13 +11,21 @@ function User() {
                 con.release();
                 let session = {
                     status:"",
-                    error:""
+                    error:"",
+                    id:"",
+                    username:"",
+                    email:"",
+                    name:""
                 }
 
                 let user=result[0];
                 if(user && credentials.password===user.password){
                     session.status="OK",
-                    session.error=null
+                    session.error=null,
+                    session.id=user.id,
+                    session.username=user.username,
+                    session.name=user.name,
+                    session.email=user.email
                 }else{
                     session.status="ERROR",
                     session.error="400"
