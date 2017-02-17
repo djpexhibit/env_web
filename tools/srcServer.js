@@ -136,9 +136,7 @@ app.get('/loadExpectedActions', function(req,res){
 })
 
 app.post('/login', jsonParser, function(req,res){
-  console.log("FFFFFFFFFFF")
   let credentials = req.body.credentials;
-  console.log(credentials)
   user.getUserByUsername(res,credentials); 
 
 })
