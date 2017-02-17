@@ -7,7 +7,7 @@ function Complain() {
 
     this.loadComplains = function (res) {
         connection.acquire(function (err, con) {
-            con.query('select id, type,res_person,SUBSTRING(details,1,50) as details from complains',function (err, result) {
+            con.query('select c.id as id, p.type as type ,c.res_person as res_person,SUBSTRING(c.details,1,50) as details from complains c join pollution_type p where p.id = c.type',function (err, result) {
                 con.release();
                 res.json(result);
             });
