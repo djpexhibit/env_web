@@ -160,6 +160,13 @@ app.post('/addComplain', jsonParser, function(req,res){
 
 })
 
+app.post('/register', jsonParser, function(req,res){
+  console.log("REGISTERING");
+  let details = req.body.credentials;
+  user.register(res,details); 
+
+})
+
 
 app.post('/addComment', jsonParser, function(req,res){
   console.log("ADDING COMMENT");

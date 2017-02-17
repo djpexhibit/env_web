@@ -35,6 +35,30 @@ function User() {
         });
     };
 
+
+    this.register = function(res, details){
+        connection.acquire( function(err,con){
+            con.beginTransaction(function(err){
+                if(err) {throw err;}
+                con.query('insert into user_details(name,username,password,email) values (?,?,?,?)', [details.name,details.username,details.password, details.email], function(err, result){
+                    if (err) {
+                        con.rollback(function() { throw err; });
+                    }
+
+                    con.commit(function(err) { 
+                        if (err) { 
+                            con.rollback(function() { throw err; }); 
+                        }
+                        res.send({ status: true, message: 'User added successfully' });
+                        console.log('success!'); 
+                    }); 
+                    
+                }); 
+            })
+
+        });
+    }
+
     
 
     
