@@ -27,7 +27,7 @@ function User() {
                     email:"",
                     name:""
                 }
-                if(result && result[0]){
+                if(!result && !result[0]){
                     console.log("333333333")
                     session.status="ERROR",
                     session.error="400";
