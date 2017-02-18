@@ -95,7 +95,7 @@ function User() {
 
            
                 if(!result && !result[0]){
-                    res.json({status:"ERROR",error:"500"});return;
+                    res.json({status:"OK",msg:"EMAIL_EXIST"});return;
                 }else{
                     let user=result[0];
                     if(user && credentials.email===user.email){
