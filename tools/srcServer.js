@@ -130,7 +130,7 @@ app.get('/loadPollutionTypes', function(req,res){
   complain.loadPollutionTypes(res);
 })
 
-app.post('/checkEmailValidity', function(req,res){
+app.post('/checkEmailValidity', jsonParser, function(req,res){
   let credentials = req.body.credentials;
   user.checkEmailValidity(res,credentials); 
 })
