@@ -99,7 +99,7 @@ function User() {
                 }else{
                     let user=result[0];
                     if(user && credentials.email===user.email){
-                        res.json({status:"OK",error:null});return;
+                        res.json({status:"OK",error:null,msg:"EMAIL_EXIST"});return;
                     }else{
                        res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
                     }
