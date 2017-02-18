@@ -101,7 +101,7 @@ function User() {
                     if(user && credentials.email===user.email){
                         res.json({status:"OK",error:null});return;
                     }else{
-                       res.json({status:"ERROR",error:"500"});return;
+                       res.json({status:"OK",msg:"EMAIL_EXIST"});return;
                     }
 
                 }
