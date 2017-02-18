@@ -95,13 +95,13 @@ function User() {
 
            
                 if(!result && !result[0]){
-                    res.json({status:"OK",msg:"EMAIL_EXIST"});return;
+                    res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
                 }else{
                     let user=result[0];
                     if(user && credentials.email===user.email){
                         res.json({status:"OK",error:null});return;
                     }else{
-                       res.json({status:"OK",msg:"EMAIL_EXIST"});return;
+                       res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
                     }
 
                 }
