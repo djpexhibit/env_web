@@ -130,6 +130,11 @@ app.get('/loadPollutionTypes', function(req,res){
   complain.loadPollutionTypes(res);
 })
 
+app.get('/checkEmailValidity', function(req,res){
+  let credentials = req.body.credentials;
+  user.checkEmailValidity(res,credentials); 
+})
+
 app.get('/loadExpectedActions', function(req,res){
   console.log("LOADING EXPECTED ACTIONS")
   complain.loadExpectedActions(res);

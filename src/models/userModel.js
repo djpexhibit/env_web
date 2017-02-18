@@ -80,6 +80,35 @@ function User() {
         });
     }
 
+
+    this.checkEmailValidity = function (res, credentials) {
+        connection.acquire(function (err, con) {
+            if(err){
+                res.json({status:"ERROR",error:"400"});return;
+            }
+            con.query('select * from user_details where email = ?', credentials.email, function (err, result) {
+                con.release();
+
+                if(err){
+                    res.json({status:"ERROR",error:"400"});return;
+                }
+
+           
+                if(!result && !result[0]){
+                    res.json({status:"ERROR",error:"500"});return;
+                }else{
+                    let user=result[0];
+                    if(user && credentials.email===user.email){
+                        res.json({status:"OK",error:null});return;
+                    }else{
+                       res.json({status:"ERROR",error:"500"});return;
+                    }
+
+                }
+            });
+        });
+    };
+
     
 
     
