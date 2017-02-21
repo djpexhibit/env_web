@@ -22,9 +22,6 @@ export class App extends React.Component {
           <div>
             {this.props.children}
           </div>
-          
-          <Footer/>
-          <Social/>
 
         </div>
       );

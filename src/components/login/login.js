@@ -38,7 +38,7 @@ class Login extends React.Component{
 
 	render() {
 		return(
-			<div>
+			<div className="col-md-8 col-md-offset-2 ">
 				<form>
        				<TextInput name="email"  label="email" value={this.state.credentials.email} onChange={this.onChange}/>
        				<TextInput name="password" label="password" type="password" value={this.state.credentials.password} onChange={this.onChange}/>

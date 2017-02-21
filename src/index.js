@@ -9,6 +9,7 @@ import configureStore from './store/configureStore';
 import Item from './components/items/item';
 import Login from './components/login/login';
 import Complains from './components/complains/complains';
+import Complain from './components/complains/complain';
 
 
 
@@ -24,6 +25,7 @@ ReactDOM.render((
             <IndexRoute component = {Login} />
             <Route path = "home" component = {Home} />
             <Route path = "complains" component = {Complains} />
+            <Route path = "complain/:id" component = {Complain} />
             <Route path = "about" component = {About} />
       	</Route>
     </Router>
