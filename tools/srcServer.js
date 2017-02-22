@@ -107,9 +107,11 @@ app.post('/buyItems',jsonParser,function(req,res){
 });
 
 
-app.get('/loadComplains', function(req,res){
-  console.log("LOADING COMPLAINS")
-  complain.loadComplains(res);
+app.post('/loadComplains',jsonParser, function(req,res){
+  console.log("LOADING COMPLAINS");
+  let user_id = req.body.user_id;
+  console.log(user_id);
+  complain.loadComplains(res, user_id);
 })
 
 app.post('/loadComplain', jsonParser ,function(req,res){
