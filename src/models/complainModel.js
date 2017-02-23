@@ -72,9 +72,9 @@ function Complain() {
 
                     con.query('SELECT LAST_INSERT_ID() AS NID',function(err,result){
                         lstId = result[0].NID;
-
+                        let arr = [true,false,false];
                         for(let index in details.images){
-                            con.query('insert into complain_images(complain_id, image) values(?,?)',[lstId,details.images[index]] , function(err, result){
+                            con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[lstId,details.images[index], arr[index]] , function(err, result){
                             if(err) {res.send({ status: false, message: 'Error' }); return;}
                             });
                         }
