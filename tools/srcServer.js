@@ -111,6 +111,7 @@ app.post('/loadComplains',jsonParser, function(req,res){
   console.log("LOADING COMPLAINS");
   let user_id = req.body.user_id;
   console.log(user_id);
+  console.log(res)
   complain.loadComplains(res, user_id);
 })
 

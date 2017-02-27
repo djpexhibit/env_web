@@ -2,5 +2,6 @@ export default {
     items :[],
     complains:[],
     complain:{},
-    session: !!sessionStorage.jwt
+    session: !!sessionStorage.jwt,
+    comments:[]
 }

@@ -7,12 +7,24 @@ function Complain() {
 
     this.loadComplains = function (res, user_id) {
         connection.acquire(function (err, con) {
-            con.query(`select c.id as id, p.type as type ,c.res_person as res_person,SUBSTRING(c.details,1,50) as details, `+
+
+            if(user_id !== 0){
+                con.query(`select c.id as id, p.type as type ,c.res_person as res_person,SUBSTRING(c.details,1,50) as details, `+
                 `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments `+
                 `from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1  where p.id = c.type and c.user_id = u.id order by u.id = ? desc, c.date desc`, user_id, function (err, result) {
                 con.release();
                 res.json(result);
+                });
+            }else{
+                con.query(`select c.id as id, p.type as type ,c.res_person as res_person,SUBSTRING(c.details,1,50) as details, `+
+                `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments `+
+                `from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1  where p.id = c.type and c.user_id = u.id `, function (err, result) {
+                con.release();
+                console.log("EEEE");console.log(result)
+                res.json(result);
             });
+            }
+            
         });
     };
 
@@ -51,7 +63,7 @@ function Complain() {
 
     this.loadComments = function (res, comp_id) {
         connection.acquire(function (err, con) {
-            con.query(`select c.type as type, u.name as user, c.details as details, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date from comments c join user_details u where c.complain_id = ? and c.user_id = u.id `, comp_id ,function (err, result) {
+            con.query(`select c.type as type, u.name as user, c.details as details, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date from comments c join user_details u where c.complain_id = ? and c.user_id = u.id order by c.date `, comp_id ,function (err, result) {
                 con.release();
                 console.log(JSON.stringify(result))
                 res.json(result);

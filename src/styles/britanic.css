@@ -453,3 +453,7 @@ div.panel-default{
 .ribbon-green:after {
   right: 0;
 }
+
+.pex-comment-section{
+  margin: 20px;
+}
