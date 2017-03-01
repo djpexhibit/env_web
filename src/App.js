@@ -19,7 +19,7 @@ export class App extends React.Component {
       return (
         <div>
           <Header/>
-          <div>
+          <div className="pex-gen-box">
             {this.props.children}
           </div>
 

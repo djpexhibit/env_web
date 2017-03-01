@@ -195,3 +195,13 @@ app.listen(port, function(err) {
     open(`http://localhost:${port}`);
   }
 });
+
+app.post('/removeComplain', jsonParser ,function(req,res){
+  console.log("LOADING ONE COMPLAIN");
+  console.log(">>>>")
+  console.log(req)
+  console.log(req.body)
+  let comp_id = req.body.comp_id;
+  console.log(comp_id)
+  complain.removeComplain(res,comp_id);
+})

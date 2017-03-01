@@ -89,6 +89,31 @@ class ComplainsApi {
     }
 
 
+    static removeComplain(complain){
+      return fetch('/removeComplain',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                comp_id: complain.id
+            })
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        let status = responseJson;
+        if(status){
+          console.log("TREEEEEEEEEEEEE")
+          return this.getComplains();
+        }
+      })
+      .catch((error) => {
+            console.log(error);
+      })
+    }
+
+
 }
 
 export default ComplainsApi;

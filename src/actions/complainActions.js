@@ -37,3 +37,17 @@ export function loadComplainById(id){
         })
     }
 }
+
+
+export function removeComplain(complain){
+    return function(dispatch){
+        dispatch(setLoadingMask());
+        return complainApi.removeComplain(complain).then(complains => {
+            dispatch(removeLoadingMask());
+            dispatch(loadComplainsSuccess(complains));
+        }).catch(error => {
+            dispatch(removeLoadingMask());
+            throw(error);
+        });
+    }
+}

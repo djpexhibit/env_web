@@ -21,9 +21,11 @@ const store = configureStore();
 ReactDOM.render((
     <Provider store={store}>
     <Router history = {browserHistory}>
-        <Route path = "/" component = {App}>
+        <Route path = "/" component = {Login}>
             <IndexRoute component = {Login} />
-            <Route path = "home" component = {Home} />
+        </Route>
+        <Route path = "/home" component = {App}>
+            <IndexRoute component = {Home} />
             <Route path = "complains" component = {Complains} />
             <Route path = "complain/:id" component = {Complain} />
             <Route path = "about" component = {About} />

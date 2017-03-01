@@ -1,4 +1,6 @@
 var connection = require('../DB/connection');
+var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 
 
 function Complain() {
@@ -96,6 +98,7 @@ function Complain() {
                                 con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
                             }
                             res.send({ status: true, message: 'Complain added successfully' });
+                            sendConfirmMail(details);
                             console.log('success!'); 
                         }); 
                     })
@@ -133,8 +136,72 @@ function Complain() {
         });
     }
 
+
+
+    this.removeComplain = function(res, comp_id){
+        connection.acquire( function(err,con){
+            con.beginTransaction(function(err){
+                if(err) { res.send({ status: false, message: 'Error' }); return;}
+                con.query('delete from complains where id = ?', [comp_id], function(err, result){
+                    if (err) {
+                        con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                    }
+
+                    con.commit(function(err) { 
+                        if (err) { 
+                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
+                        }
+                        res.send({ status: true, message: 'Complain deleted successfully' });
+                        console.log('success!'); 
+                    }); 
+                    
+                }); 
+            })
+
+        });
+    }
+
 }
 
+
+
+
+function sendConfirmMail(details){
+
+    var transporter = nodemailer.createTransport({
+        service:'Gmail',
+        auth:{
+            user:'prasad.wanigasinghe.test@gmail.com',
+            pass:'Pras777@dan'
+        }
+    });
+
+    
+    var mailOptions = {
+        from: '<prasad.wanigasinghe.test@gmail.com>',
+        to: 'prasad.wanigasinghe.test@gmail.com',
+        subject: 'Save Enviorenment - Complain Details !!!',
+        html: confirmTemplate(details)
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+        }else{
+            console.log('Message sent: ' + info.response);
+        };
+    });    
+}
+
+function confirmTemplate(details) {
+    const template = `<h1 style="color:#18c9d2;font-size: 2.7em;font-weight: 400">Eniorenment <span style="color: #333">Protection</span> </h1>
+                    <h2> User: ${ details.complain.user }, </h2>,
+                    <h4>Type : ${details.complain.type} </h4>
+                    <h4>Location : ${details.complain.location} </h4>
+                    <h4>Details : ${details.complain.details} </h4>
+                    <h4>Party : ${details.complain.person} </h4>`;
+    return template.replace(/\n/, '<br>');
+}
 
 module.exports = new Complain();
 

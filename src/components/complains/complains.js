@@ -13,11 +13,17 @@ class Complains extends React.Component{
 		this.props.actions.loadComplains();
 
 		this._continue = this._continue.bind(this);
+        this._removeComplain = this._removeComplain.bind(this);
 	}
 
 	_continue(id){
 		console.log(id)
 	}
+
+
+    _removeComplain(e,complain){
+        this.props.actions.removeComplain(complain);
+    }
 
 	render() {
 		const homeStyle = {
@@ -38,7 +44,8 @@ class Complains extends React.Component{
                                 						<h2 style={homeStyle.headerPadding}> Complains List </h2>
                                 						{this.props.complains.map( complain => {
                                 								return (
-                                									<Link to={'/complain/' + complain.id}>
+                                                                <div>
+                                									<Link to={'/home/complain/' + complain.id}>
                                             						<div onClick={() => this._continue(complain.id)}>
                                             							<Col md={3}>
                                                 							{complain.type}
@@ -50,7 +57,12 @@ class Complains extends React.Component{
                                                 							{complain.details}...
                                                 						</Col>
                                             						</div>
-                                            						</Link>            
+                                            						</Link>  
+
+                                                                    <div className="col-md-2">
+                                                                        <button className="btn btn-danger" onClick={(e)=> this._removeComplain(e,complain)}> X </button>
+                                                                    </div>  
+                                                                </div>        
                                         						)
                                 						})}
                                     

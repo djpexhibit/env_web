@@ -457,3 +457,13 @@ div.panel-default{
 .pex-comment-section{
   margin: 20px;
 }
+
+.pex-login-box{
+  margin-top: 10%;
+  background-color: #E9E9DC;
+  padding: 5%;
+}
+
+.pex-gen-box{
+  margin-top: 20px;
+}

@@ -32,16 +32,15 @@ class Login extends React.Component{
 	onSave(event) {
 		event.preventDefault();
 		this.props.actions.logInUser(this.state.credentials);
-		console.log("sssssssss")
-		browserHistory.push("/complains");
+		browserHistory.push("/home/complains");
 	}
 
 	render() {
 		return(
-			<div className="col-md-8 col-md-offset-2 ">
+			<div className="col-md-8 col-md-offset-2 pex-login-box">
 				<form>
-       				<TextInput name="email"  label="email" value={this.state.credentials.email} onChange={this.onChange}/>
-       				<TextInput name="password" label="password" type="password" value={this.state.credentials.password} onChange={this.onChange}/>
+       				<TextInput name="email"  label="Email" value={this.state.credentials.email} onChange={this.onChange}/>
+       				<TextInput name="password" label="Password" type="password" value={this.state.credentials.password} onChange={this.onChange}/>
        				<input type="submit" className="btn btn-primary" onClick={this.onSave}/>
        			</form>
        		</div>
