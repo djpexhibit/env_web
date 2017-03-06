@@ -20,9 +20,9 @@ class Header extends React.Component{
                 <div className="brit_top_strip_content">
                   <div className="brit_top_strip_content_right">
                     <ul>
-                      <li><a href="#">help</a></li>
-                      <li><Link  to="/contact">Contact</Link></li>
-                      <li><Link  to="/about">About Us</Link></li>
+                      <li><a href="#">Home</a></li>
+                      <li><Link  to="/home/complains">Complains</Link></li>
+                      <li><Link  to="/home/adv">Advertise</Link></li>
                     </ul>
                   </div>
                   <div className="clearfix"></div>

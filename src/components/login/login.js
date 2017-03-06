@@ -32,7 +32,9 @@ class Login extends React.Component{
 	onSave(event) {
 		event.preventDefault();
 		this.props.actions.logInUser(this.state.credentials);
-		browserHistory.push("/home/complains");
+		//browserHistory.push("/home/complains");
+
+		
 	}
 
 	render() {

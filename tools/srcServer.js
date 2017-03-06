@@ -7,13 +7,17 @@ var item = require('../src/models/itemModel');
 var connection = require('../src/DB/connection');
 var user = require('../src/models/userModel');
 var complain = require('../src/models/complainModel');
+var advModel = require('../src/models/advModel');
 
-var bodyParser = require('body-parser')
+
+var bodyParser = require('body-parser');
+var fs = require('fs');
+var busboy = require('connect-busboy');
 
 
 /* eslint-disable no-console */
 
-const port = 3000;
+const port = 3002;
 const app = express();
 connection.init();
 const compiler = webpack(config);
@@ -24,6 +28,9 @@ var jsonParser = bodyParser.json()
 
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+
+app.use(busboy());
 
 // POST /login gets urlencoded bodies
 /*app.post('/login', urlencodedParser, function (req, res) {
@@ -52,6 +59,7 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 
 app.use(express.static('/images'));
+app.use(express.static(path.join(__dirname, 'files')));
 
 app.get('/', function(req, res) {
   res.sendFile(path.join( __dirname, '../src/index.html'));
@@ -155,8 +163,9 @@ app.post('/login', jsonParser, function(req,res){
 app.post('/loginAdmin', jsonParser, function(req,res){
   console.log("Login Admin...")
   let credentials = req.body.credentials;
-  console.log(credentials)
-  res.json({success:true});
+  console.log(credentials);
+  user.getAdminUserByUsername(res,credentials);
+  //res.json({success:true});
 })
 
 
@@ -185,6 +194,27 @@ app.post('/addComment', jsonParser, function(req,res){
   complain.addComment(res,details); 
 
 })
+
+
+/*app.post('/addAdv', jsonParser, function(req,res){
+  let adv = req.body.data;
+  console.log("BNBN00");console.log(adv)
+  advModel.addAdv(res,adv);
+})*/
+
+app.post('/addAdv', function(req, res) {
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+  var fstream;
+  req.pipe(req.busboy);
+  req.busboy.on('file', function (fieldname, file, filename) {
+    console.log("Uploading: " + filename); 
+    fstream = fs.createWriteStream(__dirname + '/files/' + filename);
+    file.pipe(fstream);
+    fstream.on('close', function () {
+      res.redirect('back');
+    });
+  });
+});
 
 
 

@@ -10,6 +10,7 @@ import Item from './components/items/item';
 import Login from './components/login/login';
 import Complains from './components/complains/complains';
 import Complain from './components/complains/complain';
+import Adv from './components/adv/adv';
 
 
 
@@ -28,8 +29,18 @@ ReactDOM.render((
             <IndexRoute component = {Home} />
             <Route path = "complains" component = {Complains} />
             <Route path = "complain/:id" component = {Complain} />
-            <Route path = "about" component = {About} />
+            <Route path = "adv" component = {Adv} />
       	</Route>
     </Router>
     </Provider>
 ),document.getElementById('app'));
+
+
+function requireAuth(nextState, replace) {
+  if (sessionStorage.jwt !== 'true') {
+    replace({
+      pathname: '/',
+      state: { nextPathname: nextState.location.pathname }
+    })
+  }
+}

@@ -22,7 +22,7 @@ function Complain() {
                 `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments `+
                 `from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1  where p.id = c.type and c.user_id = u.id `, function (err, result) {
                 con.release();
-                console.log("EEEE");console.log(result)
+                //console.log("EEEE");console.log(result)
                 res.json(result);
             });
             }

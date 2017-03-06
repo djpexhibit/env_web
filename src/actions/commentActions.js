@@ -35,6 +35,7 @@ export function addComment(comment){
         return complainApi.addComment(comment).then( success => {
             dispatch(removeLoadingMask());
             dispatch(addCommentSuccess(success));
+            dispatch(loadCommentById(comment.complain_id));
         }).catch(error => {
             dispatch(removeLoadingMask());
             throw(error);

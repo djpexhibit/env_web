@@ -5,6 +5,7 @@ import complain from './complainDetailReducer';
 import isLoading from './loadingMaskReducer';
 import session from './sessionReducer';
 import comments from './commentsReducer';
+import advs from './advReducer';
 
 const rootReducer = combineReducers({
     items,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     isLoading,
     session,
     complain,
-    comments
+    comments,
+    advs
 });
 
 export default rootReducer;

@@ -30,7 +30,7 @@ export function loadComplainById(id){
         dispatch(setLoadingMask());
         return complainApi.getComplainById(id).then( complain => {
             dispatch(removeLoadingMask());
-            dispatch(loadComplainByIdSuccess(complain[0]));
+            dispatch(loadComplainByIdSuccess(complain));
         }).catch(error => {
             dispatch(removeLoadingMask());
             throw(error);

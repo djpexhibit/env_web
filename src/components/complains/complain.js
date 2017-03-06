@@ -41,28 +41,36 @@ class Complain extends React.Component{
 	}
 
 	render(){
-		
+		if(this.props.complain && this.props.complain.length > 0 ){
 		return(
 			<div className="container">
 				<br/>
 				<div className="row">
 					<div className="col-md-12">
-						<p>Problem: {this.props.complain.type}</p>
+						<p>Problem: {this.props.complain[0].type}</p>
 					</div>
 					<div className="col-md-12">
-						<p>Location : {this.props.complain.location} </p>
+						<p>Location : {this.props.complain[0].location} </p>
 					</div>
 					<div className="col-md-12">
-						<p>Party : {this.props.complain.res_person}</p>
+						<p>Party : {this.props.complain[0].res_person}</p>
 					</div>
 					<div className="col-md-12">
-						<p>Reported By: {this.props.complain.user}</p>
+						<p>Reported By: {this.props.complain[0].user}</p>
 					</div>
 					<div className="col-md-12">
-						<p>On: {this.props.complain.date}</p>
+						<p>On: {this.props.complain[0].date}</p>
 					</div>
 					<div className="col-md-12">
-						<p>{this.props.complain.details}</p>
+						<p>{this.props.complain[0].details}</p>
+					</div>
+					<div className="col-md-12">
+						{this.props.complain.map( complain => {
+               				return (
+                            	<img src={complain.image} />       
+                            )
+                        })}
+						
 					</div>
 				</div>
 
@@ -87,7 +95,7 @@ class Complain extends React.Component{
 
 			<div>
 				<form>
-       				<TextInput name="details"  label="Add Comment" value={this.state.comment.details} onChange={this.onChange}/>
+       				<TextInput name="details"  label="Add Response" value={this.state.comment.details} onChange={this.onChange}/>
        				<input type="submit" className="btn btn-primary" onClick={this.onSave}/>
        			</form>
 			</div>
@@ -96,6 +104,14 @@ class Complain extends React.Component{
 			
 			</div>
 		);
+
+		}else{
+			return(
+				<div>No Complains</div>
+			)
+		}
+
+
 	}
 }
 
