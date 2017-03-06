@@ -17,7 +17,7 @@ var busboy = require('connect-busboy');
 
 /* eslint-disable no-console */
 
-const port = 3002;
+const port = 3000;
 const app = express();
 connection.init();
 const compiler = webpack(config);
