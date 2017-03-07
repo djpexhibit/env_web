@@ -38,8 +38,14 @@ class Login extends React.Component{
 	}
 
 	render() {
+		let error = this.props.location.query.error;
 		return(
 			<div className="col-md-8 col-md-offset-2 pex-login-box">
+				{ error?
+					<div style={{color:"red"}}>
+						Authentication Failed
+					</div>:null
+				}
 				<form>
        				<TextInput name="email"  label="Email" value={this.state.credentials.email} onChange={this.onChange}/>
        				<TextInput name="password" label="Password" type="password" value={this.state.credentials.password} onChange={this.onChange}/>

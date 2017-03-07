@@ -52,9 +52,9 @@ function Complain() {
 
     this.loadComplain = function (res, comp_id) {
         connection.acquire(function (err, con) {
-            con.query(`select p.type as type, c.res_person as res_person, c.details as details, i.image as image,`
-            +` c.lat as lat, c.lng as lng, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user, c.location as location from complains c left outer join complain_images i on  c.id = i.complain_id join pollution_type p join user_details u where c.id = ? `
-            + ` and p.id = c.type and c.user_id = u.id `, comp_id ,function (err, result) {
+            con.query(`select c.id as id, p.id as pid, p.type as type, e.id as aid, e.action as action, c.res_person as res_person, c.details as details, i.image as image,`
+            +` c.lat as lat, c.lng as lng, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user, c.location as location from complains c left outer join complain_images i on  c.id = i.complain_id join pollution_type p join user_details u join expected_action e where c.id = ? `
+            + ` and p.id = c.type and e.id = c.action and c.user_id = u.id `, comp_id ,function (err, result) {
                 con.release();
                 console.log(JSON.stringify(result))
                 res.json(result);
@@ -77,7 +77,7 @@ function Complain() {
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
                 if(err) {res.send({ status: false, message: 'Error' }); return;}
-                con.query('insert into complains(type,res_person,details,location,user_id,lat,lng,date) values (?,?,?,?,?,?,?,now())', [details.complain.type,details.complain.person,details.complain.details, details.complain.location, details.complain.user ,details.complain.lat, details.complain.lng], function(err, result){
+                con.query('insert into complains(type,res_person,details,location,user_id,lat,lng,date,action) values (?,?,?,?,?,?,?,now(),?)', [details.complain.type,details.complain.person,details.complain.details, details.complain.location, details.complain.user ,details.complain.lat, details.complain.lng, details.complain.action], function(err, result){
                     if (err) {
                         con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                     }

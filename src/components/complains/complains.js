@@ -39,7 +39,7 @@ class Complains extends React.Component{
                                        
                                        
                                         	<div style={homeStyle.mainContainer}>
-                        						<Col xs={12} md={10} >
+                        						<Col xs={12} md={12} >
                             						<div style={homeStyle.mainContainer}>
                                 						<h2 style={homeStyle.headerPadding}> Complains List </h2>
                                 						{this.props.complains.map( complain => {
@@ -53,13 +53,13 @@ class Complains extends React.Component{
                                                 						<Col md={3}>
                                                 							{complain.res_person}
                                                 						</Col>
-                                                						<Col md={4}>
+                                                						<Col md={5}>
                                                 							{complain.details}...
                                                 						</Col>
                                             						</div>
                                             						</Link>  
 
-                                                                    <div className="col-md-2">
+                                                                    <div className="col-md-1">
                                                                         <button className="btn btn-danger" onClick={(e)=> this._removeComplain(e,complain)}> X </button>
                                                                     </div>  
                                                                 </div>        

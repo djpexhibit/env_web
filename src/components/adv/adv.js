@@ -42,7 +42,7 @@ class Adv extends React.Component{
 
 	render() {
 		return(
-			<div className="previewComponent">
+			<div className="col-md-8 col-md-offset-2 pex-login-box">
 				<form onSubmit={(e)=>this._handleSubmit(e)}>
 					<input className="fileInput" type="file" onChange={(e)=>this._handleImageChange(e)} />
 					<button className="submitButton" type="submit" onClick={(e)=>this._handleSubmit(e)}>Upload Image</button>

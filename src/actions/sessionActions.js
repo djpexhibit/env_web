@@ -15,7 +15,7 @@ export function logInUser(credentials) {
 				browserHistory.push("/home/complains");
 			}
 			else{
-				browserHistory.push("/");
+				browserHistory.push("?error=true");
 			}
 		}).catch(error => {
 			throw(error);
