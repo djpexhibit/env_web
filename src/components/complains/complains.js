@@ -44,7 +44,7 @@ class Complains extends React.Component{
                                 						<h2 style={homeStyle.headerPadding}> Complains List </h2>
                                 						{this.props.complains.map( complain => {
                                 								return (
-                                                                <div>
+                                                                <div className="row" style={{marginBottom:"5px", padding:"5px", borderBottom:"1px solid #aaa9aa"}}>
                                 									<Link to={'/home/complain/' + complain.id}>
                                             						<div onClick={() => this._continue(complain.id)}>
                                             							<Col md={3}>

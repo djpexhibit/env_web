@@ -1,7 +1,7 @@
 var connection = require('../DB/connection');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-
+import Async from 'async';
 
 function Complain() {
     this.get = function (res) {
@@ -53,10 +53,9 @@ function Complain() {
     this.loadComplain = function (res, comp_id) {
         connection.acquire(function (err, con) {
             con.query(`select c.id as id, p.id as pid, p.type as type, e.id as aid, e.action as action, c.res_person as res_person, c.details as details, i.image as image,`
-            +` c.lat as lat, c.lng as lng, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user, c.location as location from complains c left outer join complain_images i on  c.id = i.complain_id join pollution_type p join user_details u join expected_action e where c.id = ? `
+            +` c.lat as lat, c.lng as lng, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, c.location as location from complains c left outer join complain_images i on  c.id = i.complain_id join pollution_type p join user_details u join expected_action e where c.id = ? `
             + ` and p.id = c.type and e.id = c.action and c.user_id = u.id `, comp_id ,function (err, result) {
                 con.release();
-                console.log(JSON.stringify(result))
                 res.json(result);
             });
         });
@@ -67,7 +66,6 @@ function Complain() {
         connection.acquire(function (err, con) {
             con.query(`select c.type as type, u.name as user, c.details as details, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date from comments c join user_details u where c.complain_id = ? and c.user_id = u.id order by c.date `, comp_id ,function (err, result) {
                 con.release();
-                console.log(JSON.stringify(result))
                 res.json(result);
             });
         });
@@ -111,6 +109,119 @@ function Complain() {
         });
     }
 
+
+/*    this.updateComplain = function(res, details){
+        connection.acquire( function(err,con){
+            con.beginTransaction(function(err){
+                if(err) {res.send({ status: false, message: 'Error' }); return;}
+                con.query('update complains set type=?, res_person=?, details=?, location=? , lat=?, lng=?, action=? where id = ? ', [details.complain.type,details.complain.person,details.complain.details, details.complain.location ,details.complain.lat, details.complain.lng, details.complain.action, details.complain.id], function(err, result){
+                    if (err) {
+                        con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                    }
+                    console.log("REACH1")
+
+                    con.query('delete from complain_images where complain_id= ?', details.complain.id ,function(err,result){
+                        if (err) {
+                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                        }
+                        console.log("REACH2")
+                        let arr = [true,false,false];
+                        for(let index in details.images){
+                            con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[details.complain.id,details.images[index], arr[index]] , function(err, result){
+                                if(err) {
+                                    console.log("VVVVVVVVVVVV")
+                                    res.send({ status: false, message: 'Error' }); return;
+                                }
+                                console.log("REACH3")
+                            });
+                        }
+
+                        console.log("REACH4")
+
+                        con.commit(function(err) { 
+                            if (err) { 
+                                con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
+                            }
+                            console.log("REACH5")
+                            res.send({ status: true, message: 'Complain added successfully' });
+                          
+                        }); 
+                    })
+                
+ 
+                    
+                }); 
+            })
+
+        });
+    }*/
+
+
+    this.updateComplain = function(res, details){
+        connection.acquire( function(err,con){
+            con.beginTransaction(function(err){
+                console.log("BRGIN");console.log(details.complain)
+                if(err) {
+                    console.log("1111")
+                    res.send({ status: false, message: 'Error' }); return;
+                }
+                con.query('update complains set type=?, res_person=?, details=?, location=? , lat=?, lng=?, action=? where id = ? ', [details.complain.pid,details.complain.person,details.complain.details, details.complain.location ,details.complain.lat, details.complain.lng, details.complain.aid, details.complain.id], function(err, result){
+                    if (err) {
+                        console.log(err)
+                        con.rollback(function() { 
+                            console.log("2222")
+                            res.send({ status: false, message: 'Error' }); return; 
+                        });
+                    }
+                    console.log("REACH1")
+
+                    con.query('delete from complain_images where complain_id= ?', details.complain.id ,function(err,result){
+                        if (err) {
+                            con.rollback(function() { 
+                                console.log("3333")
+                                res.send({ status: false, message: 'Error' }); return; 
+                            });
+                        }
+                        console.log("REACH2")
+                        let arr = [true,false,false];
+
+                        Async.eachOfSeries(details.images, function itOvEl(element,index,callback){
+                            con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[details.complain.id,element, arr[index]] , function(err, result){
+                                if(err) {
+                                    console.log("VVVVVVVVVVVV")
+                                    //res.send({ status: false, message: 'Error' }); return;
+                                    callback("err");
+                                }
+                                console.log("REACH3")
+                                callback();
+                            });
+                        }, function fin(err){
+                            console.log("REACH4");
+                            if(err){
+                                console.log("4444")
+                                res.send({ status: false, message: 'Error' }); return;
+                            }
+                            con.commit(function(err) {
+                                if (err) { 
+                                    con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
+                                }
+                                console.log("REACH5")
+                                res.send({ status: true, message: 'Complain added successfully' });
+                          
+                            }); 
+                        });
+                        
+
+                        
+                    })
+                
+ 
+                    
+                }); 
+            })
+
+        });
+    }
 
 
     this.addComment = function(res, details){

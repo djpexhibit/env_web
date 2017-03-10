@@ -118,16 +118,12 @@ app.post('/buyItems',jsonParser,function(req,res){
 app.post('/loadComplains',jsonParser, function(req,res){
   console.log("LOADING COMPLAINS");
   let user_id = req.body.user_id;
-  console.log(user_id);
-  console.log(res)
+
   complain.loadComplains(res, user_id);
 })
 
 app.post('/loadComplain', jsonParser ,function(req,res){
-  console.log("LOADING ONE COMPLAIN");
-  console.log(">>>>")
-  console.log(req)
-  console.log(req.body)
+
   let comp_id = req.body.comp_id;
   console.log(comp_id)
   complain.loadComplain(res,comp_id);
@@ -175,6 +171,14 @@ app.post('/addComplain', jsonParser, function(req,res){
   let details = req.body.details;
   console.log(details)
   complain.addComplain(res,details); 
+
+})
+
+
+app.post('/updateComplain', jsonParser, function(req,res){
+  console.log("UPDATING COMPLAIN 1");
+  let details = req.body.details;
+  complain.updateComplain(res,details); 
 
 })
 
