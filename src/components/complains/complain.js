@@ -93,12 +93,22 @@ class Complain extends React.Component{
 				})
 			}
 
-			<div>
+			<div className="row">
 				<form>
 					<h4>Add Response: </h4>	
 					<textarea name="details" className="form-control" rows="7" value={this.state.comment.details} onChange={this.onChange} />
 					<br/><br/>
-       				<input type="submit" className="btn btn-primary" onClick={this.onSave}/>
+					<div className="col-md-3">
+       					<input type="submit" className="btn btn-primary" onClick={this.onSave}/>
+       				</div>
+       				<div className="col-md-4">
+       					<select  className="form-control" >
+       						<option>Authority 1</option>
+       					</select>
+       				</div>
+       				<div className="col-md-3">
+       					<input type="button" className="btn btn-primary" value="Submit to authorities"/>
+       				</div>
        			</form>
 			</div>
 
