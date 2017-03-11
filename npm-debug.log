@@ -27,7 +27,7 @@
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
 15 verbose pkgid pluralsight-redux-starter@1.0.0
 16 verbose cwd /media/workspace/personal/react-starter
-17 error Linux 4.4.0-64-generic
+17 error Linux 4.4.0-66-generic
 18 error argv "/home/prasad/.nvm/versions/node/v7.5.0/bin/node" "/home/prasad/.nvm/versions/node/v7.5.0/bin/npm" "run-script" "lint:watch"
 19 error node v7.5.0
 20 error npm  v4.1.2

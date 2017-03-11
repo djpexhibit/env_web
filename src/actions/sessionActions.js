@@ -22,3 +22,8 @@ export function logInUser(credentials) {
 		});
 	};
 }
+
+export function logOutUser() {
+	sessionStorage.removeItem('jwt');
+	return {type: types.LOG_OUT}
+}

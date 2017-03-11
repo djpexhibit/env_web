@@ -3,13 +3,21 @@ import { Router, Route, Link, browserHistory, IndexRoute,IndexLink  } from 'reac
 import {connect} from 'react-redux';
 import * as itemActions from '../../actions/itemActions';
 import {bindActionCreators} from 'redux';
+import * as sessionActions from '../../actions/sessionActions';
 
 class Header extends React.Component{
 
     constructor(props,context){
       super(props,context);
+
+      this.logOut = this.logOut.bind(this);
+
     }
 
+    logOut(event) {
+      event.preventDefault();
+      this.props.actions.logOutUser();
+    }
 
     render(){
 
@@ -23,6 +31,7 @@ class Header extends React.Component{
                       <li><a href="#">Home</a></li>
                       <li><Link  to="/home/complains">Complains</Link></li>
                       <li><Link  to="/home/adv">Advertise</Link></li>
+                      <li ><a href="/logout" onClick={this.logOut}>log out</a></li>
                     </ul>
                   </div>
                   <div className="clearfix"></div>
@@ -35,4 +44,11 @@ class Header extends React.Component{
 }
 
 
-export default Header;
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions : bindActionCreators(Object.assign({}, sessionActions),dispatch)
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Header);

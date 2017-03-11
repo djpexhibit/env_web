@@ -27,9 +27,9 @@ ReactDOM.render((
         </Route>
         <Route path = "/home" component = {App}>
             <IndexRoute component = {Home} />
-            <Route path = "complains" component = {Complains} />
-            <Route path = "complain/:id" component = {Complain} />
-            <Route path = "adv" component = {Adv} />
+            <Route path = "complains" component = {Complains} onEnter={requireAuth} />
+            <Route path = "complain/:id" component = {Complain} onEnter={requireAuth} />
+            <Route path = "adv" component = {Adv} onEnter={requireAuth} />
       	</Route>
     </Router>
     </Provider>
