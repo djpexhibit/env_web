@@ -93,6 +93,7 @@ class Complain extends React.Component{
 				})
 			}
 
+			{ (JSON.parse(sessionStorage.user_session).type === 'ADMIN_FULL')?
 			<div className="row">
 				<form>
 					<h4>Add Response: </h4>	
@@ -110,7 +111,8 @@ class Complain extends React.Component{
        					<input type="button" className="btn btn-primary" value="Submit to authorities"/>
        				</div>
        			</form>
-			</div>
+			</div>:null
+		}
 
 			</div>
 			

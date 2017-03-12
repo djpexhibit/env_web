@@ -10,6 +10,7 @@ export function logInUser(credentials) {
 	return function(dispatch) {
 		return sessionApi.login(credentials).then(response => {
 			sessionStorage.setItem('jwt', response.jwt);
+			sessionStorage.setItem('user_session', JSON.stringify(response.session))
 			dispatch(loginSuccess());
 			if(sessionStorage.jwt==='true'){
 				browserHistory.push("/home/complains");
@@ -25,5 +26,6 @@ export function logInUser(credentials) {
 
 export function logOutUser() {
 	sessionStorage.removeItem('jwt');
+	sessionStorage.removeItem('user_session');
 	return {type: types.LOG_OUT}
 }
