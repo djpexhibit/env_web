@@ -4,6 +4,7 @@ import * as complainActions from '../../actions/complainActions';
 import * as commentActions from '../../actions/commentActions';
 import {bindActionCreators}  from 'redux';
 import TextInput from '../common/TextInput';
+import ContainerWrapper from '../map/containerWrapper';
 
 class Complain extends React.Component{
 
@@ -41,6 +42,13 @@ class Complain extends React.Component{
 	}
 
 	render(){
+		let markers = [
+            {
+                name: 'marker1',
+                loc: { lat: this.props.complain[0].lat, lng: this.props.complain[0].lng }
+            }
+        ];
+
 		if(this.props.complain && this.props.complain.length > 0 ){
 		return(
 			<div className="container">
@@ -74,8 +82,12 @@ class Complain extends React.Component{
 					</div>
 				</div>
 
+				<div style={{width: '80vw', height: '50vh', position: 'relative'}}>
+					<ContainerWrapper markers={markers} lat={this.props.complain[0].lat} lng={this.props.complain[0].lng} />
+				</div>
+
 				<div className="pex-comment-section">
-				<p> Comments: </p>
+					<p> Comments: </p>
 
 			{
 				this.props.comments.map( (comment) => {
