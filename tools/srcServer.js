@@ -13,6 +13,7 @@ var advModel = require('../src/models/advModel');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var busboy = require('connect-busboy');
+var passport = require('passport');
 
 
 /* eslint-disable no-console */
@@ -31,6 +32,23 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
 app.use(busboy());
+/*app.use(passport.initialize());
+
+//const localSignupStrategy = require('./local-signup');
+const localLoginStrategy = require('./local-login');
+//passport.use('local-signup', localSignupStrategy);
+passport.use('local-login', localLoginStrategy);
+
+// pass the authenticaion checker middleware
+const authCheckMiddleware = require('./auth-check');
+app.use('/api', authCheckMiddleware);
+
+// routes
+const authRoutes = require('./auth');
+const apiRoutes = require('./api');
+app.use('/auth', authRoutes);
+app.use('/api', apiRoutes);*/
+
 
 // POST /login gets urlencoded bodies
 /*app.post('/login', urlencodedParser, function (req, res) {

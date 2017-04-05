@@ -163,6 +163,120 @@ function User() {
         });
     };
 
+
+/*    this.getAdminUserByUsername = function (done, credentials) {
+        connection.acquire(function (err, con) {
+            if(err){
+                return done(err);
+            }
+            con.query(`select * from user_details where email = ? and type = 'ADMIN_FULL' OR type = 'ADMIN_LMT' `, credentials.email, function (err, result) {
+                con.release();
+                if(err){
+                    return done(err);
+                }
+
+                let token = false;
+
+                let session = {
+                    status:"",
+                    error:"",
+                    id:"",
+                    username:"",
+                    email:"",
+                    name:"",
+                    type:""
+                }
+                if(!result && !result[0]){
+                    session.status="ERROR",
+                    session.error="400";
+                    token=false;
+                }else{
+                    let user=result[0];
+                    if(user && credentials.password===user.password){
+                        session.status="OK";
+                        session.error=null;
+                        session.id=user.id;
+                        session.username=user.username;
+                        session.name=user.name;
+                        session.email=user.email;
+                        session.type=user.type;
+
+                        const payload = {
+                            sub: user.id
+                        };
+                        jwt = token.sign(payload, "secretkey");
+
+                    }else{
+                        session.status="ERROR";
+                        session.error="400";
+                        token = false
+                    }
+
+                }
+
+               
+                return done(null, token, session);
+            });
+        });
+    };*/
+
+
+    this.getAdminUserById = function (id) {
+        connection.acquire(function (err, con) {
+            if(err){
+                return done(err);
+            }
+            con.query(`select * from user_details where email = ? and type = 'ADMIN_FULL' OR type = 'ADMIN_LMT' `, credentials.email, function (err, result) {
+                con.release();
+                if(err){
+                    return done(err);
+                }
+
+                let token = false;
+
+                let session = {
+                    status:"",
+                    error:"",
+                    id:"",
+                    username:"",
+                    email:"",
+                    name:"",
+                    type:""
+                }
+                if(!result && !result[0]){
+                    session.status="ERROR",
+                    session.error="400";
+                    token=false;
+                }else{
+                    let user=result[0];
+                    if(user && credentials.password===user.password){
+                        session.status="OK";
+                        session.error=null;
+                        session.id=user.id;
+                        session.username=user.username;
+                        session.name=user.name;
+                        session.email=user.email;
+                        session.type=user.type;
+
+                        const payload = {
+                            sub: user.id
+                        };
+                        jwt = token.sign(payload, "secretkey");
+
+                    }else{
+                        session.status="ERROR";
+                        session.error="400";
+                        token = false
+                    }
+
+                }
+
+               
+                return done(null, token, session);
+            });
+        });
+    };
+
     
 
     
