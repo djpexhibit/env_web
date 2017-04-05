@@ -32,7 +32,8 @@
     "react-slick": "^0.14.5",
     "redux": "3.5.2",
     "redux-thunk": "2.0.1",
-    "toastr": "2.1.2"
+    "toastr": "2.1.2",
+    "google-maps-react": "1.0.19"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.1",
