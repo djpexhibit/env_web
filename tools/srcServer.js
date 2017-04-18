@@ -192,11 +192,7 @@ app.post('/addComplain', jsonParser, function(req,res){
 
 })
 
-app.post('/addVideo',jsonParser, function(req,res){
-  console.log("ADDING VIDEO");
-  console.log(req);
-  res.json({success:true});
-})
+
 
 
 app.post('/updateComplain', jsonParser, function(req,res){
@@ -262,4 +258,35 @@ app.post('/removeComplain', jsonParser ,function(req,res){
   let comp_id = req.body.comp_id;
   console.log(comp_id)
   complain.removeComplain(res,comp_id);
+})
+
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/')
+    },
+    filename: function (req, file, cb) {
+        var datetimestamp = Date.now();
+        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+    }
+});
+
+var upload = multer({ //multer settings
+                storage: storage
+            }).single('file');
+
+
+app.post('/addVideo', function(req,res){
+  console.log("ADDING VIDEO");
+
+  upload(req,res,function(err){
+    if(err){
+      console.log("ERROR: "+err);
+      res.json({error_code:1,err_desc:err});
+      return;
+    }
+
+    console.log("SUCCESS: ");
+    res.json({error_code:0,err_desc:null});
+  })
 })
