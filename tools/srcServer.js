@@ -194,7 +194,8 @@ app.post('/addComplain', jsonParser, function(req,res){
 
 app.post('/addVideo',jsonParser, function(req,res){
   console.log("ADDING VIDEO");
-  console.log(req)
+  console.log(req);
+  res.json({success:true});
 })
 
 
