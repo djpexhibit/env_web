@@ -28,7 +28,7 @@ export default {
     loaders: [
       
       
-      { test: /\.jpe?g$|\.gif$|\.jpg$|\.png$|\.wav$|\.mp3$/, loader: 'file?name=[name].[ext]' },
+      { test: /\.jpe?g$|\.gif$|\.jpg$|\.png$|\.wav$|\.mp4$/, loader: 'file?name=[name].[ext]' },
       {test: /(\.css)$/, loaders: ['style', 'css']},
       
       { test: /\.html$/, loader: 'html' },
