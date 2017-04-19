@@ -261,7 +261,7 @@ app.post('/removeComplain', jsonParser ,function(req,res){
 })
 
 
-var storage = multer.diskStorage({
+/*var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/')
     },
@@ -289,4 +289,19 @@ app.post('/addVideo', function(req,res){
     console.log("SUCCESS: ");
     res.json({error_code:0,err_desc:null});
   })
-})
+})*/
+
+
+app.post('/addVideo', function(req, res) {
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ADDING VIDEO")
+  var fstream;
+  req.pipe(req.busboy);
+  req.busboy.on('file', function (fieldname, file, filename) {
+    console.log("Uploading: " + filename); 
+    fstream = fs.createWriteStream(__dirname + '/files/' + filename);
+    file.pipe(fstream);
+    fstream.on('close', function () {
+      res.redirect('back');
+    });
+  });
+});
