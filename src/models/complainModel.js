@@ -95,7 +95,7 @@ function Complain() {
                             if (err) { 
                                 con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
                             }
-                            res.send({ status: true, message: 'Complain added successfully' });
+                            res.send({ status: true, message: 'Complain added successfully', id: lstId });
                             sendConfirmMail(details);
                             console.log('success!'); 
                         }); 
