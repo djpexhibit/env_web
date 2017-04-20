@@ -307,7 +307,7 @@ app.post('/addVideo', function(req, res) {
 });
 
 
-app.post('/getvvv', function (req, res, next) {
+app.get('/getvvv', function (req, res, next) {
    // var path = config.rootContentFilesPath + '/movie.mp4';
     var stat = fs.statSync(__dirname + '/files/' + 'name.mp4');
     var total = stat.size;
