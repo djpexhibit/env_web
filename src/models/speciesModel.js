@@ -15,10 +15,13 @@ function Species() {
         connection.acquire(function (err, con) {
 
             if(user_id !== 0){
+                console.log("YYYYYYYYYYYYYYYYY")
                 con.query(`select s.id as id, s.type as type ,s.name as name,SUBSTRING(s.details,1,50) as details, `+
                 `DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.species_id = s.id group by species_id) as comments `+
                 `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1  where s.user_id = u.id order by u.id = ? desc, s.date desc`, user_id, function (err, result) {
                 con.release();
+                console.log("yyyyyyyyyyyyyy")
+                console.log(result);
                 res.json(result);
                 });
             }else{
