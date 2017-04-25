@@ -7,6 +7,7 @@ var item = require('../src/models/itemModel');
 var connection = require('../src/DB/connection');
 var user = require('../src/models/userModel');
 var complain = require('../src/models/complainModel');
+var species = require('../src/models/speciesModel');
 var advModel = require('../src/models/advModel');
 
 
@@ -192,6 +193,15 @@ app.post('/addComplain', jsonParser, function(req,res){
 
 })
 
+app.post('/addSpecies', jsonParser, function(req,res){
+  console.log("ADDING SPECIES 1");
+  console.log(JSON.stringify(req.body));
+  let details = req.body.details;
+  console.log(details)
+  species.addSpecies(res,details); 
+
+})
+
 
 
 
@@ -309,7 +319,9 @@ app.post('/addVideo', function(req, res) {
 
 app.get('/getvvv', function (req, res, next) {
    // var path = config.rootContentFilesPath + '/movie.mp4';
-    var stat = fs.statSync(__dirname + '/files/' + 'name.mp4');
+   let id = req.param("id");
+   let vidName = 'vid_'+id+'mp4';
+    var stat = fs.statSync(__dirname + '/files/' + vidName);
     var total = stat.size;
     if (req.headers['range']) {
         var range = req.headers.range;
@@ -322,7 +334,7 @@ app.get('/getvvv', function (req, res, next) {
         var chunksize = (end - start) + 1;
         console.log('RANGE: ' + start + ' - ' + end + ' = ' + chunksize);
 
-        var file = fs.createReadStream(__dirname + '/files/' + 'name.mp4', { start: start, end: end });
+        var file = fs.createReadStream(__dirname + '/files/' + vidName, { start: start, end: end });
         res.writeHead(206, {
             'Content-Range': 'bytes ' + start + '-' + end + '/' + total,
             'Accept-Ranges': 'bytes',
@@ -333,6 +345,6 @@ app.get('/getvvv', function (req, res, next) {
     } else {
         console.log('ALL: ' + total);
         res.writeHead(200, { 'Content-Length': total, 'Content-Type': 'video/mp4' });
-        fs.createReadStream(__dirname + '/files/' + 'name.mp4').pipe(res);
+        fs.createReadStream(__dirname + '/files/' + vidName).pipe(res);
     }
 });
