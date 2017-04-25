@@ -285,11 +285,11 @@ function sendSpeciesConfirmMail(details){
 
 function confirmSpeciesTemplate(details) {
     const template = `<h1 style="color:#18c9d2;font-size: 2.7em;font-weight: 400">Eniorenment <span style="color: #333">Protection</span> </h1>
-                    <h2> User: ${ details.species.user }, </h2>,
-                    <h4>Type : ${details.species.type} </h4>
-                    <h4>Name : ${details.species.name} </h4>
-                    <h4>Location : ${details.species.location} </h4>
-                    <h4>Details : ${details.species.details} </h4>`;
+                    <h2> User: ${ details.specie.user }, </h2>,
+                    <h4>Type : ${details.specie.type} </h4>
+                    <h4>Name : ${details.specie.name} </h4>
+                    <h4>Location : ${details.specie.location} </h4>
+                    <h4>Details : ${details.specie.details} </h4>`;
     return template.replace(/\n/, '<br>');
 }
 
