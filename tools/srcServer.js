@@ -141,6 +141,14 @@ app.post('/loadComplains',jsonParser, function(req,res){
   complain.loadComplains(res, user_id);
 })
 
+
+app.post('/loadSpecies',jsonParser, function(req,res){
+  console.log("LOADING Species");
+  let user_id = req.body.user_id;
+
+  species.loadSpecies(res, user_id);
+})
+
 app.post('/loadComplain', jsonParser ,function(req,res){
 
   let comp_id = req.body.comp_id;
