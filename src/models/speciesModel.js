@@ -42,7 +42,7 @@ function Species() {
         connection.acquire(function (err, con) {
             con.query(`select s.id as id, s.type as type, s.name as name, s.details as details, i.image as image,`
             +` s.lat as lat, s.lng as lng, DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, s.location as location from species s left outer join species_images i on  s.id = i.species_id join user_details u where s.id = ? `
-            + ` and c.user_id = u.id `, spec_id ,function (err, result) {
+            + ` and s.user_id = u.id `, spec_id ,function (err, result) {
                 con.release();
                 res.json(result);
             });
@@ -50,9 +50,9 @@ function Species() {
     };
 
 
-    this.loadComments = function (res, comp_id) {
+    this.loadSpeciesComments = function (res, spec_id) {
         connection.acquire(function (err, con) {
-            con.query(`select c.type as type, u.name as user, c.details as details, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date from comments c join user_details u where c.complain_id = ? and c.user_id = u.id order by c.date `, comp_id ,function (err, result) {
+            con.query(`select c.type as type, u.name as user, c.details as details, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date from species_comments c join user_details u where c.species_id = ? and c.user_id = u.id order by c.date `, spec_id ,function (err, result) {
                 con.release();
                 res.json(result);
             });

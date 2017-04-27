@@ -156,11 +156,30 @@ app.post('/loadComplain', jsonParser ,function(req,res){
   complain.loadComplain(res,comp_id);
 })
 
+
+app.post('/loadSpecie', jsonParser ,function(req,res){
+
+  let spec_id = req.body.spec_id;
+  console.log(spec_id)
+  species.loadSpecie(res,spec_id);
+})
+
+
+
 app.post('/loadComments', jsonParser ,function(req,res){
   console.log("LOADING ONE COMMENTS");
   let comp_id = req.body.comp_id;
   complain.loadComments(res,comp_id);
 })
+
+
+app.post('/loadSpeciesComments', jsonParser ,function(req,res){
+  console.log("LOADING SPECIES COMMENTS");
+  let spec_id = req.body.spec_id;
+  species.loadSpeciesComments(res,spec_id);
+})
+
+
 
 app.get('/loadPollutionTypes', function(req,res){
   console.log("LOADING POLLUTION TYPES")
