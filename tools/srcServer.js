@@ -257,6 +257,17 @@ app.post('/addComment', jsonParser, function(req,res){
 })
 
 
+app.post('/addSpeciesComment', jsonParser, function(req,res){
+  console.log("ADDING SPECIES COMMENT");
+  console.log(JSON.stringify(req.body));
+  let details = req.body.details;
+  console.log(details)
+  species.addComment(res,details); 
+
+})
+
+
+
 /*app.post('/addAdv', jsonParser, function(req,res){
   let adv = req.body.data;
   console.log("BNBN00");console.log(adv)

@@ -170,7 +170,7 @@ function Species() {
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
                 if(err) { res.send({ status: false, message: 'Error' }); return;}
-                con.query('insert into comments(type,user_id,details,complain_id,date) values (?,?,?,?,now())', [details.type,details.user_id,details.details, details.complain_id], function(err, result){
+                con.query('insert into species_comments(type,user_id,details,species_id,date) values (?,?,?,?,now())', [details.type,details.user_id,details.details, details.complain_id], function(err, result){
                     if (err) {
                         con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                     }
