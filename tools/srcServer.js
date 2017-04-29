@@ -239,6 +239,13 @@ app.post('/updateComplain', jsonParser, function(req,res){
 
 })
 
+app.post('/updateSpecie', jsonParser, function(req,res){
+  console.log("UPDATING SPECIE 1");
+  let details = req.body.details;
+  species.updateSpecies(res,details); 
+
+})
+
 app.post('/register', jsonParser, function(req,res){
   console.log("REGISTERING");
   let details = req.body.credentials;
@@ -358,7 +365,18 @@ app.post('/addVideo', function(req, res) {
 app.get('/getvvv', function (req, res, next) {
    // var path = config.rootContentFilesPath + '/movie.mp4';
    let id = req.param("id");
-   let vidName = 'vid_'+id+'mp4';
+   let type = req.param("type");
+
+   let vidName = '';
+
+   if(type){
+    vidName = 'vidSpec'+id+'mp4';
+   }else{
+    vidName = 'vid_'+id+'mp4';
+   }
+
+
+
     var stat = fs.statSync(__dirname + '/files/' + vidName);
     var total = stat.size;
     if (req.headers['range']) {

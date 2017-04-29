@@ -102,12 +102,12 @@ function Species() {
     this.updateSpecies = function(res, details){
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
-                console.log("BRGIN");console.log(details.complain)
+                console.log("BRGIN");console.log(details.specie)
                 if(err) {
                     console.log("1111")
                     res.send({ status: false, message: 'Error' }); return;
                 }
-                con.query('update complains set type=?, res_person=?, details=?, location=? , lat=?, lng=?, action=? where id = ? ', [details.complain.pid,details.complain.person,details.complain.details, details.complain.location ,details.complain.lat, details.complain.lng, details.complain.aid, details.complain.id], function(err, result){
+                con.query('update species set type=?, name=?, details=?, location=? , lat=?, lng=? where id = ? ', [details.specie.type,details.specie.name,details.specie.details, details.specie.location ,details.specie.lat, details.specie.lng, details.specie.id], function(err, result){
                     if (err) {
                         console.log(err)
                         con.rollback(function() { 
@@ -117,7 +117,7 @@ function Species() {
                     }
                     console.log("REACH1")
 
-                    con.query('delete from complain_images where complain_id= ?', details.complain.id ,function(err,result){
+                    con.query('delete from species_images where species_id= ?', details.specie.id ,function(err,result){
                         if (err) {
                             con.rollback(function() { 
                                 console.log("3333")
@@ -128,7 +128,7 @@ function Species() {
                         let arr = [true,false,false];
 
                         Async.eachOfSeries(details.images, function itOvEl(element,index,callback){
-                            con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[details.complain.id,element, arr[index]] , function(err, result){
+                            con.query('insert into species_images(species_id, image, selected) values(?,?, ?)',[details.specie.id,element, arr[index]] , function(err, result){
                                 if(err) {
                                     console.log("VVVVVVVVVVVV")
                                     //res.send({ status: false, message: 'Error' }); return;
@@ -148,7 +148,7 @@ function Species() {
                                     con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
                                 }
                                 console.log("REACH5")
-                                res.send({ status: true, message: 'Complain added successfully' });
+                                res.send({ status: true, message: 'Species added successfully' });
                           
                             }); 
                         });
