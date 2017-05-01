@@ -148,7 +148,7 @@ function Species() {
                                     con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
                                 }
                                 console.log("REACH5")
-                                res.send({ status: true, message: 'Species added successfully' });
+                                res.send({ status: true, message: 'Species added successfully', id: details.specie.id});
                           
                             }); 
                         });
