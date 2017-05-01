@@ -370,9 +370,9 @@ app.get('/getvvv', function (req, res, next) {
    let vidName = '';
 
    if(type){
-    vidName = 'vidSpec'+id+'mp4';
+    vidName = 'vidSpec_'+id+'.mp4';
    }else{
-    vidName = 'vid_'+id+'mp4';
+    vidName = 'vid_'+id+'.mp4';
    }
 
 
