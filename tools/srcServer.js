@@ -356,7 +356,8 @@ app.post('/addVideo', function(req, res) {
     fstream = fs.createWriteStream(__dirname + '/files/' + filename);
     file.pipe(fstream);
     fstream.on('close', function () {
-      res.redirect('back');
+      //res.redirect('back');
+      res.json({success:true});
     });
   });
 });
