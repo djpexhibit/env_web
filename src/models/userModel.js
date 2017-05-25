@@ -1,4 +1,5 @@
 var connection = require('../DB/connection');
+var utils = require('../utils/commons.js');
 
 
 function User() {
@@ -44,7 +45,7 @@ function User() {
 
                 }
 
-               
+
                 res.json(session);
             });
         });
@@ -60,20 +61,24 @@ function User() {
                 if(err){
                     res.send({ status: false, message: 'Error' }); return;
                 }
-                con.query('insert into user_details(name,username,password,email) values (?,?,?,?)', [details.name,details.username,details.password, details.email], function(err, result){
+
+                var rand = utils.getRandomInt(1001,9999);
+                // send that random number via sms gateway
+
+                con.query('insert into user_details(name,username,password,email,mobile,verify_code,verified) values (?,?,?,?,?,?,?)', [details.name,details.username,details.password, details.email, details.mobile, rand, false], function(err, result){
                     if (err) {
                         con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                     }
 
-                    con.commit(function(err) { 
-                        if (err) { 
-                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                         }
                         res.send({ status: true, message: 'User added successfully' });
-                        console.log('success!'); 
-                    }); 
-                    
-                }); 
+                        console.log('success!');
+                    });
+
+                });
             })
 
         });
@@ -92,7 +97,7 @@ function User() {
                     res.json({status:"ERROR",error:"400"});return;
                 }
 
-           
+
                 if(!result && !result[0]){
                     res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
                 }else{
@@ -108,13 +113,46 @@ function User() {
         });
     };
 
+    this.verifyMobileCode = function (res, verifyCredentials) {
+
+      connection.acquire( function(err,con){
+        con.beginTransaction(function(err){
+
+          if(err) { res.json({status:"ERROR",error:"400"});return; }
+
+          con.query('select verify_code from user_details where mobile = ?', verifyCredentials.mobile, function(err, result){
+            if (err) { res.json({status:"ERROR",error:"400"});return; }
+
+            let code=result[0];
+            if(code && verifyCredentials.mobileCode===code){
+              con.query('update user_details set verified=true where mobile = ?', verifyCredentials.mobile , function(err, result){
+                if (err) {
+                  con.rollback(function() { res.json({status:"ERROR",error:"400"});return; });
+                }
+
+                con.commit(function(err) {
+                  if (err) {
+                    con.rollback(function() { res.json({status:"ERROR",error:"400"});return; });
+                  }
+                  res.json({status:"OK",error:null,msg:"VERIFIED"});return;
+                });
+              });
+
+            }else{
+              res.json({status:"OK",msg:"FAILED"});return;
+            }
+          });
+        })
+      });
+    };
+
 
 
 
     this.getAdminUserByUsername = function (res, credentials) {
         connection.acquire(function (err, con) {
             if(err){
-                
+
                 res.json({status:"ERROR",error:"400"});return;
             }
             con.query(`select * from user_details where email = ? and type = 'ADMIN_FULL' OR type = 'ADMIN_LMT' `, credentials.email, function (err, result) {
@@ -157,7 +195,7 @@ function User() {
 
                 }
 
-               
+
                 res.json({session:session, jwt:jwt});
             });
         });
@@ -214,7 +252,7 @@ function User() {
 
                 }
 
-               
+
                 return done(null, token, session);
             });
         });
@@ -271,17 +309,16 @@ function User() {
 
                 }
 
-               
+
                 return done(null, token, session);
             });
         });
     };
 
-    
 
-    
+
+
 }
 
 
 module.exports = new User();
-

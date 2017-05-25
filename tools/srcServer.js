@@ -117,20 +117,20 @@ app.get('/searchItems',function(req,res){
 });
 
 app.get('/saveItem',function(req,res){
-  
+
 });
 
 app.get('/updateItem',function(req,res){
-  
+
 });
 
 app.post('/buyItems',jsonParser,function(req,res){
   console.log('>>>>>>>>>>>>>>>>> BUY ITEMS');
   let checkout = req.body.checkout;
-  console.log(checkout); 
-  item.buyItem(res,checkout); 
+  console.log(checkout);
+  item.buyItem(res,checkout);
 
-  
+
 });
 
 
@@ -188,7 +188,12 @@ app.get('/loadPollutionTypes', function(req,res){
 
 app.post('/checkEmailValidity', jsonParser, function(req,res){
   let credentials = req.body.credentials;
-  user.checkEmailValidity(res,credentials); 
+  user.checkEmailValidity(res,credentials);
+})
+
+app.post('/verifyMobileCode', jsonParser, function(req,res){
+  let verifyCredentials = req.body.verifyCredentials;
+  user.verifyMobileCode(res,verifyCredentials);
 })
 
 app.get('/loadExpectedActions', function(req,res){
@@ -198,7 +203,7 @@ app.get('/loadExpectedActions', function(req,res){
 
 app.post('/login', jsonParser, function(req,res){
   let credentials = req.body.credentials;
-  user.getUserByUsername(res,credentials); 
+  user.getUserByUsername(res,credentials);
 
 })
 
@@ -216,7 +221,7 @@ app.post('/addComplain', jsonParser, function(req,res){
   console.log(JSON.stringify(req.body));
   let details = req.body.details;
   console.log(details)
-  complain.addComplain(res,details); 
+  complain.addComplain(res,details);
 
 })
 
@@ -225,7 +230,7 @@ app.post('/addSpecies', jsonParser, function(req,res){
   console.log(JSON.stringify(req.body));
   let details = req.body.details;
   console.log(details)
-  species.addSpecies(res,details); 
+  species.addSpecies(res,details);
 
 })
 
@@ -235,21 +240,21 @@ app.post('/addSpecies', jsonParser, function(req,res){
 app.post('/updateComplain', jsonParser, function(req,res){
   console.log("UPDATING COMPLAIN 1");
   let details = req.body.details;
-  complain.updateComplain(res,details); 
+  complain.updateComplain(res,details);
 
 })
 
 app.post('/updateSpecie', jsonParser, function(req,res){
   console.log("UPDATING SPECIE 1");
   let details = req.body.details;
-  species.updateSpecies(res,details); 
+  species.updateSpecies(res,details);
 
 })
 
 app.post('/register', jsonParser, function(req,res){
   console.log("REGISTERING");
   let details = req.body.credentials;
-  user.register(res,details); 
+  user.register(res,details);
 
 })
 
@@ -259,7 +264,7 @@ app.post('/addComment', jsonParser, function(req,res){
   console.log(JSON.stringify(req.body));
   let details = req.body.details;
   console.log(details)
-  complain.addComment(res,details); 
+  complain.addComment(res,details);
 
 })
 
@@ -269,7 +274,7 @@ app.post('/addSpeciesComment', jsonParser, function(req,res){
   console.log(JSON.stringify(req.body));
   let details = req.body.details;
   console.log(details)
-  species.addComment(res,details); 
+  species.addComment(res,details);
 
 })
 
@@ -286,7 +291,7 @@ app.post('/addAdv', function(req, res) {
   var fstream;
   req.pipe(req.busboy);
   req.busboy.on('file', function (fieldname, file, filename) {
-    console.log("Uploading: " + filename); 
+    console.log("Uploading: " + filename);
     fstream = fs.createWriteStream(__dirname + '/files/' + filename);
     file.pipe(fstream);
     fstream.on('close', function () {
@@ -352,7 +357,7 @@ app.post('/addVideo', function(req, res) {
   var fstream;
   req.pipe(req.busboy);
   req.busboy.on('file', function (fieldname, file, filename) {
-    console.log("Uploading: " + filename); 
+    console.log("Uploading: " + filename);
     fstream = fs.createWriteStream(__dirname + '/files/' + filename);
     file.pipe(fstream);
     fstream.on('close', function () {
