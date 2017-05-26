@@ -123,7 +123,7 @@ function User() {
           con.query('select verify_code from user_details where mobile = ?', verifyCredentials.mobile, function(err, result){
             if (err) { res.json({status:"ERROR",error:"400"});return; }
 console.log(result);
-            let code=result[0];
+            let code=result[0].verify_code;
             console.log(code);
             console.log(verifyCredentials.mobileCode);
             if(code && verifyCredentials.mobileCode===code){
