@@ -11,14 +11,14 @@ function Complain() {
         connection.acquire(function (err, con) {
 
             if(user_id !== 0){
-                con.query(`select c.id as id, p.type as type ,c.res_person as res_person,SUBSTRING(c.details,1,50) as details, `+
+                con.query(`select c.id as id, p.type as type ,c.res_person as res_person,c.anonymous as anonymous,SUBSTRING(c.details,1,50) as details, `+
                 `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments `+
                 `from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1  where p.id = c.type and c.user_id = u.id order by u.id = ? desc, c.date desc`, user_id, function (err, result) {
                 con.release();
                 res.json(result);
                 });
             }else{
-                con.query(`select c.id as id, p.type as type ,c.res_person as res_person,SUBSTRING(c.details,1,50) as details, `+
+                con.query(`select c.id as id, p.type as type ,c.res_person as res_person,c.anonymous as anonymous,SUBSTRING(c.details,1,50) as details, `+
                 `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments `+
                 `from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1  where p.id = c.type and c.user_id = u.id `, function (err, result) {
                 con.release();
@@ -26,7 +26,7 @@ function Complain() {
                 res.json(result);
             });
             }
-            
+
         });
     };
 
@@ -52,7 +52,7 @@ function Complain() {
 
     this.loadComplain = function (res, comp_id) {
         connection.acquire(function (err, con) {
-            con.query(`select c.id as id, p.id as pid, p.type as type, e.id as aid, e.action as action, c.res_person as res_person, c.details as details, i.image as image,`
+            con.query(`select c.id as id, p.id as pid, p.type as type, e.id as aid, e.action as action, c.res_person as res_person, c.anonymous as anonymous, c.details as details, i.image as image,`
             +` c.lat as lat, c.lng as lng, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, c.location as location from complains c left outer join complain_images i on  c.id = i.complain_id join pollution_type p join user_details u join expected_action e where c.id = ? `
             + ` and p.id = c.type and e.id = c.action and c.user_id = u.id `, comp_id ,function (err, result) {
                 con.release();
@@ -75,7 +75,7 @@ function Complain() {
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
                 if(err) {res.send({ status: false, message: 'Error' }); return;}
-                con.query('insert into complains(type,res_person,details,location,user_id,lat,lng,date,action) values (?,?,?,?,?,?,?,now(),?)', [details.complain.type,details.complain.person,details.complain.details, details.complain.location, details.complain.user ,details.complain.lat, details.complain.lng, details.complain.action], function(err, result){
+                con.query('insert into complains(type,res_person,details,location,user_id,lat,lng,date,action,anonymous) values (?,?,?,?,?,?,?,now(),?,?)', [details.complain.type,details.complain.person,details.complain.details, details.complain.location, details.complain.user ,details.complain.lat, details.complain.lng, details.complain.action, details.complain.anonymous], function(err, result){
                     if (err) {
                         con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                     }
@@ -91,19 +91,19 @@ function Complain() {
                             });
                         }
 
-                        con.commit(function(err) { 
-                            if (err) { 
-                                con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
+                        con.commit(function(err) {
+                            if (err) {
+                                con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                             }
                             res.send({ status: true, message: 'Complain added successfully', id: lstId });
                             sendConfirmMail(details);
-                            console.log('success!'); 
-                        }); 
+                            console.log('success!');
+                        });
                     })
-                
- 
-                    
-                }); 
+
+
+
+                });
             })
 
         });
@@ -138,19 +138,19 @@ function Complain() {
 
                         console.log("REACH4")
 
-                        con.commit(function(err) { 
-                            if (err) { 
-                                con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
+                        con.commit(function(err) {
+                            if (err) {
+                                con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                             }
                             console.log("REACH5")
                             res.send({ status: true, message: 'Complain added successfully' });
-                          
-                        }); 
+
+                        });
                     })
-                
- 
-                    
-                }); 
+
+
+
+                });
             })
 
         });
@@ -165,21 +165,21 @@ function Complain() {
                     console.log("1111")
                     res.send({ status: false, message: 'Error' }); return;
                 }
-                con.query('update complains set type=?, res_person=?, details=?, location=? , lat=?, lng=?, action=? where id = ? ', [details.complain.pid,details.complain.person,details.complain.details, details.complain.location ,details.complain.lat, details.complain.lng, details.complain.aid, details.complain.id], function(err, result){
+                con.query('update complains set type=?, res_person=?, details=?, location=? , lat=?, lng=?, action=?, anonymous=? where id = ? ', [details.complain.pid,details.complain.person,details.complain.details, details.complain.location ,details.complain.lat, details.complain.lng, details.complain.aid, details.complain.anonymous ,details.complain.id], function(err, result){
                     if (err) {
                         console.log(err)
-                        con.rollback(function() { 
+                        con.rollback(function() {
                             console.log("2222")
-                            res.send({ status: false, message: 'Error' }); return; 
+                            res.send({ status: false, message: 'Error' }); return;
                         });
                     }
                     console.log("REACH1")
 
                     con.query('delete from complain_images where complain_id= ?', details.complain.id ,function(err,result){
                         if (err) {
-                            con.rollback(function() { 
+                            con.rollback(function() {
                                 console.log("3333")
-                                res.send({ status: false, message: 'Error' }); return; 
+                                res.send({ status: false, message: 'Error' }); return;
                             });
                         }
                         console.log("REACH2")
@@ -202,22 +202,22 @@ function Complain() {
                                 res.send({ status: false, message: 'Error' }); return;
                             }
                             con.commit(function(err) {
-                                if (err) { 
-                                    con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
+                                if (err) {
+                                    con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                                 }
                                 console.log("REACH5")
                                 res.send({ status: true, message: 'Complain added successfully' });
-                          
-                            }); 
-                        });
-                        
 
-                        
+                            });
+                        });
+
+
+
                     })
-                
- 
-                    
-                }); 
+
+
+
+                });
             })
 
         });
@@ -233,15 +233,15 @@ function Complain() {
                         con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                     }
 
-                    con.commit(function(err) { 
-                        if (err) { 
-                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                         }
                         res.send({ status: true, message: 'Comment added successfully' });
-                        console.log('success!'); 
-                    }); 
-                    
-                }); 
+                        console.log('success!');
+                    });
+
+                });
             })
 
         });
@@ -258,15 +258,15 @@ function Complain() {
                         con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                     }
 
-                    con.commit(function(err) { 
-                        if (err) { 
-                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                         }
                         res.send({ status: true, message: 'Complain deleted successfully' });
-                        console.log('success!'); 
-                    }); 
-                    
-                }); 
+                        console.log('success!');
+                    });
+
+                });
             })
 
         });
@@ -287,21 +287,21 @@ function sendConfirmMail(details){
         }
     });
 
-    
+
     var mailOptions = {
         from: '<prasad.wanigasinghe.test@gmail.com>',
         to: 'prasad.wanigasinghe.test@gmail.com',
         subject: 'Save Enviorenment - Complain Details !!!',
         html: confirmTemplate(details)
     };
-    
+
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
             console.log(error);
         }else{
             console.log('Message sent: ' + info.response);
         };
-    });    
+    });
 }
 
 function confirmTemplate(details) {
@@ -315,4 +315,3 @@ function confirmTemplate(details) {
 }
 
 module.exports = new Complain();
-

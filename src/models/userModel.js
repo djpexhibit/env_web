@@ -11,7 +11,7 @@ function User() {
             if(err){
                 res.json({status:"ERROR",error:"400"});return;
             }
-            con.query('select * from user_details where email = ?', credentials.email, function (err, result) {
+            con.query('select * from user_details where email = ? and verified = true', credentials.email, function (err, result) {
                 con.release();
 
                 if(err){
@@ -122,10 +122,9 @@ function User() {
 
           con.query('select verify_code from user_details where mobile = ?', verifyCredentials.mobile, function(err, result){
             if (err) { res.json({status:"ERROR",error:"400"});return; }
-console.log(result);
+
             let code=result[0].verify_code;
-            console.log(code);
-            console.log(verifyCredentials.mobileCode);
+
             if(code && verifyCredentials.mobileCode===code){
               con.query('update user_details set verified=true where mobile = ?', verifyCredentials.mobile , function(err, result){
                 if (err) {
