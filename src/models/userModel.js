@@ -1,5 +1,6 @@
 var connection = require('../DB/connection');
 var utils = require('../utils/commons.js');
+var request = require("request");
 
 
 function User() {
@@ -64,6 +65,15 @@ function User() {
 
                 var rand = utils.getRandomInt(1001,9999);
                 // send that random number via sms gateway
+                request({
+                  uri: "http://119.235.1.63:4070/Sms.svc/SendSms?phoneNumber="+details.mobile+"&smsMessage=Verification Code:"+rand+"&companyId=EML&pword=EMLADMIN",
+                  method: "GET",
+                  timeout: 10000,
+                  followRedirect: true,
+                  maxRedirects: 10
+                }, function(error, response, body) {
+                  console.log(body);
+                });
 
                 con.query('insert into user_details(name,username,password,email,mobile,verify_code,verified) values (?,?,?,?,?,?,?)', [details.name,details.username,details.password, details.email, details.mobile, rand, false], function(err, result){
                     if (err) {
