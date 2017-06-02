@@ -16,18 +16,18 @@ function Species() {
 
             if(user_id !== 0){
                 console.log("YYYYYYYYYYYYYYYYY")
-                con.query(`select s.id as id, s.type as type ,s.name as name,s.anonymous as anonymous,SUBSTRING(s.details,1,50) as details, `+
+                con.query(`select s.id as id, s.type as type ,s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,50) as specname, `+
                 `DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments `+
-                `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1  where s.user_id = u.id order by u.id = ? desc, s.date desc`, user_id, function (err, result) {
+                `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1  where s.user_id = u.id order by u.id = ? desc, s.date desc limit 30 `, user_id, function (err, result) {
                 con.release();
                 console.log("yyyyyyyyyyyyyy")
                 console.log(result);
                 res.json(result);
                 });
             }else{
-                con.query(`select s.id as id, s.type as type ,s.name as name,s.anonymous as anonymous,SUBSTRING(s.details,1,50) as details, `+
+                con.query(`select s.id as id, s.type as type ,s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,50) as specname, `+
                 `DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments `+
-                `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1  where  s.user_id = u.id `, function (err, result) {
+                `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1  where  s.user_id = u.id limit 30 `, function (err, result) {
                 con.release();
                 //console.log("EEEE");console.log(result)
                 res.json(result);
@@ -40,7 +40,7 @@ function Species() {
 
     this.loadSpecie = function (res, spec_id) {
         connection.acquire(function (err, con) {
-            con.query(`select s.id as id, s.type as type, s.name as name,s.anonymous as anonymous, s.details as details, i.image as image,`
+            con.query(`select s.id as id, s.type as type, s.name as name,s.anonymous as anonymous, s.specname as specname, i.image as image,`
             +` s.lat as lat, s.lng as lng, DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, s.location as location from species s left outer join species_images i on  s.id = i.species_id join user_details u where s.id = ? `
             + ` and s.user_id = u.id `, spec_id ,function (err, result) {
                 con.release();
@@ -63,7 +63,7 @@ function Species() {
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
                 if(err) {res.send({ status: false, message: 'Error' }); return;}
-                con.query('insert into species(type,name,details,location,user_id,lat,lng,date,anonymous) values (?,?,?,?,?,?,?,now(),?)', [details.specie.type,details.specie.name,details.specie.details, details.specie.location, details.specie.user ,details.specie.lat, details.specie.lng, details.specie.anonymous], function(err, result){
+                con.query('insert into species(type,name,specname,location,user_id,lat,lng,date,anonymous) values (?,?,?,?,?,?,?,?,?)', [details.specie.type,details.specie.name,details.specie.specname, details.specie.location, details.specie.user ,details.specie.lat, details.specie.lng, details.specie.datetime, details.specie.anonymous], function(err, result){
                     if (err) {
                         con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
                     }
@@ -107,7 +107,7 @@ function Species() {
                     console.log("1111")
                     res.send({ status: false, message: 'Error' }); return;
                 }
-                con.query('update species set type=?, name=?, details=?, location=? , lat=?, lng=?, anonymous=? where id = ? ', [details.specie.type,details.specie.name,details.specie.details, details.specie.location ,details.specie.lat, details.specie.lng, details.specie.anonymous ,details.specie.id], function(err, result){
+                con.query('update species set type=?, name=?, specname=?, location=? , lat=?, lng=?, date=?, anonymous=? where id = ? ', [details.specie.type,details.specie.name,details.specie.specname, details.specie.location ,details.specie.lat, details.specie.lng, details.specie.datetime ,details.specie.anonymous ,details.specie.id], function(err, result){
                     if (err) {
                         console.log(err)
                         con.rollback(function() {
