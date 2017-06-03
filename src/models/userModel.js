@@ -153,19 +153,26 @@ function User() {
                         followRedirect: true,
                         maxRedirects: 10
                       }, function(error, response, body) {
-                        con.release();
-                        res.json({status:"OK",msg:"FAILED"});return;
+                        if(error){
+                          con.release();
+                          res.json({status:"OK",msg:"FAILED"});return;
+
+                        }else{
+                          con.query('update user_details set reset_req=true, reset_verify_code=? where email = ?', [rand,credentials.email], function(err, result){
+                              if (err) {
+                                con.release();
+                                res.json({status:"OK",msg:"FAILED"});return;
+                              }
+
+                              con.release();
+                              res.json({status:"OK",error:null,msg:"VERIFIED"});return;
+                            });
+                        }
+
+
                       });
 
-                      con.query('update user_details set reset_req=true, reset_verify_code=? where email = ?', [rand,credentials.email], function(err, result){
-                          if (err) {
-                            con.release();
-                            res.json({status:"OK",msg:"FAILED"});return;
-                          }
 
-                          con.release();
-                          res.json({status:"OK",error:null,msg:"VERIFIED"});return;
-                        });
 
 
                     }else{
