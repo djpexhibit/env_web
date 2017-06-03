@@ -191,9 +191,19 @@ app.post('/checkEmailValidity', jsonParser, function(req,res){
   user.checkEmailValidity(res,credentials);
 })
 
+app.post('/verifyEmailWithMobile', jsonParser, function(req,res){
+  let credentials = req.body.credentials;
+  user.verifyEmailWithMobile(res,credentials);
+})
+
 app.post('/verifyMobileCode', jsonParser, function(req,res){
   let verifyCredentials = req.body.verifyCredentials;
   user.verifyMobileCode(res,verifyCredentials);
+})
+
+app.post('/verifyResetMobileCode', jsonParser, function(req,res){
+  let verifyCredentials = req.body.verifyCredentials;
+  user.verifyResetMobileCode(res,verifyCredentials);
 })
 
 app.get('/loadExpectedActions', function(req,res){

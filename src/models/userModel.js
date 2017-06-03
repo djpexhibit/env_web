@@ -123,12 +123,72 @@ function User() {
         });
     };
 
+    this.verifyEmailWithMobile = function (res, credentials) {
+        connection.acquire(function (err, con) {
+            if(err){
+                res.json({status:"ERROR",error:"400"});return;
+            }
+            con.query('select * from user_details where mobile = ?', credentials.mobile, function (err, result) {
+
+
+                if(err){
+                    con.release();
+                    res.json({status:"ERROR",error:"400"});return;
+                }
+
+
+                if(!result && !result[0]){
+                    con.release();
+                    res.json({status:"OK",msg:"FAILED"});return;
+                }else{
+                    let user=result[0];
+                    if(user && credentials.email===user.email){
+
+                      var rand = utils.getRandomInt(100000,999999);
+                      // send that random number via sms gateway
+                      request({
+                        uri: "http://119.235.1.63:4070/Sms.svc/SendSms?phoneNumber="+credentials.mobile+"&smsMessage=Verification Code:"+rand+"&companyId=EML&pword=EMLADMIN",
+                        method: "GET",
+                        timeout: 10000,
+                        followRedirect: true,
+                        maxRedirects: 10
+                      }, function(error, response, body) {
+                        con.release();
+                        res.json({status:"OK",msg:"FAILED"});return;
+                      });
+
+                      con.query('update user_details set reset_req=true, reset_verify_code=? where email = ?', [rand,credentials.email], function(err, result){
+                          if (err) {
+                            con.release();
+                            res.json({status:"OK",msg:"FAILED"});return;
+                          }
+
+                          con.release();
+                          res.json({status:"OK",error:null,msg:"VERIFIED"});return;
+                        }
+
+
+                    }else{
+                        con.release();
+                       res.json({status:"OK",msg:"FAILED"});return;
+                    }
+
+                }
+
+
+            });
+        });
+    };
+
     this.verifyMobileCode = function (res, verifyCredentials) {
 
       connection.acquire( function(err,con){
         con.beginTransaction(function(err){
 
-          if(err) { res.json({status:"ERROR",error:"400"});return; }
+          if(err) {
+            con.release();
+            res.json({status:"ERROR",error:"400"});return;
+          }
 
           con.query('select verify_code from user_details where mobile = ?', verifyCredentials.mobile, function(err, result){
             if (err) { res.json({status:"ERROR",error:"400"});return; }
@@ -157,6 +217,54 @@ function User() {
       });
     };
 
+
+    this.verifyResetMobileCode = function (res, verifyCredentials) {
+
+      connection.acquire( function(err,con){
+        con.beginTransaction(function(err){
+
+          if(err) {
+            con.release();
+            res.json({status:"ERROR",error:"400"});return;
+          }
+
+          con.query('select reset_verify_code from user_details where mobile = ?', verifyCredentials.mobile, function(err, result){
+            if (err) {
+              con.release();
+              res.json({status:"ERROR",error:"400"});return;
+            }
+
+            let code=result[0].reset_verify_code;
+
+            if(code && verifyCredentials.mobileCode===code){
+              con.query('update user_details set reset_verified=true, reset_req=false, password=?  where mobile = ?', [verifyCredentials.password ,verifyCredentials.mobile] , function(err, result){
+                if (err) {
+                  con.rollback(function() {
+                    con.release();
+                    res.json({status:"ERROR",error:"400"});return;
+                  });
+                }
+
+                con.commit(function(err) {
+                  if (err) {
+                    con.rollback(function() {
+                      con.release();
+                      res.json({status:"ERROR",error:"400"});return;
+                    });
+                  }
+                  con.release();
+                  res.json({status:"OK",error:null,msg:"VERIFIED"});return;
+                });
+              });
+
+            }else{
+              con.release();
+              res.json({status:"OK",msg:"FAILED"});return;
+            }
+          });
+        })
+      });
+    };
 
 
 
