@@ -165,7 +165,7 @@ function User() {
 
                           con.release();
                           res.json({status:"OK",error:null,msg:"VERIFIED"});return;
-                        }
+                        });
 
 
                     }else{
