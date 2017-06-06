@@ -8,21 +8,31 @@ function Adv() {
     this.addAdv = function(res, adv){
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
-                if(err) { res.send({ status: false, message: 'Error' }); return;}
+                if(err) {
+                  con.release();
+                  res.send({ status: false, message: 'Error' }); return;
+                }
                 con.query('insert into advs(file) values (?)', adv, function(err, result){
                     if (err) {
-                        con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' }); return;
+                        });
                     }
 
-                    con.commit(function(err) { 
-                        if (err) { 
-                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; }); 
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' }); return;
+                            });
                         }
+                        con.release();
                         res.send({ status: true, message: 'Adv added successfully' });
-                        console.log('success!'); 
-                    }); 
-                    
-                }); 
+                        console.log('success!');
+                    });
+
+                });
             })
 
         });
@@ -32,4 +42,3 @@ function Adv() {
 }
 
 module.exports = new Adv();
-

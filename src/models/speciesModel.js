@@ -62,10 +62,13 @@ function Species() {
     this.addSpecies = function(res, details){
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
-                if(err) {res.send({ status: false, message: 'Error' }); return;}
+                if(err) {con.release();res.send({ status: false, message: 'Error' }); return;}
                 con.query('insert into species(type,name,specname,location,user_id,lat,lng,date,anonymous) values (?,?,?,?,?,?,?,?,?)', [details.specie.type,details.specie.name,details.specie.specname, details.specie.location, details.specie.user ,details.specie.lat, details.specie.lng, details.specie.datetime, details.specie.anonymous], function(err, result){
                     if (err) {
-                        con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' }); return;
+                        });
                     }
 
                     let lstId = 0;
@@ -75,14 +78,21 @@ function Species() {
                         let arr = [true,false,false];
                         for(let index in details.images){
                             con.query('insert into species_images(species_id, image, selected) values(?,?, ?)',[lstId,details.images[index], arr[index]] , function(err, result){
-                            if(err) {res.send({ status: false, message: 'Error' }); return;}
+                            if(err) {
+                              con.release();
+                              res.send({ status: false, message: 'Error' }); return;
+                            }
                             });
                         }
 
                         con.commit(function(err) {
                             if (err) {
-                                con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                                con.rollback(function() {
+                                  con.release();
+                                  res.send({ status: false, message: 'Error' }); return;
+                                });
                             }
+                            con.release();
                             res.send({ status: true, message: 'Species added successfully', id: lstId });
                             sendSpeciesConfirmMail(details);
                             console.log('success!');
@@ -102,52 +112,46 @@ function Species() {
     this.updateSpecies = function(res, details){
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
-                console.log("BRGIN");console.log(details.specie)
                 if(err) {
-                    console.log("1111")
+                    con.release();
                     res.send({ status: false, message: 'Error' }); return;
                 }
                 con.query('update species set type=?, name=?, specname=?, location=? , lat=?, lng=?, date=?, anonymous=? where id = ? ', [details.specie.type,details.specie.name,details.specie.specname, details.specie.location ,details.specie.lat, details.specie.lng, details.specie.datetime ,details.specie.anonymous ,details.specie.id], function(err, result){
                     if (err) {
-                        console.log(err)
                         con.rollback(function() {
-                            console.log("2222")
+                            con.release();
                             res.send({ status: false, message: 'Error' }); return;
                         });
                     }
-                    console.log("REACH1")
-
                     con.query('delete from species_images where species_id= ?', details.specie.id ,function(err,result){
                         if (err) {
                             con.rollback(function() {
-                                console.log("3333")
+                              con.release();
                                 res.send({ status: false, message: 'Error' }); return;
                             });
                         }
-                        console.log("REACH2")
                         let arr = [true,false,false];
 
                         Async.eachOfSeries(details.images, function itOvEl(element,index,callback){
                             con.query('insert into species_images(species_id, image, selected) values(?,?, ?)',[details.specie.id,element, arr[index]] , function(err, result){
                                 if(err) {
-                                    console.log("VVVVVVVVVVVV")
                                     //res.send({ status: false, message: 'Error' }); return;
                                     callback("err");
                                 }
-                                console.log("REACH3")
                                 callback();
                             });
                         }, function fin(err){
-                            console.log("REACH4");
                             if(err){
-                                console.log("4444")
+                              con.release();
                                 res.send({ status: false, message: 'Error' }); return;
                             }
                             con.commit(function(err) {
                                 if (err) {
-                                    con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                                    con.rollback(function() {
+                                      con.release();
+                                      res.send({ status: false, message: 'Error' }); return; });
                                 }
-                                console.log("REACH5")
+                                con.release();
                                 res.send({ status: true, message: 'Species added successfully', id: details.specie.id});
 
                             });
@@ -169,16 +173,25 @@ function Species() {
     this.addComment = function(res, details){
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
-                if(err) { res.send({ status: false, message: 'Error' }); return;}
+                if(err) {
+                  con.release();
+                  res.send({ status: false, message: 'Error' }); return;
+                }
                 con.query('insert into species_comments(type,user_id,details,species_id,date) values (?,?,?,?,now())', [details.type,details.user_id,details.details, details.species_id], function(err, result){
                     if (err) {
-                        con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' }); return;
+                        });
                     }
 
                     con.commit(function(err) {
                         if (err) {
-                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' }); return; });
                         }
+                        con.release();
                         res.send({ status: true, message: 'Comment added successfully' });
                         console.log('success!');
                     });
@@ -194,16 +207,26 @@ function Species() {
     this.removeSpecies = function(res, comp_id){
         connection.acquire( function(err,con){
             con.beginTransaction(function(err){
-                if(err) { res.send({ status: false, message: 'Error' }); return;}
+                if(err) {
+                  con.release();
+                  res.send({ status: false, message: 'Error' }); return;
+                }
                 con.query('delete from complains where id = ?', [comp_id], function(err, result){
                     if (err) {
-                        con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' }); return;
+                        });
                     }
 
                     con.commit(function(err) {
                         if (err) {
-                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' }); return;
+                            });
                         }
+                        con.release();
                         res.send({ status: true, message: 'Complain deleted successfully' });
                         console.log('success!');
                     });

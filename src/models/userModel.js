@@ -10,6 +10,7 @@ function User() {
     this.getUserByUsername = function (res, credentials) {
         connection.acquire(function (err, con) {
             if(err){
+                con.release();
                 res.json({status:"ERROR",error:"400"});return;
             }
             con.query('select * from user_details where email = ? and verified = true', credentials.email, function (err, result) {
@@ -56,10 +57,13 @@ function User() {
     this.register = function(res, details){
         connection.acquire( function(err,con){
             if(err){
-                res.send({ status: false, message: 'Error' }); return;
+                con.release();
+                res.send({ status: false, message: 'Error' });
+                return;
             }
             con.beginTransaction(function(err){
                 if(err){
+                    con.release();
                     res.send({ status: false, message: 'Error' }); return;
                 }
 
@@ -77,13 +81,22 @@ function User() {
 
                 con.query('insert into user_details(name,username,password,email,mobile,verify_code,verified) values (?,?,?,?,?,?,?)', [details.name,details.username,details.password, details.email, details.mobile, rand, false], function(err, result){
                     if (err) {
-                        con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' });
+                          return;
+                        });
                     }
 
                     con.commit(function(err) {
                         if (err) {
-                            con.rollback(function() { res.send({ status: false, message: 'Error' }); return; });
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' });
+                              return;
+                            });
                         }
+                        con.release();
                         res.send({ status: true, message: 'User added successfully' });
                         console.log('success!');
                     });
@@ -98,6 +111,7 @@ function User() {
     this.checkEmailValidity = function (res, credentials) {
         connection.acquire(function (err, con) {
             if(err){
+                con.release();
                 res.json({status:"ERROR",error:"400"});return;
             }
             con.query('select * from user_details where email = ?', credentials.email, function (err, result) {
@@ -126,6 +140,7 @@ function User() {
     this.verifyEmailWithMobile = function (res, credentials) {
         connection.acquire(function (err, con) {
             if(err){
+                con.release();
                 res.json({status:"ERROR",error:"400"});return;
             }
             con.query('select * from user_details where mobile = ?', credentials.mobile, function (err, result) {
@@ -198,25 +213,37 @@ function User() {
           }
 
           con.query('select verify_code from user_details where mobile = ?', verifyCredentials.mobile, function(err, result){
-            if (err) { res.json({status:"ERROR",error:"400"});return; }
+            if (err) {
+              con.release();
+              res.json({status:"ERROR",error:"400"});return;
+            }
 
             let code=result[0].verify_code;
 
             if(code && verifyCredentials.mobileCode===code){
               con.query('update user_details set verified=true where mobile = ?', verifyCredentials.mobile , function(err, result){
                 if (err) {
-                  con.rollback(function() { res.json({status:"ERROR",error:"400"});return; });
+                  con.rollback(function() {
+                    con.release();
+                    res.json({status:"ERROR",error:"400"});
+                    return;
+                  });
                 }
 
                 con.commit(function(err) {
                   if (err) {
-                    con.rollback(function() { res.json({status:"ERROR",error:"400"});return; });
+                    con.rollback(function() {
+                      con.release();
+                      res.json({status:"ERROR",error:"400"});return;
+                    });
                   }
+                  con.release();
                   res.json({status:"OK",error:null,msg:"VERIFIED"});return;
                 });
               });
 
             }else{
+              con.release();
               res.json({status:"OK",msg:"FAILED"});return;
             }
           });
@@ -278,7 +305,7 @@ function User() {
     this.getAdminUserByUsername = function (res, credentials) {
         connection.acquire(function (err, con) {
             if(err){
-
+              con.release();
                 res.json({status:"ERROR",error:"400"});return;
             }
             con.query(`select * from user_details where email = ? and type = 'ADMIN_FULL' OR type = 'ADMIN_LMT' `, credentials.email, function (err, result) {
