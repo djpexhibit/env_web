@@ -12,8 +12,8 @@ function Complain() {
 
             if(user_id !== 0){
                 con.query(`select c.id as id, p.type as type ,c.res_person as res_person,c.anonymous as anonymous,SUBSTRING(c.details,1,42) as details, `+
-                `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments `+
-                `from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1  where p.id = c.type and c.user_id = u.id order by u.id = ? desc, c.date desc limit 30 `, user_id, function (err, result) {
+                `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments, `+
+                ` f.is_favorite as fav from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1 left outer join complains_favorite f on c.id = f.complain_id and f.user_id = ? where p.id = c.type and c.user_id = u.id order by u.id = ? desc, c.date desc limit 30 `, [user_id,user_id], function (err, result) {
                 con.release();
                 res.json(result);
                 });
@@ -328,7 +328,8 @@ function Complain() {
                   con.release();
                   res.send({ status: false, message: 'Error' }); return;
                 }
-                con.query('insert into complains_favorite(user_id,complain_id,is_favorite) values (?,?,?)', [details.userId,details.compId,details.isFavorite], function(err, result){
+              
+                con.query('insert into complains_favorite(user_id,complain_id,is_favorite) values (?,?,?) ON DUPLICATE KEY UPDATE is_favorite = ? ', [details.userId,details.compId,details.isFavorite,details.isFavorite], function(err, result){
                     if (err) {
                         con.rollback(function() {
                           con.release();
