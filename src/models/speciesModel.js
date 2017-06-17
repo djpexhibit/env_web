@@ -245,7 +245,7 @@ function Species() {
                   con.release();
                   res.send({ status: false, message: 'Error' }); return;
                 }
-                con.query('insert into species_favorite(user_id,species_id) values (?,?)', [details.userId,details.specId], function(err, result){
+                con.query('insert into species_favorite(user_id,species_id,is_favorite) values (?,?,?)', [details.userId,details.specId,details.isFavorite], function(err, result){
                     if (err) {
                         con.rollback(function() {
                           con.release();

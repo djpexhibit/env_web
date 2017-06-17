@@ -328,7 +328,7 @@ function Complain() {
                   con.release();
                   res.send({ status: false, message: 'Error' }); return;
                 }
-                con.query('insert into complains_favorite(user_id,complain_id) values (?,?)', [details.userId,details.compId], function(err, result){
+                con.query('insert into complains_favorite(user_id,complain_id,is_favorite) values (?,?,?)', [details.userId,details.compId,details.isFavorite], function(err, result){
                     if (err) {
                         con.rollback(function() {
                           con.release();
