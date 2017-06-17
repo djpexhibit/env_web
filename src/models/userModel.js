@@ -79,7 +79,7 @@ function User() {
                   console.log(body);
                 });
 
-                con.query('insert into user_details(name,username,password,email,mobile,verify_code,verified) values (?,?,?,?,?,?,?)', [details.name,details.username,details.password, details.email, details.mobile, rand, false], function(err, result){
+                con.query('insert into user_details(name,username,password,email,mobile,verify_code,verified,type,expert_type,media_type,is_joined) values (?,?,?,?,?,?,?,?,?,?,?)', [details.name, details.username, details.password, details.email, details.mobile, rand, false, details.type, details.expertType, details.mediaType, details.isJoined], function(err, result){
                     if (err) {
                         con.rollback(function() {
                           con.release();

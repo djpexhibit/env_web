@@ -16,7 +16,7 @@ function Species() {
 
             if(user_id !== 0){
                 console.log("YYYYYYYYYYYYYYYYY")
-                con.query(`select s.id as id, s.type as type ,s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,50) as specname, `+
+                con.query(`select s.id as id, s.type as type ,s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,42) as specname, `+
                 `DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments `+
                 `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1  where s.user_id = u.id order by u.id = ? desc, s.date desc limit 30 `, user_id, function (err, result) {
                 con.release();
@@ -25,7 +25,7 @@ function Species() {
                 res.json(result);
                 });
             }else{
-                con.query(`select s.id as id, s.type as type ,s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,50) as specname, `+
+                con.query(`select s.id as id, s.type as type ,s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,42) as specname, `+
                 `DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments `+
                 `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1  where  s.user_id = u.id limit 30 `, function (err, result) {
                 con.release();
@@ -229,6 +229,41 @@ function Species() {
                         con.release();
                         res.send({ status: true, message: 'Complain deleted successfully' });
                         console.log('success!');
+                    });
+
+                });
+            })
+
+        });
+    }
+
+
+    this.addAsFavorite = function(res, details){
+        connection.acquire( function(err,con){
+            con.beginTransaction(function(err){
+                if(err) {
+                  con.release();
+                  res.send({ status: false, message: 'Error' }); return;
+                }
+                con.query('insert into species_favorite(user_id,species_id) values (?,?)', [details.userId,details.specId], function(err, result){
+                    if (err) {
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' }); return;
+                        });
+                    }
+
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' }); return;
+                            });
+                        }
+                        con.release();
+                        res.send({ status: true, message: 'Favorite added successfully' });
+                        console.log('success!');
+                        return;
                     });
 
                 });

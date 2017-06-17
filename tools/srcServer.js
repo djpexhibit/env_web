@@ -281,6 +281,25 @@ app.post('/addComment', jsonParser, function(req,res){
 })
 
 
+app.post('/addAsFavoriteComp', jsonParser, function(req,res){
+  console.log("ADDING FAVORITE");
+  console.log(JSON.stringify(req.body));
+  let details = req.body.fav;
+  console.log(details)
+  complain.addAsFavorite(res,details);
+
+})
+
+app.post('/addAsFavoriteSpec', jsonParser, function(req,res){
+  console.log("ADDING FAVORITE SPEC");
+  console.log(JSON.stringify(req.body));
+  let details = req.body.fav;
+  console.log(details)
+  species.addAsFavorite(res,details);
+
+})
+
+
 app.post('/addSpeciesComment', jsonParser, function(req,res){
   console.log("ADDING SPECIES COMMENT");
   console.log(JSON.stringify(req.body));
