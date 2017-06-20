@@ -469,3 +469,8 @@ app.post('/loadNumberOfPosts',jsonParser, function(req,res){
   console.log("LOADING NUMBER OF POSTS");
   complain.loadNumberOfPosts(res);
 });
+
+app.post('/loadNumberOfUsers',jsonParser, function(req,res){
+  console.log("LOADING NUMBER OF USERS");
+  complain.loadNumberOfUsers(res);
+});

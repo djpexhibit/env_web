@@ -405,6 +405,15 @@ function Complain() {
       });
     }
 
+    this.loadNumberOfUsers = function(res){
+      connection.acquire(function (err, con) {
+              con.query(`SELECT COUNT(*) as users FROM user_details `, function (err, result) {
+              con.release();
+              res.json(result);
+              });
+      });
+    }
+
 }
 
 
