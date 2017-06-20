@@ -370,6 +370,8 @@ function Complain() {
                   + ` left outer join complains_favorite f on c.id = f.complain_id and f.user_id = ? and f.is_favorite = 1 `+
                   + ` where p.id = c.type and c.user_id = u.id order by u.id = ? desc, c.date desc limit 30 `, [user_id,user_id], function (err, result) {
                 con.release();
+                console.log("EEEE");console.log(result);
+                console.log("dddd");console.log(err);
                 res.json(result);
                 });
             }else{
