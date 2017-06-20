@@ -465,7 +465,7 @@ app.post('/loadFavoriteSpecies',jsonParser, function(req,res){
   species.loadFavoriteSpecies(res, user_id);
 });
 
-app.post('/loadNumberOfPosts',jsonParser, function(req,res){
+app.get('/loadNumberOfPosts',jsonParser, function(req,res){
   console.log("LOADING NUMBER OF POSTS");
   complain.loadNumberOfPosts(res);
 });
