@@ -414,6 +414,15 @@ function Complain() {
       });
     }
 
+    this.loadNumberOfFollwings = function(res, user_id){
+      connection.acquire(function (err, con) {
+              con.query(`SELECT COUNT(*) as species,(SELECT COUNT(*) FROM complains_favorite c WHERE  c.user_id = ? and c.is_favorite = 1) as complains FROM species_favorite  WHERE s.user_id = ?  and s.is_favorite = 1 `, [user_id, user_id],function (err, result) {
+              con.release();
+              res.json(result);
+              });
+      });
+    }
+
 }
 
 

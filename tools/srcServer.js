@@ -474,3 +474,9 @@ app.post('/loadNumberOfUsers',jsonParser, function(req,res){
   console.log("LOADING NUMBER OF USERS");
   complain.loadNumberOfUsers(res);
 });
+
+app.post('/loadNumberOfFollwings',jsonParser, function(req,res){
+  console.log("LOADING NUMBER OF FOLLOWINGS");
+  let user_id = req.body.user_id;
+  complain.loadNumberOfFollwings(res, user_id);
+});
