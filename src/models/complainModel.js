@@ -423,6 +423,15 @@ function Complain() {
       });
     }
 
+    this.loadNumberOfOwnPosts = function(res, user_id){
+      connection.acquire(function (err, con) {
+              con.query(`SELECT COUNT(*) as species,(SELECT COUNT(*) FROM complains c WHERE  c.user_id = ? ) as complains FROM species s WHERE s.user_id = ? `, [user_id, user_id],function (err, result) {
+              con.release();
+              res.json(result);
+              });
+      });
+    }
+
 }
 
 

@@ -480,3 +480,9 @@ app.post('/loadNumberOfFollwings',jsonParser, function(req,res){
   let user_id = req.body.user_id;
   complain.loadNumberOfFollwings(res, user_id);
 });
+
+app.post('/loadNumberOfOwnPosts',jsonParser, function(req,res){
+  console.log("LOADING NUMBER OF OWN POSTS");
+  let user_id = req.body.user_id;
+  complain.loadNumberOfOwnPosts(res, user_id);
+});
