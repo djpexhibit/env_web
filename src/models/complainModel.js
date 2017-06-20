@@ -367,7 +367,7 @@ function Complain() {
                   + ` SUBSTRING(c.details,1,42) as details, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, `+
 	                + ` u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments, f.is_favorite as fav `+
                   + ` from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1 `+
-                  + ` left outer join complains_favorite f on c.id = f.complain_id and f.user_id = ? and f.is_favorite = 1 `+
+                //  + ` left outer join complains_favorite f on c.id = f.complain_id and f.user_id = ? and f.is_favorite = 1 `+
                   + ` where p.id = c.type and c.user_id = u.id order by u.id = ? desc, c.date desc limit 30 `, [user_id,user_id], function (err, result) {
                 con.release();
                 console.log("EEEE");console.log(result);
