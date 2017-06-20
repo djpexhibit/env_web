@@ -441,3 +441,31 @@ app.get('/getvvv', function (req, res, next) {
         fs.createReadStream(__dirname + '/files/' + vidName).pipe(res);
     }
 });
+
+
+app.post('/loadFavoriteComplains',jsonParser, function(req,res){
+  console.log("LOADING FAVORITE COMPLAINS");
+  let user_id = req.body.user_id;
+
+  complain.loadFavoriteComplains(res, user_id);
+});
+
+app.post('/getFavoriteComplainsCount',jsonParser, function(req,res){
+  console.log("LOADING FAVORITE COMPLAINS COUNT");
+  let user_id = req.body.user_id;
+
+  complain.getFavoriteCount(res, user_id);
+});
+
+
+app.post('/loadFavoriteSpecies',jsonParser, function(req,res){
+  console.log("LOADING FAVORITE Species");
+  let user_id = req.body.user_id;
+
+  species.loadFavoriteSpecies(res, user_id);
+});
+
+app.post('/loadNumberOfPosts',jsonParser, function(req,res){
+  console.log("LOADING NUMBER OF POSTS");
+  complain.loadNumberOfPosts(res);
+});
