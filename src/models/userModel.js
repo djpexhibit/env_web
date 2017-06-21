@@ -39,7 +39,12 @@ function User() {
                         session.id=user.id,
                         session.username=user.username,
                         session.name=user.name,
-                        session.email=user.email
+                        session.email=user.email,
+                        session.image=user.image,
+                        session.mobile=user.mobile,
+                        session.expertType = user.expertType,
+                        session.mediaType = user.mediaType,
+                        session.isJoined = user.isJoined
                     }else{
                         session.status="ERROR",
                         session.error="400"
