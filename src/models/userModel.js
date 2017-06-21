@@ -42,9 +42,9 @@ function User() {
                         session.email=user.email,
                         session.image=user.image,
                         session.mobile=user.mobile,
-                        session.expertType = user.expertType,
-                        session.mediaType = user.mediaType,
-                        session.isJoined = user.isJoined
+                        session.expertType = user.expert_type,
+                        session.mediaType = user.media_type,
+                        session.isJoined = user.is_joined
                     }else{
                         session.status="ERROR",
                         session.error="400"
