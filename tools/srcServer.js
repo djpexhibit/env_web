@@ -486,3 +486,10 @@ app.post('/loadNumberOfOwnPosts',jsonParser, function(req,res){
   let user_id = req.body.user_id;
   complain.loadNumberOfOwnPosts(res, user_id);
 });
+
+app.post('/editProfile', jsonParser, function(req,res){
+  console.log("EDITING PROFILE");
+  let details = req.body.credentials;
+  user.editProfile(res,details);
+
+})
