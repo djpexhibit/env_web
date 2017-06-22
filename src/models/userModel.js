@@ -527,9 +527,11 @@ function User() {
                     con.release();
                     res.send({ status: false, message: 'Error' }); return;
                 }
-
+                console.log(details);
                 con.query('update user_details set name=? email=? image=? ', [details.name, details.email, details.image], function(err, result){
                     if (err) {
+                      console.log("1");
+                      console.log(err);
                         con.rollback(function() {
                           con.release();
                           res.send({ status: false, message: 'Error' });
@@ -539,6 +541,8 @@ function User() {
 
                     con.commit(function(err) {
                         if (err) {
+                          console.log("2");
+                          console.log(err);
                             con.rollback(function() {
                               con.release();
                               res.send({ status: false, message: 'Error' });
