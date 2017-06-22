@@ -515,6 +515,47 @@ function User() {
         });
     }
 
+    this.editProfileWOPW = function(res, details){
+        connection.acquire( function(err,con){
+            if(err){
+                con.release();
+                res.send({ status: false, message: 'Error' });
+                return;
+            }
+            con.beginTransaction(function(err){
+                if(err){
+                    con.release();
+                    res.send({ status: false, message: 'Error' }); return;
+                }
+
+                con.query('update user_details set name=? email=? image=? ', [details.name, details.email, details.image], function(err, result){
+                    if (err) {
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' });
+                          return;
+                        });
+                    }
+
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' });
+                              return;
+                            });
+                        }
+                        con.release();
+                        res.send({ status: true, message: 'User updated successfully' });
+                        console.log('success!');
+                    });
+
+                });
+            })
+
+        });
+    }
+
 
 
 

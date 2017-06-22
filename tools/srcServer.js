@@ -495,3 +495,10 @@ app.post('/editProfile', jsonParser, function(req,res){
   user.editProfile(res,details);
 
 })
+
+app.post('/editProfileWOPW', jsonParser, function(req,res){
+  console.log("EDITING PROFILE WO PW");
+  let details = req.body.credentials;
+  user.editProfileWOPW(res,details);
+
+})
