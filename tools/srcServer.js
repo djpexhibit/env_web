@@ -154,16 +154,18 @@ app.post('/loadSpecies',jsonParser, function(req,res){
 app.post('/loadComplain', jsonParser ,function(req,res){
 
   let comp_id = req.body.comp_id;
+  let userId = req.body.userId;
   console.log(comp_id)
-  complain.loadComplain(res,comp_id);
+  complain.loadComplain(res,comp_id,userId);
 })
 
 
 app.post('/loadSpecie', jsonParser ,function(req,res){
 
   let spec_id = req.body.spec_id;
+  let userId = req.body.userId;
   console.log(spec_id)
-  species.loadSpecie(res,spec_id);
+  species.loadSpecie(res,spec_id, userId);
 })
 
 

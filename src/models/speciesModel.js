@@ -35,11 +35,11 @@ function Species() {
     };
 
 
-    this.loadSpecie = function (res, spec_id) {
+    this.loadSpecie = function (res, spec_id, userId) {
         connection.acquire(function (err, con) {
             con.query(`select s.id as id, s.type as type, s.name as name,s.anonymous as anonymous, s.specname as specname, i.image as image,`
-            +` s.lat as lat, s.lng as lng, DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, s.location as location from species s left outer join species_images i on  s.id = i.species_id join user_details u where s.id = ? `
-            + ` and s.user_id = u.id `, spec_id ,function (err, result) {
+            +` s.lat as lat, s.lng as lng, DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, s.location as location, f.is_favorite as fav  from species s left outer join species_images i on  s.id = i.species_id join user_details u left outer join species_favorite f on s.id = f.species_id and f.user_id = ? and f.is_favorite = 1 where s.id = ? `
+            + ` and s.user_id = u.id `, [userId, spec_id] ,function (err, result) {
                 con.release();
                 res.json(result);
             });
