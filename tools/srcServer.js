@@ -502,3 +502,10 @@ app.post('/editProfileWOPW', jsonParser, function(req,res){
   user.editProfileWOPW(res,details);
 
 })
+
+app.post('/updateMobile', jsonParser, function(req,res){
+  console.log("UPDATING MOBILE");
+  let details = req.body.credentials;
+  user.updateMobile(res,details);
+
+})

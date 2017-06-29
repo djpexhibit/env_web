@@ -487,7 +487,7 @@ function User() {
                     res.send({ status: false, message: 'Error' }); return;
                 }
 
-                con.query('update user_details set name=?, email=?, image=?, password=?, username=?, mobile=?, type=? , expert_type=?, media_type=?, is_joined=? where id=?', [details.name, details.email, details.image, details.password,details.username, details.mobile, details.type, details.expertType, details.mediaType, details.isJoined, details.id], function(err, result){
+                con.query('update user_details set name=?, email=?, image=?, password=?, username=?, type=? , expert_type=?, media_type=?, is_joined=? where id=?', [details.name, details.email, details.image, details.password,details.username, details.mobile, details.type, details.expertType, details.mediaType, details.isJoined, details.id], function(err, result){
                     if (err) {
                         con.rollback(function() {
                           con.release();
@@ -528,7 +528,7 @@ function User() {
                     res.send({ status: false, message: 'Error' }); return;
                 }
                 console.log(details);
-                con.query('update user_details set name=?, email=?, image=?, username=?, mobile=?, type=? , expert_type=?, media_type=?, is_joined=? where id=?', [details.name, details.email, details.image, details.username, details.mobile, details.type, details.expertType, details.mediaType, details.isJoined, details.id], function(err, result){
+                con.query('update user_details set name=?, email=?, image=?, username=?, type=? , expert_type=?, media_type=?, is_joined=? where id=?', [details.name, details.email, details.image, details.username, details.mobile, details.type, details.expertType, details.mediaType, details.isJoined, details.id], function(err, result){
                     if (err) {
                       console.log("1");
                       console.log(err);
@@ -559,6 +559,61 @@ function User() {
 
         });
     }
+
+
+    this.updateMobile = function(res, details){
+        connection.acquire( function(err,con){
+            if(err){
+                con.release();
+                res.send({ status: false, message: 'Error' });
+                return;
+            }
+            con.beginTransaction(function(err){
+                if(err){
+                    con.release();
+                    res.send({ status: false, message: 'Error' }); return;
+                }
+
+                var rand = utils.getRandomInt(1001,9999);
+                // send that random number via sms gateway
+                request({
+                  uri: "http://119.235.1.63:4070/Sms.svc/SendSms?phoneNumber="+details.mobile+"&smsMessage=Verification Code:"+rand+"&companyId=EML&pword=EMLADMIN",
+                  method: "GET",
+                  timeout: 10000,
+                  followRedirect: true,
+                  maxRedirects: 10
+                }, function(error, response, body) {
+                  console.log(body);
+                });
+
+                con.query('update user_details mobile=?, verify_code = ? ,verified = ? where id = ? ', [details.mobile, rand, false, details.id], function(err, result){
+                    if (err) {
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' });
+                          return;
+                        });
+                    }
+
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' });
+                              return;
+                            });
+                        }
+                        con.release();
+                        res.send({ status: true, message: 'mobile updated successfully' });
+                        console.log('success!');
+                    });
+
+                });
+            })
+
+        });
+    }
+
 
 
 
