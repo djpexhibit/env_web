@@ -586,7 +586,7 @@ function User() {
                   console.log(body);
                 });
 
-                con.query('update user_details mobile=?, verify_code = ? ,verified = ? where id = ? ', [details.mobile, rand, false, details.id], function(err, result){
+                con.query('update user_details set mobile=?, verify_code = ? ,verified = ? where id = ? ', [details.mobile, rand, false, details.id], function(err, result){
                     if (err) {
                         con.rollback(function() {
                           con.release();
