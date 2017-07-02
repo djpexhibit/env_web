@@ -143,6 +143,15 @@ app.post('/loadComplains',jsonParser, function(req,res){
   complain.loadComplains(res, user_id);
 })
 
+app.post('/loadComplainsChunk',jsonParser, function(req,res){
+  console.log("LOADING COMPLAINS CHUNK");
+  let user_id = req.body.user_id;
+  let start = req.body.start;
+  let end = req.body.end;
+
+  complain.loadComplainsChunk(res, user_id, start, end);
+})
+
 
 app.post('/loadSpecies',jsonParser, function(req,res){
   console.log("LOADING Species");
