@@ -16,7 +16,7 @@ function Species() {
 
             if(user_id !== 0){
                 con.query(`select s.id as id, s.type as type ,s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,42) as specname, `+
-                `DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments, f.is_favorite as fav `+
+                `DATE_FORMAT(s.date,'%b %d %Y') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments, f.is_favorite as fav `+
                 `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1 left outer join species_favorite f on s.id = f.species_id and f.user_id = ? and f.is_favorite = 1 where s.user_id = u.id order by u.id = ? desc, s.date desc limit 30 `, [user_id,user_id], function (err, result) {
                 con.release();
                 res.json(result);
