@@ -44,7 +44,8 @@ function User() {
                         session.mobile=user.mobile,
                         session.expertType = user.expert_type,
                         session.mediaType = user.media_type,
-                        session.isJoined = user.is_joined
+                        session.isJoined = user.is_joined,
+                        session.type = user.type
                     }else{
                         session.status="ERROR",
                         session.error="400"
