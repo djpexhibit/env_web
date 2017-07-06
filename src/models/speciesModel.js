@@ -182,7 +182,7 @@ function Species() {
                           res.send({ status: false, message: 'Error' }); return;
                         });
                     }
-
+                    console.log(details);
                     let whichType = 'user_replied';
                     if(details.type === 'Media' || details.type === 'Expert'){
                       whichType = 'expert_replied';
