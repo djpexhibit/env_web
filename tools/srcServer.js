@@ -152,6 +152,15 @@ app.post('/loadComplainsChunk',jsonParser, function(req,res){
   complain.loadComplainsChunk(res, user_id, start, end);
 })
 
+app.post('/loadFavoriteChunk',jsonParser, function(req,res){
+  console.log("LOADING FAVORITE CHUNK");
+  let user_id = req.body.user_id;
+  let start = req.body.start;
+  let end = req.body.end;
+
+  complain.loadFavoriteChunk(res, user_id, start, end);
+})
+
 
 app.post('/loadSpecies',jsonParser, function(req,res){
   console.log("LOADING Species");
