@@ -169,6 +169,24 @@ app.post('/loadSpecies',jsonParser, function(req,res){
   species.loadSpecies(res, user_id);
 })
 
+app.post('/loadSpeciesChunk',jsonParser, function(req,res){
+  console.log("LOADING SPECIES CHUNK");
+  let user_id = req.body.user_id;
+  let start = req.body.start;
+  let end = req.body.end;
+
+  species.loadSpeciesChunk(res, user_id, start, end);
+})
+
+app.post('/loadFavoriteSpeciesChunk',jsonParser, function(req,res){
+  console.log("LOADING FAVORITE SPEICES CHUNK");
+  let user_id = req.body.user_id;
+  let start = req.body.start;
+  let end = req.body.end;
+
+  species.loadFavoriteSpeciesChunk(res, user_id, start, end);
+})
+
 app.post('/loadComplain', jsonParser ,function(req,res){
 
   let comp_id = req.body.comp_id;
