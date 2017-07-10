@@ -61,7 +61,7 @@ function Species() {
     };
 
 
-    this.loadSpeciesFavoritesChunk = function (res, user_id,start,end) {
+    this.loadFavoriteSpeciesChunk = function (res, user_id,start,end) {
 
         connection.acquire(function (err, con) {
 
