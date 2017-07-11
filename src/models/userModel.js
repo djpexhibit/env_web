@@ -529,7 +529,7 @@ function User() {
                     res.send({ status: false, message: 'Error' }); return;
                 }
                 console.log(details);
-                con.query('update user_details set name=?, email=?, image=?, username=?, type=? , expert_type=?, media_type=?, is_joined=? where id=?', [details.name, details.email, details.image, details.username, details.mobile, details.type, details.expertType, details.mediaType, details.isJoined, details.id], function(err, result){
+                con.query('update user_details set name=?, email=?, image=?, username=?, type=? , expert_type=?, media_type=?, is_joined=? where id=?', [details.name, details.email, details.image, details.username, details.type, details.expertType, details.mediaType, details.isJoined, details.id], function(err, result){
                     if (err) {
                       console.log("1");
                       console.log(err);
