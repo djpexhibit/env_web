@@ -549,10 +549,12 @@ function User() {
                               res.send({ status: false, message: 'Error' });
                               return;
                             });
+                        }else{
+                          con.release();
+                          res.send({ status: true, message: 'User updated successfully' });
+                          console.log('success!');
                         }
-                        con.release();
-                        res.send({ status: true, message: 'User updated successfully' });
-                        console.log('success!');
+
                     });
 
                 });
