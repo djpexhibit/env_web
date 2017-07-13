@@ -9,6 +9,7 @@ var user = require('../src/models/userModel');
 var complain = require('../src/models/complainModel');
 var species = require('../src/models/speciesModel');
 var advModel = require('../src/models/advModel');
+var events = require('../src/models/eventModel');
 
 
 var bodyParser = require('body-parser');
@@ -224,6 +225,11 @@ app.post('/loadSpeciesComments', jsonParser ,function(req,res){
 app.get('/loadPollutionTypes', function(req,res){
   console.log("LOADING POLLUTION TYPES")
   complain.loadPollutionTypes(res);
+})
+
+app.get('/loadEvents', function(req,res){
+  console.log("LOADING EVENTS")
+  events.loadEvents(res);
 })
 
 app.post('/checkEmailValidity', jsonParser, function(req,res){
