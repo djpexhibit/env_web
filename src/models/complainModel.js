@@ -122,7 +122,7 @@ function Complain() {
                         for(let index in details.images){
 
 
-                          var imgF = fs.writeFile("out.jpeg",details.images[index],'base64',function(err){
+                          var imgF = fs.writeFile("out.jpg",details.images[index],'base64',function(err){
                             console.log(err);
                           });
 
