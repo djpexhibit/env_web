@@ -121,8 +121,8 @@ function Complain() {
                         let arr = [true,false,false];
                         for(let index in details.images){
 
-
-                          var imgF = fs.writeFile("out.jpg",details.images[index],'base64',function(err){
+                          var base64Data = details.images[index].replace(/^data:image\/jpeg;base64,/, "");
+                          var imgF = fs.writeFile("out.jpeg",base64Data,'base64',function(err){
                             console.log(err);
                           });
 
