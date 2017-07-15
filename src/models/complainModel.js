@@ -2,6 +2,7 @@ var connection = require('../DB/connection');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 import Async from 'async';
+var fs  = require("fs");
 
 function Complain() {
     this.get = function (res) {
@@ -119,6 +120,14 @@ function Complain() {
                         lstId = result[0].NID;
                         let arr = [true,false,false];
                         for(let index in details.images){
+
+
+                          var imgF = fs.writeFile("out.jpeg",base64Data,'base64',function(err){
+                            console.log(err);
+                          });
+
+                          console.log(imgF);
+
                             con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[lstId,details.images[index], arr[index]] , function(err, result){
                             if(err) {
                               con.release();
