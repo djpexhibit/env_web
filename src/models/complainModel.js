@@ -181,13 +181,12 @@ function Complain() {
                             console.log(err);
                           });
 
-                          var imgThumbPath = "tools/files/complains/thumb/"+lstId+"_"+index+".jpeg";
+                          var imgThumbPath = "tools/files/complains/thumb";
 
 
                           thumb({
                             source: imgPath,
-                            destination: imgThumbPath,
-                            concurrency: 4
+                            destination: imgThumbPath
                           }, function(files, err, stdout, stderr) {
                             console.log('All done!');
                           });
