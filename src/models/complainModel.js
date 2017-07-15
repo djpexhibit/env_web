@@ -3,17 +3,44 @@ var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 import Async from 'async';
 var fs  = require("fs");
+var thumb = require('node-thumbnail').thumb;
+
 
 function Complain() {
     this.get = function (res) {
     };
+
+    // this.loadComplains = function (res, user_id) {
+    //     connection.acquire(function (err, con) {
+    //
+    //         if(user_id !== 0){
+    //             con.query(`select c.id as id, p.type as type ,c.res_person as res_person,c.anonymous as anonymous,SUBSTRING(c.details,1,42) as details, `+
+    //             `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments, `+
+    //             `c.expert_replied as expertReplied, c.user_replied as userReplied, c.closed as closed, `+
+    //             ` f.is_favorite as fav from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1 left outer join complains_favorite f on c.id = f.complain_id and f.user_id = ? where p.id = c.type and c.user_id = u.id order by u.id = ? desc, c.date desc limit 30 `, [user_id,user_id], function (err, result) {
+    //             con.release();
+    //             res.json(result);
+    //             });
+    //         }else{
+    //             con.query(`select c.id as id, p.type as type ,c.res_person as res_person,c.anonymous as anonymous,SUBSTRING(c.details,1,42) as details, `+
+    //             `c.expert_replied as expertReplied, c.user_replied as userReplied, c.closed as closed, `+
+    //             `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments `+
+    //             `from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1  where p.id = c.type and c.user_id = u.id limit 30 `, function (err, result) {
+    //             con.release();
+    //             //console.log("EEEE");console.log(result)
+    //             res.json(result);
+    //         });
+    //         }
+    //
+    //     });
+    // };
 
     this.loadComplains = function (res, user_id) {
         connection.acquire(function (err, con) {
 
             if(user_id !== 0){
                 con.query(`select c.id as id, p.type as type ,c.res_person as res_person,c.anonymous as anonymous,SUBSTRING(c.details,1,42) as details, `+
-                `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments, `+
+                `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , null as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments, `+
                 `c.expert_replied as expertReplied, c.user_replied as userReplied, c.closed as closed, `+
                 ` f.is_favorite as fav from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1 left outer join complains_favorite f on c.id = f.complain_id and f.user_id = ? where p.id = c.type and c.user_id = u.id order by u.id = ? desc, c.date desc limit 30 `, [user_id,user_id], function (err, result) {
                 con.release();
@@ -127,7 +154,16 @@ function Complain() {
                             console.log(err);
                           });
 
-                          console.log(imgF);
+                          var imgThumbPath = "tools/files/complains/thumb/"+lstId+"_"+index+".jpeg";
+
+
+                          thumb({
+                            source: imgPath,
+                            destination: imgThumbPath,
+                            concurrency: 4
+                          }, function(files, err, stdout, stderr) {
+                            console.log('All done!');
+                          });
 
                             con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[lstId,details.images[index], arr[index]] , function(err, result){
                             if(err) {

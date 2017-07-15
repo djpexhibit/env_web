@@ -15,9 +15,11 @@
     "babel-polyfill": "6.8.0",
     "body-parser": "^1.16.0",
     "bootstrap": "3.3.6",
+    "google-maps-react": "1.0.19",
     "jquery": "2.2.3",
     "jsonwebtoken": "^7.3.0",
     "mysql": "^2.12.0",
+    "node-thumbnail": "^0.11.0",
     "nodemailer": "^2.7.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
@@ -32,8 +34,7 @@
     "react-slick": "^0.14.5",
     "redux": "3.5.2",
     "redux-thunk": "2.0.1",
-    "toastr": "2.1.2",
-    "google-maps-react": "1.0.19"
+    "toastr": "2.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.1",
