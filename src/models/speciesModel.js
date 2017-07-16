@@ -2,7 +2,8 @@ var connection = require('../DB/connection');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 import Async from 'async';
-
+var fs  = require("fs");
+var thumb = require('node-thumbnail').thumb;
 
 function Species() {
 
@@ -35,13 +36,38 @@ function Species() {
         });
     };
 
+    // this.loadSpeciesChunk = function (res, user_id,start,end) {
+    //
+    //     connection.acquire(function (err, con) {
+    //
+    //         if(user_id !== 0){
+    //             con.query(`select s.id as id, s.type as type ,s.location as location, s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,42) as specname, `+
+    //             `DATE_FORMAT(s.date,'%b %d %Y') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments, f.is_favorite as fav, `+
+    //             ` s.expert_replied as expertReplied, s.user_replied as userReplied ` +
+    //             `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1 left outer join species_favorite f on s.id = f.species_id and f.user_id = ? and f.is_favorite = 1 where s.user_id = u.id order by u.id = ? desc, s.date desc limit ?,? `, [user_id,user_id,start,end], function (err, result) {
+    //             con.release();
+    //             res.json(result);
+    //             });
+    //         }else{
+    //             con.query(`select s.id as id, s.type as type ,s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,42) as specname, `+
+    //             `DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments `+
+    //             `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1  where  s.user_id = u.id limit 30 `, function (err, result) {
+    //             con.release();
+    //             //console.log("EEEE");console.log(result)
+    //             res.json(result);
+    //         });
+    //         }
+    //
+    //     });
+    // };
+
     this.loadSpeciesChunk = function (res, user_id,start,end) {
 
         connection.acquire(function (err, con) {
 
             if(user_id !== 0){
                 con.query(`select s.id as id, s.type as type ,s.location as location, s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,42) as specname, `+
-                `DATE_FORMAT(s.date,'%b %d %Y') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments, f.is_favorite as fav, `+
+                `DATE_FORMAT(s.date,'%b %d %Y') as date, u.name as user , IF(i.image IS NULL, FALSE, TRUE) as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments, f.is_favorite as fav, `+
                 ` s.expert_replied as expertReplied, s.user_replied as userReplied ` +
                 `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1 left outer join species_favorite f on s.id = f.species_id and f.user_id = ? and f.is_favorite = 1 where s.user_id = u.id order by u.id = ? desc, s.date desc limit ?,? `, [user_id,user_id,start,end], function (err, result) {
                 con.release();
@@ -61,13 +87,38 @@ function Species() {
     };
 
 
+    // this.loadFavoriteSpeciesChunk = function (res, user_id,start,end) {
+    //
+    //     connection.acquire(function (err, con) {
+    //
+    //         if(user_id !== 0){
+    //             con.query(`select s.id as id, s.type as type ,s.location as location, s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,42) as specname, `+
+    //             `DATE_FORMAT(s.date,'%b %d %Y') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments, f.is_favorite as fav, `+
+    //             ` s.expert_replied as expertReplied, s.user_replied as userReplied ` +
+    //             `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1 join species_favorite f on s.id = f.species_id and f.user_id = ? and f.is_favorite = 1 where s.user_id = u.id order by u.id = ? desc, s.date desc limit ?,? `, [user_id,user_id,start,end], function (err, result) {
+    //             con.release();
+    //             res.json(result);
+    //             });
+    //         }else{
+    //             con.query(`select s.id as id, s.type as type ,s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,42) as specname, `+
+    //             `DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments `+
+    //             `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1  where  s.user_id = u.id limit 30 `, function (err, result) {
+    //             con.release();
+    //             //console.log("EEEE");console.log(result)
+    //             res.json(result);
+    //         });
+    //         }
+    //
+    //     });
+    // };
+
     this.loadFavoriteSpeciesChunk = function (res, user_id,start,end) {
 
         connection.acquire(function (err, con) {
 
             if(user_id !== 0){
                 con.query(`select s.id as id, s.type as type ,s.location as location, s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,42) as specname, `+
-                `DATE_FORMAT(s.date,'%b %d %Y') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments, f.is_favorite as fav, `+
+                `DATE_FORMAT(s.date,'%b %d %Y') as date, u.name as user , IF(i.image IS NULL, FALSE, TRUE) as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments, f.is_favorite as fav, `+
                 ` s.expert_replied as expertReplied, s.user_replied as userReplied ` +
                 `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1 join species_favorite f on s.id = f.species_id and f.user_id = ? and f.is_favorite = 1 where s.user_id = u.id order by u.id = ? desc, s.date desc limit ?,? `, [user_id,user_id,start,end], function (err, result) {
                 con.release();
@@ -125,6 +176,24 @@ function Species() {
                         lstId = result[0].NID;
                         let arr = [true,false,false];
                         for(let index in details.images){
+
+                          var base64Data = details.images[index].replace(/^data:image\/jpeg;base64,/, "");
+                          var imgPath = "tools/files/species/"+lstId+"_"+index+".jpg";
+                          var imgF = fs.writeFile(imgPath,base64Data,'base64',function(err){
+                            console.log(err);
+                          });
+
+                          var imgThumbPath = "tools/files/species/thumb";
+
+
+                          thumb({
+                            source: imgPath,
+                            destination: imgThumbPath
+                          }, function(files, err, stdout, stderr) {
+                            console.log('All done!');
+                          });
+
+
                             con.query('insert into species_images(species_id, image, selected) values(?,?, ?)',[lstId,details.images[index], arr[index]] , function(err, result){
                             if(err) {
                               con.release();
