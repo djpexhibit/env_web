@@ -13,4 +13,6 @@ export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 
 export const ADD_ADV_SUCCESS = 'ADD_ADV_SUCCESS';
 
-export const LOG_OUT = 'LOG_OUT'; 
+export const LOG_OUT = 'LOG_OUT';
+
+export const ADD_EVENT_SUCCESS = 'ADD_EVENT_SUCCESS';

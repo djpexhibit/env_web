@@ -232,6 +232,11 @@ app.get('/loadEvents', function(req,res){
   events.loadEvents(res);
 })
 
+app.post('/addEvent', jsonParser, function(req,res){
+  let event = req.body.event;
+  events.addEvent(res,event);
+})
+
 app.post('/checkEmailValidity', jsonParser, function(req,res){
   let credentials = req.body.credentials;
   user.checkEmailValidity(res,credentials);

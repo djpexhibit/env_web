@@ -4,5 +4,6 @@ export default {
     complain:[],
     session: !!sessionStorage.jwt,
     comments:[],
-    advs:[]
+    advs:[],
+    events:[]
 }

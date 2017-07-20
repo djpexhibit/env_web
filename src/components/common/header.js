@@ -30,6 +30,7 @@ class Header extends React.Component{
                       <li><a href="#">Home</a></li>
                       <li><Link  to="/home/complains">Complains</Link></li>
                       <li><Link  to="/home/adv">Advertise</Link></li>
+                      <li><Link  to="/home/event">Events</Link></li>
                       <li ><a href="/logout" onClick={this.logOut}>log out</a></li>
                     </ul>
                   </div>

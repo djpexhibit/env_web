@@ -11,7 +11,7 @@ import Login from './components/login/login';
 import Complains from './components/complains/complains';
 import Complain from './components/complains/complain';
 import Adv from './components/adv/adv';
-
+import Event from './components/events/event'
 
 
 const store = configureStore();
@@ -30,6 +30,7 @@ ReactDOM.render((
             <Route path = "complains" component = {Complains} onEnter={requireAuth} />
             <Route path = "complain/:id" component = {Complain} onEnter={requireAuth} />
             <Route path = "adv" component = {Adv} onEnter={requireAuth} />
+            <Route path = "event" component = {Event} onEnter={requireAuth} />
       	</Route>
     </Router>
     </Provider>

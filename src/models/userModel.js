@@ -143,13 +143,79 @@ function User() {
         });
     };
 
+    // this.verifyEmailWithMobile = function (res, credentials) {
+    //     connection.acquire(function (err, con) {
+    //         if(err){
+    //             con.release();
+    //             res.json({status:"ERROR",error:"400"});return;
+    //         }
+    //         con.query('select * from user_details where mobile = ?', credentials.mobile, function (err, result) {
+    //
+    //
+    //             if(err){
+    //                 con.release();
+    //                 res.json({status:"ERROR",error:"400"});return;
+    //             }
+    //
+    //
+    //             if(!result && !result[0]){
+    //                 con.release();
+    //                 res.json({status:"OK",msg:"FAILED"});return;
+    //             }else{
+    //                 let user=result[0];
+    //                 if(user && credentials.email===user.email){
+    //
+    //                   var rand = utils.getRandomInt(100000,999999);
+    //                   // send that random number via sms gateway
+    //                   request({
+    //                     uri: "http://119.235.1.63:4070/Sms.svc/SendSms?phoneNumber="+credentials.mobile+"&smsMessage=Verification Code:"+rand+"&companyId=EML&pword=EMLADMIN",
+    //                     method: "GET",
+    //                     timeout: 10000,
+    //                     followRedirect: true,
+    //                     maxRedirects: 10
+    //                   }, function(error, response, body) {
+    //                     if(error){
+    //                       con.release();
+    //                       res.json({status:"OK",msg:"FAILED"});return;
+    //
+    //                     }else{
+    //                       con.query('update user_details set reset_req=true, reset_verify_code=? where email = ?', [rand,credentials.email], function(err, result){
+    //                           if (err) {
+    //                             con.release();
+    //                             res.json({status:"OK",msg:"FAILED"});return;
+    //                           }
+    //
+    //                           con.release();
+    //                           res.json({status:"OK",error:null,msg:"VERIFIED"});return;
+    //                         });
+    //                     }
+    //
+    //
+    //                   });
+    //
+    //
+    //
+    //
+    //                 }else{
+    //                     con.release();
+    //                    res.json({status:"OK",msg:"FAILED"});return;
+    //                 }
+    //
+    //             }
+    //
+    //
+    //         });
+    //     });
+    // };
+
+
     this.verifyEmailWithMobile = function (res, credentials) {
         connection.acquire(function (err, con) {
             if(err){
                 con.release();
                 res.json({status:"ERROR",error:"400"});return;
             }
-            con.query('select * from user_details where mobile = ?', credentials.mobile, function (err, result) {
+            con.query('select * from user_details where mobile = ? or email = ?', [credentials.mobile,credentials.email], function (err, result) {
 
 
                 if(err){
@@ -163,7 +229,6 @@ function User() {
                     res.json({status:"OK",msg:"FAILED"});return;
                 }else{
                     let user=result[0];
-                    if(user && credentials.email===user.email){
 
                       var rand = utils.getRandomInt(100000,999999);
                       // send that random number via sms gateway
@@ -194,12 +259,6 @@ function User() {
                       });
 
 
-
-
-                    }else{
-                        con.release();
-                       res.json({status:"OK",msg:"FAILED"});return;
-                    }
 
                 }
 
