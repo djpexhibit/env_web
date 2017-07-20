@@ -2,10 +2,10 @@ import * as types from './actionTypes';
 import eventApi from '../api/eventApi';
 import {setLoadingMask, removeLoadingMask} from './loadingMaskAction';
 
-export function addEvent(){
+export function addEvent(event){
 	return function(dispatch){
 		dispatch(setLoadingMask());
-		return eventApi.addEvent().then(complains => {
+		return eventApi.addEvent(event).then(events => {
 			dispatch(removeLoadingMask());
 			dispatch(addEventSuccess(events));
 		}).catch(error => {

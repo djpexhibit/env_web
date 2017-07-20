@@ -7,7 +7,7 @@ function Event() {
 
     this.loadEvents = function (res) {
         connection.acquire(function (err, con) {
-            con.query(`select DATE_FORMAT(date,'%b %d %Y') as date, location as location, title as title from events order by date desc`,function (err, result) {
+            con.query(`select DATE_FORMAT(date,'%b %d %Y') as date, location as location, title as name from events order by date desc`,function (err, result) {
                 con.release();
                 res.json(result);
             });
@@ -21,15 +21,15 @@ function Event() {
                   con.release();
                   res.send({ status: false, message: 'Error' }); return;
                 }
-                con.query('insert into events(name,location,date) values (?,?,?)', [details.name,details.location,details.date], function(err, result){
+                console.log(details);
+                con.query('insert into events(title,location,date) values (?,?,?)', [details.name,details.location,details.date], function(err, result){
                     if (err) {
                         con.rollback(function() {
                           con.release();
-                          res.send({ status: false, message: 'Error' }); return;
+                          res.send({ status: false, message: 'Error' });
+                          return;
                         });
-                    }
-
-
+                    }else{
                       con.commit(function(err) {
                             if (err) {
                                 con.rollback(function() {
@@ -38,11 +38,15 @@ function Event() {
                                 });
                             }
                             con.release();
-                            res.send({ status: true, message: 'Event added successfully', id: lstId });
+                            res.send({ status: true, message: 'Event added successfully' });
 
                             console.log('success!');
                             return;
                         });
+                    }
+
+
+
 
 
 

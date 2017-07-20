@@ -32,6 +32,8 @@ class Event extends React.Component{
 
   onSave(event) {
 		event.preventDefault();
+    console.log(">>>>>");
+    console.log(this.state.events);
 		this.props.actions.addEvent(this.state.events);
 		//browserHistory.push("/home/complains");
 	}
