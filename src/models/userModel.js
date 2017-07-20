@@ -210,6 +210,7 @@ function User() {
 
 
     this.verifyEmailWithMobile = function (res, credentials) {
+      console.log(credentials);
         connection.acquire(function (err, con) {
             if(err){
                 con.release();
