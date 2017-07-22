@@ -242,6 +242,13 @@ app.post('/checkEmailValidity', jsonParser, function(req,res){
   user.checkEmailValidity(res,credentials);
 })
 
+app.post('/checkMobileValidity', jsonParser, function(req,res){
+  let id = req.body.id;
+  let mobile = req.body.mobile;
+  user.checkMobileValidity(res,id,mobile);
+})
+
+
 app.post('/verifyEmailWithMobile', jsonParser, function(req,res){
   let credentials = req.body.credentials;
   user.verifyEmailWithMobile(res,credentials);

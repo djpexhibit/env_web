@@ -120,7 +120,7 @@ function User() {
                 con.release();
                 res.json({status:"ERROR",error:"400"});return;
             }
-            con.query('select * from user_details where email = ?', credentials.email, function (err, result) {
+            con.query('select * from user_details where email = ? or mobile = ? ', [credentials.email,credentials.mobile], function (err, result) {
                 con.release();
 
                 if(err){
@@ -131,13 +131,13 @@ function User() {
                 if(!result && !result[0]){
                     res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
                 }else{
-                    let user=result[0];
-                    if(user && credentials.email===user.email){
-                        res.json({status:"OK",error:null,msg:"EMAIL_EXIST"});return;
-                    }else{
-                       res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
-                    }
-
+                    // let user=result[0];
+                    // if(user && (credentials.email===user.email || credentials.mobile === user.mobile)){
+                    //     res.json({status:"OK",error:null,msg:"EMAIL_EXIST"});return;
+                    // }else{
+                    //    res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
+                    // }
+                    res.json({status:"OK",error:null,msg:"EMAIL_EXIST"});return;
                 }
             });
         });
@@ -676,6 +676,35 @@ function User() {
 
         });
     }
+
+    this.checkMobileValidity = function (res, id, mobile) {
+        connection.acquire(function (err, con) {
+            if(err){
+                con.release();
+                res.json({status:"ERROR",error:"400"});return;
+            }
+            con.query('select * from user_details where mobile = ? and id != ? ', [mobile,id], function (err, result) {
+                con.release();
+
+                if(err){
+                    res.json({status:"ERROR",error:"400"});return;
+                }
+
+
+                if(!result && !result[0]){
+                    res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
+                }else{
+                    // let user=result[0];
+                    // if(user && (credentials.email===user.email || credentials.mobile === user.mobile)){
+                    //     res.json({status:"OK",error:null,msg:"EMAIL_EXIST"});return;
+                    // }else{
+                    //    res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
+                    // }
+                    res.json({status:"OK",error:null,msg:"EMAIL_EXIST"});return;
+                }
+            });
+        });
+    };
 
 
 
