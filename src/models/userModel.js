@@ -692,7 +692,7 @@ function User() {
                 }
 
 
-                if(!result && !result[0]){
+                if(result.length ===0){
                     res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
                 }else{
                     // let user=result[0];
