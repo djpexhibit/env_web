@@ -179,6 +179,10 @@ function Complain() {
                           var imgPath = "tools/files/complains/"+lstId+"_"+index+".jpg";
                           var imgF = fs.writeFile(imgPath,base64Data,'base64',function(err){
                             console.log(err);
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error creating image. Please try again' }); return;
+                            });
                           });
 
                           var imgThumbPath = "tools/files/complains/thumb";
@@ -188,6 +192,12 @@ function Complain() {
                             source: imgPath,
                             destination: imgThumbPath
                           }, function(files, err, stdout, stderr) {
+                            if(err){
+                              con.rollback(function() {
+                                con.release();
+                                res.send({ status: false, message: 'Error creating image. Please try again' }); return;
+                              });
+                            }
                             console.log('All done!');
                           });
 
@@ -302,6 +312,11 @@ function Complain() {
                           var imgPath = "tools/files/complains/"+details.complain.id+"_"+index+".jpg";
                           var imgF = fs.writeFile(imgPath,base64Data,'base64',function(err){
                             console.log(err);
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error creating image. Please try again' }); return;
+                            });
+
                           });
 
                           var imgThumbPath = "tools/files/complains/thumb";
@@ -311,7 +326,14 @@ function Complain() {
                             source: imgPath,
                             destination: imgThumbPath
                           }, function(files, err, stdout, stderr) {
+                            if(err){
+                              con.rollback(function() {
+                                con.release();
+                                res.send({ status: false, message: 'Error creating image. Please try again' }); return;
+                              });
+                            }
                             console.log('All done!');
+
                           });
 
                             con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[details.complain.id,element, arr[index]] , function(err, result){
