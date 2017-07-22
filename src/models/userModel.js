@@ -122,12 +122,11 @@ function User() {
             }
             con.query('select * from user_details where email = ? or mobile = ? ', [credentials.email,credentials.mobile], function (err, result) {
                 con.release();
-                console.log(JSON.stringify(result));
                 if(err){
                     res.json({status:"ERROR",error:"400"});return;
                 }
 
-                if(!result && !result[0]){
+                if(result.length === 0){
                     console.log("^^^NO RESULTS^^^");
                     res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
                 }else{
