@@ -155,21 +155,13 @@ function Complain() {
 
     this.addComplain = function(res, details){
         connection.acquire( function(err,con){
-          console.log("111111");
-
             con.beginTransaction(function(err){
                 if(err) {
-                  console.log("111111 er");
-
                   con.release();
                   res.send({ status: false, message: 'Error' }); return;
                 }
-                console.log("2222");
-
                 con.query('insert into complains(type,res_person,details,location,user_id,lat,lng,date,action,anonymous) values (?,?,?,?,?,?,?,now(),?,?)', [details.complain.type,details.complain.person,details.complain.details, details.complain.location, details.complain.user ,details.complain.lat, details.complain.lng, details.complain.action, details.complain.anonymous], function(err, result){
                     if (err) {
-                      console.log("2222 err");
-
                         con.rollback(function() {
                           con.release();
                           res.send({ status: false, message: 'Error' }); return;
@@ -177,29 +169,17 @@ function Complain() {
                     }
 
                     let lstId = 0;
-                    console.log("3333");
 
                     con.query('SELECT LAST_INSERT_ID() AS NID',function(err,result){
                         lstId = result[0].NID;
                         let arr = [true,false,false];
-                        console.log("4444");
-
                         for(let index in details.images){
-                          console.log("5555");
 
                           var base64Data = details.images[index].replace(/^data:image\/jpeg;base64,/, "");
                           var imgPath = "tools/files/complains/"+lstId+"_"+index+".jpg";
-                          console.log("6666");
                           var imgF = fs.writeFile(imgPath,base64Data,'base64',function(err){
-                            console.log("7777");
-
                             console.log(err);
-                            con.rollback(function() {
-                              con.release();
-                              res.send({ status: false, message: 'Error creating image. Please try again' }); return;
-                            });
                           });
-                          console.log("8888");
 
                           var imgThumbPath = "tools/files/complains/thumb";
 
@@ -208,47 +188,24 @@ function Complain() {
                             source: imgPath,
                             destination: imgThumbPath
                           }, function(files, err, stdout, stderr) {
-                              console.log("^^^creating thumbnail^^^");
-                              console.log("9999");
-
-                                console.log(err);
-                                console.log(stderr);
-                            if(err){
-                              console.log("101010");
-
-                              console.log(err);
-                              con.rollback(function() {
-                                con.release();
-                                res.send({ status: false, message: 'Error creating image. Please try again' }); return;
-                              });
-                            }else{
-                              console.log("111111111111");
-
-                              con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[lstId,details.images[index], arr[index]] , function(err, result){
-                              if(err) {
-                                con.release();
-                                res.send({ status: false, message: 'Error' }); return;
-                              }
-                              });
-                            }
+                            console.log('All done!');
                           });
 
-
+                            con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[lstId,details.images[index], arr[index]] , function(err, result){
+                            if(err) {
+                              con.release();
+                              res.send({ status: false, message: 'Error' }); return;
+                            }
+                            });
                         }
 
                         con.commit(function(err) {
-                          console.log("12121212");
-
                             if (err) {
-                              console.log("131313131");
-
                                 con.rollback(function() {
                                   con.release();
                                   res.send({ status: false, message: 'Error' }); return;
                                 });
                             }
-                            console.log("1414141414");
-
                             con.release();
                             res.send({ status: true, message: 'Complain added successfully', id: lstId });
                             sendConfirmMail(details);
@@ -345,11 +302,6 @@ function Complain() {
                           var imgPath = "tools/files/complains/"+details.complain.id+"_"+index+".jpg";
                           var imgF = fs.writeFile(imgPath,base64Data,'base64',function(err){
                             console.log(err);
-                            con.rollback(function() {
-                              con.release();
-                              res.send({ status: false, message: 'Error creating image. Please try again' }); return;
-                            });
-
                           });
 
                           var imgThumbPath = "tools/files/complains/thumb";
@@ -359,24 +311,16 @@ function Complain() {
                             source: imgPath,
                             destination: imgThumbPath
                           }, function(files, err, stdout, stderr) {
-                            if(err){
-                              con.rollback(function() {
-                                con.release();
-                                res.send({ status: false, message: 'Error creating image. Please try again' }); return;
-                              });
-                            }else{
-                              con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[details.complain.id,element, arr[index]] , function(err, result){
-                                  if(err) {
-                                      //res.send({ status: false, message: 'Error' }); return;
-                                      callback("err");
-                                  }
-                                  callback();
-                              });
-                            }
-
+                            console.log('All done!');
                           });
 
-
+                            con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[details.complain.id,element, arr[index]] , function(err, result){
+                                if(err) {
+                                    //res.send({ status: false, message: 'Error' }); return;
+                                    callback("err");
+                                }
+                                callback();
+                            });
                         }, function fin(err){
                             if(err){
                                 con.release();
