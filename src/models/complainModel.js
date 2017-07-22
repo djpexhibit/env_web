@@ -192,7 +192,11 @@ function Complain() {
                             source: imgPath,
                             destination: imgThumbPath
                           }, function(files, err, stdout, stderr) {
+                              console.log("^^^creating thumbnail^^^");
+                                console.log(err);
+                                console.log(stderr);
                             if(err){
+
                               console.log(err);
                               con.rollback(function() {
                                 con.release();
