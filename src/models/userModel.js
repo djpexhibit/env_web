@@ -127,10 +127,12 @@ function User() {
                     res.json({status:"ERROR",error:"400"});return;
                 }
 
-
                 if(!result && !result[0]){
+                    console.log("^^^NO RESULTS^^^");
                     res.json({status:"OK",msg:"EMAIL_NOT_EXIST"});return;
                 }else{
+                    console.log("^^^EXITS^^^");
+                    console.log(result[0]);
                     // let user=result[0];
                     // if(user && (credentials.email===user.email || credentials.mobile === user.mobile)){
                     //     res.json({status:"OK",error:null,msg:"EMAIL_EXIST"});return;
