@@ -179,27 +179,34 @@ function Species() {
 
                           var base64Data = details.images[index].replace(/^data:image\/jpeg;base64,/, "");
                           var imgPath = "tools/files/species/"+lstId+"_"+index+".jpg";
-                          var imgF = fs.writeFile(imgPath,base64Data,'base64',function(err){
-                            console.log(err);
-                          });
-
-                          var imgThumbPath = "tools/files/species/thumb";
-
-
-                          thumb({
-                            source: imgPath,
-                            destination: imgThumbPath
-                          }, function(files, err, stdout, stderr) {
-                            console.log('All done!');
-                          });
-
-
-                            con.query('insert into species_images(species_id, image, selected) values(?,?, ?)',[lstId,details.images[index], arr[index]] , function(err, result){
+                          var imgF = fs.writeFileSync(imgPath,base64Data,'base64',function(err){
                             if(err) {
-                              con.release();
-                              res.send({ status: false, message: 'Error' }); return;
+                              con.rollback(function() {
+                                con.release();
+                                res.send({ status: false, message: 'Error Creating Image. Please Resend' }); return;
+                              });
                             }
+
+                            var imgThumbPath = "tools/files/species/thumb";
+
+
+                            thumb({
+                              source: imgPath,
+                              destination: imgThumbPath
+                            }, function(files, err, stdout, stderr) {
+                              console.log('All done!');
                             });
+
+
+                              con.query('insert into species_images(species_id, image, selected) values(?,?, ?)',[lstId,details.images[index], arr[index]] , function(err, result){
+                              if(err) {
+                                con.release();
+                                res.send({ status: false, message: 'Error' }); return;
+                              }
+                              });
+                          });
+
+
                         }
 
                         con.commit(function(err) {
