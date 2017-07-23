@@ -184,12 +184,12 @@ function Complain() {
                           var imgThumbPath = "tools/files/complains/thumb";
 
 
-                          thumb({
-                            source: imgPath,
-                            destination: imgThumbPath
-                          }, function(files, err, stdout, stderr) {
-                            console.log('All done!');
-                          });
+                          // thumb({
+                          //   source: imgPath,
+                          //   destination: imgThumbPath
+                          // }, function(files, err, stdout, stderr) {
+                          //   console.log('All done!');
+                          // });
 
                             con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[lstId,details.images[index], arr[index]] , function(err, result){
                             if(err) {
@@ -307,12 +307,12 @@ function Complain() {
                           var imgThumbPath = "tools/files/complains/thumb";
 
 
-                          thumb({
-                            source: imgPath,
-                            destination: imgThumbPath
-                          }, function(files, err, stdout, stderr) {
-                            console.log('All done!');
-                          });
+                          // thumb({
+                          //   source: imgPath,
+                          //   destination: imgThumbPath
+                          // }, function(files, err, stdout, stderr) {
+                          //   console.log('All done!');
+                          // });
 
                             con.query('insert into complain_images(complain_id, image, selected) values(?,?, ?)',[details.complain.id,element, arr[index]] , function(err, result){
                                 if(err) {

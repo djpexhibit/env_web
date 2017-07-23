@@ -186,12 +186,12 @@ function Species() {
                           var imgThumbPath = "tools/files/species/thumb";
 
 
-                          thumb({
-                            source: imgPath,
-                            destination: imgThumbPath
-                          }, function(files, err, stdout, stderr) {
-                            console.log('All done!');
-                          });
+                          // thumb({
+                          //   source: imgPath,
+                          //   destination: imgThumbPath
+                          // }, function(files, err, stdout, stderr) {
+                          //   console.log('All done!');
+                          // });
 
 
                             con.query('insert into species_images(species_id, image, selected) values(?,?, ?)',[lstId,details.images[index], arr[index]] , function(err, result){
@@ -250,6 +250,14 @@ function Species() {
                         let arr = [true,false,false];
 
                         Async.eachOfSeries(details.images, function itOvEl(element,index,callback){
+                          var base64Data = details.images[index].replace(/^data:image\/jpeg;base64,/, "");
+                          var imgPath = "tools/files/species/"+lstId+"_"+index+".jpg";
+                          var imgF = fs.writeFile(imgPath,base64Data,'base64',function(err){
+                            console.log(err);
+                          });
+
+                          var imgThumbPath = "tools/files/species/thumb";
+
                             con.query('insert into species_images(species_id, image, selected) values(?,?, ?)',[details.specie.id,element, arr[index]] , function(err, result){
                                 if(err) {
                                     //res.send({ status: false, message: 'Error' }); return;
