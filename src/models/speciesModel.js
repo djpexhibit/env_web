@@ -81,6 +81,7 @@ console.log(term);
                   ` s.expert_replied as expertReplied, s.user_replied as userReplied ` +
                   `from species s join user_details u left outer join species_images i on s.id = i.species_id and i.selected = 1 left outer join species_favorite f on s.id = f.species_id and f.user_id = ? and f.is_favorite = 1 where s.user_id = u.id and s.name like ('?') order by u.id = ? desc, s.date desc limit ?,? `, [user_id,'%'+term+'%',user_id,start,end], function (err, result) {
                   con.release();
+                  console.log(result);
                   res.json(result);
                   });
                 }
