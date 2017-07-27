@@ -196,7 +196,7 @@ app.post('/loadFilteredSpeciesChunk',jsonParser, function(req,res){
   let start = req.body.start;
   let end = req.body.end;
 
-  species.loadFilteredSpeciesChunk(res, term, start, end);
+  species.loadFilteredSpeciesChunk(res,user_id, term, start, end);
 })
 
 
