@@ -67,6 +67,7 @@ function Species() {
 
             if(user_id !== 0){
                 if(term){
+                  console.log("111");
                   con.query(`select s.id as id, s.type as type ,s.location as location, s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,42) as specname, `+
                   `DATE_FORMAT(s.date,'%b %d %Y') as date, u.name as user , IF(i.image IS NULL, FALSE, TRUE) as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments, f.is_favorite as fav, `+
                   ` s.expert_replied as expertReplied, s.user_replied as userReplied ` +
@@ -75,6 +76,7 @@ function Species() {
                   res.json(result);
                   });
                 }else{
+                  console.log("222");
                   con.query(`select s.id as id, s.type as type ,s.location as location, s.name as name,s.anonymous as anonymous,SUBSTRING(s.specname,1,42) as specname, `+
                   `DATE_FORMAT(s.date,'%b %d %Y') as date, u.name as user , IF(i.image IS NULL, FALSE, TRUE) as image, u.id as user_id, (select count(*) from species_comments co where co.species_id = s.id group by species_id) as comments, f.is_favorite as fav, `+
                   ` s.expert_replied as expertReplied, s.user_replied as userReplied ` +
