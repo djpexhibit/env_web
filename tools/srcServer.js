@@ -188,6 +188,18 @@ app.post('/loadFavoriteSpeciesChunk',jsonParser, function(req,res){
   species.loadFavoriteSpeciesChunk(res, user_id, start, end);
 })
 
+
+app.post('/loadFilteredSpeciesChunk',jsonParser, function(req,res){
+  console.log("LOADING FILTERED SPEICES CHUNK");
+  let user_id = req.body.user_id;
+  let term = req.body.term;
+  let start = req.body.start;
+  let end = req.body.end;
+
+  species.loadFilteredSpeciesChunk(res, term, start, end);
+})
+
+
 app.post('/loadComplain', jsonParser ,function(req,res){
 
   let comp_id = req.body.comp_id;
@@ -235,6 +247,12 @@ app.get('/loadEvents', function(req,res){
 app.post('/addEvent', jsonParser, function(req,res){
   let event = req.body.event;
   events.addEvent(res,event);
+})
+
+
+app.post('/deleteEvent', jsonParser, function(req,res){
+  let id = req.body.id;
+  events.deleteEvent(res,id);
 })
 
 app.post('/checkEmailValidity', jsonParser, function(req,res){
