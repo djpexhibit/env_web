@@ -175,8 +175,9 @@ app.post('/loadSpeciesChunk',jsonParser, function(req,res){
   let user_id = req.body.user_id;
   let start = req.body.start;
   let end = req.body.end;
+  let term = req.body.term;
 
-  species.loadSpeciesChunk(res, user_id, start, end);
+  species.loadSpeciesChunk(res, user_id, start, end, term);
 })
 
 app.post('/loadFavoriteSpeciesChunk',jsonParser, function(req,res){
@@ -184,8 +185,10 @@ app.post('/loadFavoriteSpeciesChunk',jsonParser, function(req,res){
   let user_id = req.body.user_id;
   let start = req.body.start;
   let end = req.body.end;
+  let term = req.body.term;
 
-  species.loadFavoriteSpeciesChunk(res, user_id, start, end);
+
+  species.loadFavoriteSpeciesChunk(res, user_id, start, end, term);
 })
 
 
