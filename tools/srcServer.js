@@ -242,6 +242,11 @@ app.get('/loadPollutionTypes', function(req,res){
   complain.loadPollutionTypes(res);
 })
 
+app.get('/loadAppVersion', function(req,res){
+  console.log("LOADING APP VERSION")
+  complain.loadAppVersion(res);
+})
+
 app.get('/loadEvents', function(req,res){
   console.log("LOADING EVENTS")
   events.loadEvents(res);

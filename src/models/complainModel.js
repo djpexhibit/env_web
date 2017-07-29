@@ -121,6 +121,15 @@ function Complain() {
         });
     };
 
+    this.loadAppVersion = function (res) {
+        connection.acquire(function (err, con) {
+            con.query('select app_version as appVersion from app_version',function (err, result) {
+                con.release();
+                res.json(result);
+            });
+        });
+    };
+
     this.loadExpectedActions = function (res) {
         connection.acquire(function (err, con) {
             con.query('select * from expected_action',function (err, result) {
