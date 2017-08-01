@@ -226,7 +226,7 @@ function User() {
                 }
 
 
-                if(!result && !result[0]){
+                if(!result || result.length === 0){
                     con.release();
                     res.json({status:"OK",msg:"FAILED"});return;
                 }else{
@@ -707,7 +707,23 @@ function User() {
         });
     };
 
+    this.loadProfUsers = function(res){
+      connection.acquire(function(err,con){
+        if(err){
+          con.release();
+          res.json({status:"ERROR",error:"400"}); return;
+        }
+        con.query('select * from user_details where expert_type <> null OR expert_type <> "" ',function(err,result){
+          con.release();
 
+          if(err){
+            res.json({status:"ERROR",error:"400"}); return;
+          }
+
+          res.json(result);
+        })
+      });
+    }
 
 
 

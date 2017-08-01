@@ -21,7 +21,7 @@ const store = configureStore();
 
 ReactDOM.render((
     <Provider store={store}>
-    <Router history = {browserHistory}>
+    {/*<Router history = {browserHistory}>
         <Route path = "/" component = {Login}>
             <IndexRoute component = {Login} />
         </Route>
@@ -31,6 +31,16 @@ ReactDOM.render((
             <Route path = "complain/:id" component = {Complain} onEnter={requireAuth} />
             <Route path = "adv" component = {Adv} onEnter={requireAuth} />
             <Route path = "event" component = {Event} onEnter={requireAuth} />
+      	</Route>
+    </Router>*/}
+    <Router history = {browserHistory}>
+        <Route path = "/" component = {App}>
+            <IndexRoute component = {Complains} />
+            <Route path = "complains" component = {Complains}  />
+            <Route path = "complain/:id" component = {Complain}  />
+            <Route path = "adv" component = {Adv} onEnter={requireAuth} />
+            <Route path = "event" component = {Event}  onEnter={requireAuth} />
+            <Route path = "login" component = {Login} />
       	</Route>
     </Router>
     </Provider>

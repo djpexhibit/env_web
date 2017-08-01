@@ -28,10 +28,11 @@ class Header extends React.Component{
                   <div className="brit_top_strip_content_right">
                     <ul>
                       <li><a href="#">Home</a></li>
-                      <li><Link  to="/home/complains">Complains</Link></li>
-                      <li><Link  to="/home/adv">Advertise</Link></li>
-                      <li><Link  to="/home/event">Events</Link></li>
-                      <li ><a href="/logout" onClick={this.logOut}>log out</a></li>
+                      <li><Link  to="complains">Complains</Link></li>
+                      <li><Link  to="adv">Advertise</Link></li>
+                      <li><Link  to="event">Events</Link></li>
+                      <li ><a href="logout" onClick={this.logOut}>log out</a></li>
+                      <li><Link  to="login">Login</Link></li>
                     </ul>
                   </div>
                   <div className="clearfix"></div>

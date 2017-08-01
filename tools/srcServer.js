@@ -391,6 +391,12 @@ app.post('/addSpeciesComment', jsonParser, function(req,res){
 
 })
 
+app.get('/loadProfUsers', function(req,res){
+  console.log("LOADING USER PROFILES")
+  user.loadProfUsers(res);
+})
+
+
 
 
 /*app.post('/addAdv', jsonParser, function(req,res){

@@ -41,7 +41,37 @@ class Complain extends React.Component{
 		//browserHistory.push("/complains");
 	}
 
+	_generateCommentSection(){
+
+		if(sessionStorage.user_session && JSON.parse(sessionStorage.user_session).type === 'ADMIN_FULL'){
+			return(
+				<div className="row">
+					<form>
+						<h4>Add Response: </h4>
+						<textarea name="details" className="form-control" rows="7" value={this.state.comment.details} onChange={this.onChange} />
+						<br/><br/>
+						<div className="col-md-3">
+							<input type="submit" className="btn btn-primary" onClick={this.onSave}/>
+						</div>
+						<div className="col-md-4">
+							<select  className="form-control" >
+								<option>Authority 1</option>
+							</select>
+						</div>
+						<div className="col-md-3">
+							<input type="button" className="btn btn-primary" value="Submit to authorities"/>
+						</div>
+						<div className="col-md-2">
+							<input type="button" className="btn btn-primary" value="Mark as Resolved"/>
+						</div>
+					</form>
+				</div>
+			);
+		}
+	}
+
 	render(){
+
 		let markers = [
             {
                 name: 'marker1',
@@ -75,10 +105,10 @@ class Complain extends React.Component{
 					<div className="col-md-12">
 						{this.props.complain.map( complain => {
                				return (
-                            	<img src={complain.image} />       
+                            	<img src={complain.image} />
                             )
                         })}
-						
+
 					</div>
 				</div>
 
@@ -105,29 +135,13 @@ class Complain extends React.Component{
 				})
 			}
 
-			{ (JSON.parse(sessionStorage.user_session).type === 'ADMIN_FULL')?
-			<div className="row">
-				<form>
-					<h4>Add Response: </h4>	
-					<textarea name="details" className="form-control" rows="7" value={this.state.comment.details} onChange={this.onChange} />
-					<br/><br/>
-					<div className="col-md-3">
-       					<input type="submit" className="btn btn-primary" onClick={this.onSave}/>
-       				</div>
-       				<div className="col-md-4">
-       					<select  className="form-control" >
-       						<option>Authority 1</option>
-       					</select>
-       				</div>
-       				<div className="col-md-3">
-       					<input type="button" className="btn btn-primary" value="Submit to authorities"/>
-       				</div>
-       			</form>
-			</div>:null
-		}
+
+			{ this._generateCommentSection()}
+
+
 
 			</div>
-			
+
 			</div>
 		);
 

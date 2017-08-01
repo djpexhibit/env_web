@@ -1,4 +1,4 @@
-import * as types from './actionTypes';  
+import * as types from './actionTypes';
 import sessionApi from '../api/sessionApi';
 import { Router, browserHistory } from 'react-router'
 
@@ -13,7 +13,7 @@ export function logInUser(credentials) {
 			sessionStorage.setItem('user_session', JSON.stringify(response.session))
 			dispatch(loginSuccess());
 			if(sessionStorage.jwt==='true'){
-				browserHistory.push("/home/complains");
+				browserHistory.push("/complains");
 			}
 			else{
 				browserHistory.push("?error=true");
