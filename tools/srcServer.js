@@ -280,6 +280,11 @@ app.post('/verifyEmailWithMobile', jsonParser, function(req,res){
   user.verifyEmailWithMobile(res,credentials);
 })
 
+app.post('/loadAgreement', jsonParser, function(req,res){
+  let user_id = req.body.user_id;
+  user.loadAgreement(res,user_id);
+})
+
 app.post('/verifyMobileCode', jsonParser, function(req,res){
   let verifyCredentials = req.body.verifyCredentials;
   user.verifyMobileCode(res,verifyCredentials);

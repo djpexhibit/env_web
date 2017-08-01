@@ -726,6 +726,25 @@ function User() {
     }
 
 
+    this.loadAgreement = function(res,id){
+      connection.acquire(function(err,con){
+        if(err){
+          con.release();
+          res.json({status:"ERROR",error:"400"}); return;
+        }
+        con.query('select agreed from user_details where id = ? ',id,function(err,result){
+          con.release();
+
+          if(err){
+            res.json({status:"ERROR",error:"400"}); return;
+          }
+
+          res.json(result);
+        })
+      });
+    }
+
+
 
 }
 
