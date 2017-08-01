@@ -744,6 +744,47 @@ function User() {
       });
     }
 
+    this.updateAgree = function(res, id){
+        connection.acquire( function(err,con){
+            if(err){
+                con.release();
+                res.send({ status: false, message: 'Error' });
+                return;
+            }
+            con.beginTransaction(function(err){
+                if(err){
+                    con.release();
+                    res.send({ status: false, message: 'Error' }); return;
+                }
+
+                con.query('update user_details set agreed = 1 where id = ? ', id, function(err, result){
+                    if (err) {
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' });
+                          return;
+                        });
+                    }
+
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' });
+                              return;
+                            });
+                        }
+                        con.release();
+                        res.send({ status: true, message: 'agreed updated successfully' });
+                        console.log('success!');
+                    });
+
+                });
+            })
+
+        });
+    }
+
 
 
 }
