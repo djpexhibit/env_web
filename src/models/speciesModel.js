@@ -309,6 +309,8 @@ console.log(term);
                                 }
                                 callback();
                             });
+                          }else{
+                            callback();
                           }
                         }, function fin(err){
                             if(err){

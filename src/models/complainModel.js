@@ -331,6 +331,8 @@ function Complain() {
                                 }
                                 callback();
                             });
+                          }else{
+                            callback();
                           }
                         }, function fin(err){
                             if(err){
