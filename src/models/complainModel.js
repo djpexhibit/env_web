@@ -307,7 +307,7 @@ function Complain() {
 
                         Async.eachOfSeries(details.images, function itOvEl(element,index,callback){
 
-                          if(details.images && details.images.length>0){
+                          if(details.images && details.images.length > 0 && details.images[index]){
                           var base64Data = details.images[index].replace(/^data:image\/jpeg;base64,/, "");
                           var imgPath = "tools/files/complains/"+details.complain.id+"_"+index+".jpg";
                           var imgF = fs.writeFile(imgPath,base64Data,'base64',function(err){
