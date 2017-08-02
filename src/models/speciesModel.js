@@ -293,6 +293,7 @@ console.log(term);
                         let arr = [true,false,false];
 
                         Async.eachOfSeries(details.images, function itOvEl(element,index,callback){
+                          if(details.images && details.images.length>0){
                           var base64Data = details.images[index].replace(/^data:image\/jpeg;base64,/, "");
                           var imgPath = "tools/files/species/"+lstId+"_"+index+".jpg";
                           var imgF = fs.writeFile(imgPath,base64Data,'base64',function(err){
@@ -308,6 +309,7 @@ console.log(term);
                                 }
                                 callback();
                             });
+                          }
                         }, function fin(err){
                             if(err){
                               con.release();
