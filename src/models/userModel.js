@@ -338,7 +338,7 @@ function User() {
             let code=result[0].reset_verify_code;
 
             if(code && verifyCredentials.mobileCode===code){
-              con.query('update user_details set reset_verified=true, reset_req=false, password=?  where mobile = ?', [verifyCredentials.password ,result[0].mobile] , function(err, result){
+              con.query('update user_details set reset_verified=true, verified=true, reset_req=false, password=?  where mobile = ?', [verifyCredentials.password ,result[0].mobile] , function(err, result){
                 if (err) {
                   con.rollback(function() {
                     con.release();
