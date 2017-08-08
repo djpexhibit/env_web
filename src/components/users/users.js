@@ -1,27 +1,27 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import * as complainActions from '../../actions/complainActions';
+import * as userActions from '../../actions/userActions';
 import {bindActionCreators} from 'redux';
 import {Col, PageHeader, Jumbotron, Form, Input, ButtonInput } from 'react-bootstrap';
 import {Link} from 'react-router';
 
-class Complains extends React.Component{
+class Users extends React.Component{
 
 	constructor(props) {
 		super(props);
 
-		this.props.actions.loadComplains();
+		this.props.actions.loadUsers();
 
 		this._continue = this._continue.bind(this);
-		this._removeComplain = this._removeComplain.bind(this);
+		this._removeUser = this._removeUser.bind(this);
 	}
 
 	_continue(id){
 		console.log(id)
 	}
 
-	_removeComplain(e,complain){
-		this.props.actions.removeComplain(complain);
+	_removeUser(e,user){
+		this.props.actions.removeUser(user);
 	}
 
 	render() {
@@ -36,32 +36,27 @@ class Complains extends React.Component{
 				<div style={homeStyle.mainContainer}>
 					<Col xs={12} md={12} >
 						<div style={homeStyle.mainContainer}>
-							<h2 style={homeStyle.headerPadding}> Complains List </h2>
-							{this.props.complains.map( complain => {
+							<h2 style={homeStyle.headerPadding}> Users List </h2>
+							{this.props.users.map( user => {
 								return (
 									<div className="row" style={{marginBottom:"5px", padding:"5px", borderBottom:"1px solid #aaa9aa"}}>
-										<Link to={'/complain/' + complain.id}>
-											<div onClick={() => this._continue(complain.id)}>
+										<Link to={'/user/' + user.id}>
+											<div onClick={() => this._continue(user.id)}>
 												<Col md={3}>
-													{complain.type}
+													{user.type}
 												</Col>
 												<Col md={3}>
-													{complain.res_person}
+													{user.name}
 												</Col>
 												<Col md={5}>
-													{complain.details}...
+													{user.specname}
 												</Col>
 											</div>
 										</Link>
 
-										{
-											(sessionStorage.user_session && JSON.parse(sessionStorage.user_session).type === 'ADMIN_FULL')?
-
 										<div className="col-md-1">
-											<button className="btn btn-danger" onClick={(e)=> this._removeComplain(e,complain)}> X </button>
+											<button className="btn btn-danger" onClick={(e)=> this._removeUser(e,user)}> X </button>
 										</div>
-										:null
-										}
 									</div>
                 )
               })}
@@ -76,7 +71,7 @@ class Complains extends React.Component{
 
 function mapStateToProps(state, ownProps){
     return {
-        complains:state.complains
+        users:state.users
     };
 
 
@@ -85,9 +80,9 @@ function mapStateToProps(state, ownProps){
 
 function mapDispatchToProps(dispatch){
 	return{
-		actions : bindActionCreators(Object.assign({}, complainActions),dispatch)
+		actions : bindActionCreators(Object.assign({}, userActions),dispatch)
 	};
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps )(Complains);
+export default connect(mapStateToProps, mapDispatchToProps )(Users);

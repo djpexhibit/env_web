@@ -12,6 +12,10 @@ import Complains from './components/complains/complains';
 import Complain from './components/complains/complain';
 import Adv from './components/adv/adv';
 import Event from './components/events/event'
+import Species from './components/species/species';
+import Specie from './components/species/specie';
+import Users from './components/users/users';
+import User from './components/users/user';
 
 
 const store = configureStore();
@@ -38,6 +42,10 @@ ReactDOM.render((
             <IndexRoute component = {Complains} />
             <Route path = "complains" component = {Complains}  />
             <Route path = "complain/:id" component = {Complain}  />
+            <Route path = "species" component = {Species}  />
+            <Route path = "specie/:id" component = {Specie}  />
+            <Route path = "users" component = {Users}  />
+            <Route path = "user/:id" component = {User}  />
             <Route path = "adv" component = {Adv} onEnter={requireAuth} />
             <Route path = "event" component = {Event}  onEnter={requireAuth} />
             <Route path = "login" component = {Login} />

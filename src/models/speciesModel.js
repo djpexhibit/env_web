@@ -128,6 +128,8 @@ console.log(term);
 
     this.loadFavoriteSpeciesChunk = function (res, user_id,start,end,term) {
 
+      console.log("^^^^^^^^"); console.log(term);
+
         connection.acquire(function (err, con) {
 
             if(user_id !== 0){

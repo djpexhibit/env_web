@@ -20,6 +20,19 @@ class Header extends React.Component{
     }
 
     render(){
+      let loggedUser = null;
+      let type = null;
+
+      if(this.props.loggedUser){
+        loggedUser = this.props.loggedUser;
+        type = loggedUser.type;
+      }
+      // let type = null;
+      // if(sessionStorage.user_session){
+      //   type = JSON.parse(sessionStorage.user_session).type;
+      // }
+
+
         return(
           <div>
             <div className="brit_top_strip">
@@ -29,10 +42,21 @@ class Header extends React.Component{
                     <ul>
                       <li><a href="#">Home</a></li>
                       <li><Link  to="complains">Complains</Link></li>
-                      <li><Link  to="adv">Advertise</Link></li>
-                      <li><Link  to="event">Events</Link></li>
-                      <li ><a href="logout" onClick={this.logOut}>log out</a></li>
+                      <li><Link  to="species">Species</Link></li>
+                      { (type === 'ADMIN_FULL')?
+                      <li><Link  to="users">Users</Link></li> : null
+                      }
+                      { (type === 'ADMIN_FULL')?
+                      <li><Link  to="adv">Advertise</Link></li> : null
+                      }
+                      { (type === 'ADMIN_FULL')?
+                      <li><Link  to="event">Events</Link></li> : null
+                      }
+                      { (type === 'ADMIN_FULL')?
+                      <li ><a href="logout" onClick={this.logOut}>log out</a></li> : null
+                      }
                       <li><Link  to="login">Login</Link></li>
+
                     </ul>
                   </div>
                   <div className="clearfix"></div>
@@ -52,4 +76,10 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(Header);
+function mapStateToProps(state, ownProps){
+    return {
+        loggedUser:state.login
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

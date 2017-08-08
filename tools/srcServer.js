@@ -221,6 +221,20 @@ app.post('/loadSpecie', jsonParser ,function(req,res){
 })
 
 
+app.post('/loadUsers',jsonParser, function(req,res){
+  console.log("LOADING Users");
+  let user_id = req.body.user_id;
+
+  user.loadUsers(res, user_id);
+})
+
+app.post('/loadUser', jsonParser ,function(req,res){
+
+  let user_id = req.body.user_id;
+  let userId = req.body.userId;
+  console.log(user_id)
+  user.loadUser(res,user_id, userId);
+})
 
 app.post('/loadComments', jsonParser ,function(req,res){
   console.log("LOADING ONE COMMENTS");

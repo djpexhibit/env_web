@@ -785,7 +785,24 @@ function User() {
         });
     }
 
+    this.loadUsers = function (res) {
 
+        connection.acquire(function (err, con) {
+          con.query(`select id,name,username,email,type,mobile,expert_type as expertType, media_type as mediaType, is_joined as isJoined, is_joined_verified as isJoinedVerified, image from user_details ` , function (err, result) {
+            con.release();
+            res.json(result);
+          });
+        });
+    };
+
+    this.loadUser = function (res, user_id, userId) {
+        connection.acquire(function (err, con) {
+            con.query(`select id,name,username,email,type,mobile,expert_type as expertType, media_type as mediaType, is_joined as isJoined, is_joined_verified as isJoinedVerified, image from user_details where id = ? `, user_id ,function (err, result) {
+                con.release();
+                res.json(result);
+            });
+        });
+    };
 
 }
 
