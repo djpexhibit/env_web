@@ -96,14 +96,16 @@ class Complain extends React.Component{
 
 	render(){
 
-		let markers = [
-            {
-                name: 'marker1',
-                loc: { lat: this.props.complain[0].lat, lng: this.props.complain[0].lng }
-            }
-        ];
+
 
 		if(this.props.complain && this.props.complain.length > 0 ){
+
+			let markers = [
+	            {
+	                name: 'marker1',
+	                loc: { lat: this.props.complain[0].lat, lng: this.props.complain[0].lng }
+	            }
+	        ];
 		return(
 			<div className="container">
 				<br/>
