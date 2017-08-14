@@ -27,7 +27,7 @@ class Species extends React.Component{
 	_loadImg(id){
 		let imgPath = `/species/${id}_0.jpg`;
 		return(
-			<img src={imgPath} />
+			<img src={imgPath} style="width:200px;height:200px" />
 		)
 	}
 
@@ -53,13 +53,15 @@ class Species extends React.Component{
 													{this._loadImg(specie.id)}
 												</Col>
 												<Col md={2}>
-													{specie.type}
+													<p>{specie.type}</p>
+													<p>{specie.date}</p>
+													<p>{specie.res_person}</p>
 												</Col>
 												<Col md={3}>
-													{specie.name}
+													{specie.date}
 												</Col>
 												<Col md={3}>
-													{specie.specname}
+													{specie.res_person}
 												</Col>
 											</div>
 										</Link>
