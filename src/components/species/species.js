@@ -24,6 +24,13 @@ class Species extends React.Component{
 		this.props.actions.removeSpecie(specie);
 	}
 
+	_loadImg(id){
+		let imgPath = `/species/${id}_0.jpg`;
+		return(
+			<img src={imgPath} />
+		)
+	}
+
 	render() {
 
 		const homeStyle = {
@@ -43,20 +50,30 @@ class Species extends React.Component{
 										<Link to={'/specie/' + specie.id}>
 											<div onClick={() => this._continue(specie.id)}>
 												<Col md={3}>
+													{this._loadImg(specie.id)}
+												</Col>
+												<Col md={2}>
 													{specie.type}
 												</Col>
 												<Col md={3}>
 													{specie.name}
 												</Col>
-												<Col md={5}>
+												<Col md={3}>
 													{specie.specname}
 												</Col>
 											</div>
 										</Link>
 
-										<div className="col-md-1">
-											<button className="btn btn-danger" onClick={(e)=> this._removeSpecie(e,specie)}> X </button>
-										</div>
+										{
+											(sessionStorage.user_session && JSON.parse(sessionStorage.user_session).type === 'ADMIN_FULL')?
+
+											<div className="col-md-1">
+												<button className="btn btn-danger" onClick={(e)=> this._removeSpecie(e,specie)}> X </button>
+											</div>
+										:null
+										}
+
+
 									</div>
                 )
               })}

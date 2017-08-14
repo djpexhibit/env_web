@@ -55,7 +55,7 @@ class Complains extends React.Component{
 												<Col md={3}>
 													{complain.type}
 												</Col>
-												<Col md={3}>
+												<Col md={2}>
 													{complain.res_person}
 												</Col>
 												<Col md={3}>
