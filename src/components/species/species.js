@@ -52,17 +52,12 @@ class Species extends React.Component{
 												<Col md={3}>
 													{this._loadImg(specie.id)}
 												</Col>
-												<Col md={2}>
+												<Col md={5}>
 													<p>{specie.type}</p>
 													<p>{specie.name}</p>
 													<p>{specie.date}</p>
 												</Col>
-												<Col md={3}>
-													{specie.date}
-												</Col>
-												<Col md={3}>
-													{specie.res_person}
-												</Col>
+												
 											</div>
 										</Link>
 

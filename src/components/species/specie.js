@@ -72,14 +72,17 @@ class Specie extends React.Component{
 
 	render(){
 
-		let markers = [
-            {
-                name: 'marker1',
-                loc: { lat: this.props.specie[0].lat, lng: this.props.specie[0].lng }
-            }
-        ];
+
 
 		if(this.props.specie && this.props.specie.length > 0 ){
+
+			let markers = [
+	            {
+	                name: 'marker1',
+	                loc: { lat: this.props.specie[0].lat, lng: this.props.specie[0].lng }
+	            }
+	        ];
+					
 		return(
 			<div className="container">
 				<br/>
