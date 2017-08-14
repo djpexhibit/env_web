@@ -24,6 +24,13 @@ class Complains extends React.Component{
 		this.props.actions.removeComplain(complain);
 	}
 
+	_loadImg(id){
+		let imgPath = `/complains/${id}_0.jpg`;
+		return(
+			<img src={imgPath} />
+		)
+	}
+
 	render() {
 
 		const homeStyle = {
@@ -43,12 +50,15 @@ class Complains extends React.Component{
 										<Link to={'/complain/' + complain.id}>
 											<div onClick={() => this._continue(complain.id)}>
 												<Col md={3}>
+													{this._loadImg(complain.id)}
+												</Col>
+												<Col md={3}>
 													{complain.type}
 												</Col>
 												<Col md={3}>
 													{complain.res_person}
 												</Col>
-												<Col md={5}>
+												<Col md={3}>
 													{complain.details}...
 												</Col>
 											</div>

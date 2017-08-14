@@ -51,3 +51,21 @@ export function removeComplain(complain){
         });
     }
 }
+
+
+export function updateAuthority(complainId,authId){
+    return function(dispatch){
+        dispatch(setLoadingMask());
+        return complainApi.updateAuthority(complainId,authId).then( success => {
+            dispatch(removeLoadingMask());
+            dispatch(updateAuthoritySuccess(success));
+        }).catch(error => {
+            dispatch(removeLoadingMask());
+            throw(error);
+        })
+    }
+}
+
+export function updateAuthoritySuccess(status){
+    return {type: types.UPDATE_AUTHORITY_SUCCESS, status}
+}

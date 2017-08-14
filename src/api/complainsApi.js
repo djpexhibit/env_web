@@ -1,6 +1,6 @@
 
 class ComplainsApi {
-  
+
   static getComplains(){
   	console.log("BBBBBBBBBBBB")
   	return fetch('/loadComplains',{
@@ -25,8 +25,8 @@ class ComplainsApi {
 
 
     static getComplainById(id) {
-      
-      
+
+
       return fetch('/loadComplain',{
             method: 'POST',
             headers: {
@@ -49,8 +49,8 @@ class ComplainsApi {
 
 
     static getCommentsById(id) {
-      
-      
+
+
       return fetch('/loadComments',{
             method: 'POST',
             headers: {
@@ -111,6 +111,23 @@ class ComplainsApi {
       .catch((error) => {
             console.log(error);
       })
+    }
+
+    static updateAuthority(complanId,authId){
+        return fetch('/updateAuthority',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                complainId: complanId,
+                authId: authId
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
 
 

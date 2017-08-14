@@ -463,6 +463,13 @@ app.post('/removeComplain', jsonParser ,function(req,res){
   complain.removeComplain(res,comp_id);
 })
 
+app.post('/updateAuthority', jsonParser, function(req,res){
+  let complainId = req.body.complainId;
+  let authId = req.body.authId;
+
+  complain.updateAuthority(res,complainId,authId);
+})
+
 
 /*var storage = multer.diskStorage({
     destination: function (req, file, cb) {

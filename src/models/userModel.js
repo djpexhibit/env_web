@@ -713,7 +713,7 @@ function User() {
           con.release();
           res.json({status:"ERROR",error:"400"}); return;
         }
-        con.query('select * from user_details where expert_type <> null OR expert_type <> "" ',function(err,result){
+        con.query('select id as id, concat(name,"-",email) as name from user_details where expert_type <> null OR expert_type <> "" ',function(err,result){
           con.release();
 
           if(err){

@@ -51,3 +51,20 @@ export function removeUser(user){
         });
     }
 }
+
+export function loadProfUsers(){
+    return function(dispatch){
+        dispatch(setLoadingMask());
+        return userApi.loadProfUsers().then( users => {
+            dispatch(removeLoadingMask());
+            dispatch(loadProfUsersSuccess(users));
+        }).catch(error => {
+            dispatch(removeLoadingMask());
+            throw(error);
+        })
+    }
+}
+
+export function loadProfUsersSuccess(users){
+    return{type:types.LOAD_PROF_USERS_SUCCESS, users}
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import * as complainActions from '../../actions/complainActions';
 import * as commentActions from '../../actions/commentActions';
+import * as userActions from '../../actions/userActions';
 import {bindActionCreators}  from 'redux';
 import TextInput from '../common/TextInput';
 import ContainerWrapper from '../map/containerWrapper';
@@ -12,6 +13,7 @@ class Complain extends React.Component{
 		super(props);
 		props.actions.loadComplainById(props.params.id);
 		props.actions.loadCommentById(props.params.id);
+		props.actions.loadProfUsers();
 
 		this.state={
 			comment : {
@@ -24,6 +26,7 @@ class Complain extends React.Component{
 
 		this.onChange = this.onChange.bind(this);
 		this.onSave = this.onSave.bind(this);
+		this.submitToAuth = this.submitToAuth.bind(this);
 	}
 
 
@@ -41,30 +44,51 @@ class Complain extends React.Component{
 		//browserHistory.push("/complains");
 	}
 
+	submitToAuth(){
+		this.props.actions.updateAuthority(this.props.params.id, this.refs.profUser.value);
+	}
+
 	_generateCommentSection(){
 
 		if(sessionStorage.user_session && JSON.parse(sessionStorage.user_session).type === 'ADMIN_FULL'){
+			console.log("SSSSSSSSS"); console.log(this.props);
 			return(
 				<div className="row">
-					<form>
-						<h4>Add Response: </h4>
-						<textarea name="details" className="form-control" rows="7" value={this.state.comment.details} onChange={this.onChange} />
-						<br/><br/>
-						<div className="col-md-3">
-							<input type="submit" className="btn btn-primary" onClick={this.onSave}/>
+					<div className="row">
+						<form>
+							<h4>Add Response: </h4>
+							<textarea name="details" className="form-control" rows="7" value={this.state.comment.details} onChange={this.onChange} />
+							<br/><br/>
+							<div className="col-md-3">
+								<input type="submit" value="Add Comment" className="btn btn-primary" onClick={this.onSave}/>
+							</div>
+						</form>
+					</div>
+					<div className="row">
+						<div className="col-md-6">
+							<div className="row">
+								Currently Assigned To : {this.props.complain[0].assignedTo}
+							</div>
+							<div className="row">
+								<div className="col-md-6">
+									<select  className="form-control" ref="profUser" >
+										{
+											this.props.profUsers.map(profUser =>
+												 <option value={profUser.id}>{profUser.name}</option>
+											)
+										}
+									</select>
+							</div>
+								<div className="col-md-3">
+									<input type="button" className="btn btn-primary" value="Submit to authorities" onClick={() => this.submitToAuth()}/>
+								</div>
+							</div>
 						</div>
-						<div className="col-md-4">
-							<select  className="form-control" >
-								<option>Authority 1</option>
-							</select>
-						</div>
-						<div className="col-md-3">
-							<input type="button" className="btn btn-primary" value="Submit to authorities"/>
-						</div>
+
 						<div className="col-md-2">
 							<input type="button" className="btn btn-primary" value="Mark as Resolved"/>
 						</div>
-					</form>
+					</div>
 				</div>
 			);
 		}
@@ -158,14 +182,15 @@ class Complain extends React.Component{
 function mapStateToProps(state, ownProps) {
     return{
         complain:state.complain,
-        comments:state.comments
+        comments:state.comments,
+				profUsers: state.profUsers
     };
 
 }
 
 function mapDispatchToProps(dispatch){
     return{
-        actions : bindActionCreators(Object.assign({}, complainActions, commentActions),dispatch)
+        actions : bindActionCreators(Object.assign({}, complainActions, commentActions, userActions),dispatch)
     };
 }
 

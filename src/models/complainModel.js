@@ -144,8 +144,9 @@ function Complain() {
     this.loadComplain = function (res, comp_id, userId) {
         connection.acquire(function (err, con) {
             con.query(`select c.id as id, p.id as pid, p.type as type, e.id as aid, e.action as action, c.res_person as res_person, c.anonymous as anonymous, c.details as details, i.image as image,`
-            +` c.lat as lat, c.lng as lng, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, c.location as location, f.is_favorite as fav from complains c left outer join complain_images i on  c.id = i.complain_id join pollution_type p join user_details u join expected_action e left outer join complains_favorite f on c.id = f.complain_id and f.user_id = ? and f.is_favorite = 1 where c.id = ? `
-            + ` and p.id = c.type and e.id = c.action and c.user_id = u.id `, [userId,comp_id] ,function (err, result) {
+            +` c.lat as lat, c.lng as lng, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, c.location as location, f.is_favorite as fav, concat(pu.name,"-",pu.email) as assignedTo from complains c left outer join complain_images i on  c.id = i.complain_id join pollution_type p join user_details u `
+            + `join expected_action e left outer join complains_favorite f on c.id = f.complain_id and f.user_id = ? and f.is_favorite = 1 join user_details pu where c.id = ? `
+            + ` and p.id = c.type and e.id = c.action and c.user_id = u.id and pu.id = c.assigned_to `, [userId,comp_id] ,function (err, result) {
                 con.release();
                 res.json(result);
             });
@@ -581,6 +582,48 @@ function Complain() {
               });
       });
     }
+
+
+    this.updateAuthority = function(res,complainId, authId){
+      console.log("^^^^^^^^^UPDATING AUTHORITY^^^^^^^");
+      console.log(complainId); console.log(authId);
+      connection.acquire( function(err,con){
+        if(err){
+          con.release();
+          res.send({ status: false, message: 'Error' });
+          return;
+        }
+        con.beginTransaction(function(err){
+          if(err){
+              con.release();
+              res.send({ status: false, message: 'Error' }); return;
+          }
+
+          con.query('update complains set assigned_to = ? where id = ? ', [authId,complainId], function(err, result){
+              if (err) {
+                  con.rollback(function() {
+                      con.release();
+                      res.send({ status: false, message: 'Error' });
+                      return;
+                    });
+              }
+
+              con.commit(function(err) {
+                if (err) {
+                    con.rollback(function() {
+                    con.release();
+                    res.send({ status: false, message: 'Error' });
+                    return;
+                    });
+                }
+                con.release();
+                res.send({ status: true, message: 'authority updated successfully' });
+                console.log('success!');
+              });
+            });
+          })
+        });
+      }
 
 }
 

@@ -23,6 +23,26 @@ class UsersApi {
   		});
   	}
 
+    static loadProfUsers(){
+    	return fetch('/loadProfUsers',{
+        method: 'GET',
+        headers: {
+          'Accept' : 'application/json',
+          'Content-Type' : 'application/json'
+        }
+      })
+    		.then((response) => response.json())
+    		.then((responseJson) => {
+    			console.log(">>>>>>>>>")
+    			console.log(responseJson);
+    			let users = responseJson;
+    			return Object.assign([], users);
+    		})
+    		.catch((error) => {
+    			console.error(error);
+    		});
+    	}
+
 
     static getUserById(id) {
 

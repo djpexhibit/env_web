@@ -6,6 +6,7 @@ export default {
     specie:[],
     users:[],
     user:[],
+    profUsers:[],
     session: !!sessionStorage.jwt,
     comments:[],
     advs:[],

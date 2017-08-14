@@ -6,6 +6,7 @@ import species from './specieReducer';
 import specie from './specieDetailReducer';
 import users from './userReducer';
 import user from './userDetailReducer';
+import profUsers from './profUsersReducer';
 import isLoading from './loadingMaskReducer';
 import session from './sessionReducer';
 import comments from './commentsReducer';
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
     specie,
     users,
     user,
+    profUsers,
     comments,
     advs,
     events,
