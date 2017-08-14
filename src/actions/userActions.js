@@ -83,6 +83,6 @@ export function addToPanel(id){
 	}
 }
 
-export function addToPanel(user){
+export function addToPanelSuccess(user){
     return{type:types.ADD_TO_PANEL_SUCCESS, user}
 }
