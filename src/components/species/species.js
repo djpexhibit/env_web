@@ -27,7 +27,7 @@ class Species extends React.Component{
 	_loadImg(id){
 		let imgPath = `/species/${id}_0.jpg`;
 		return(
-			<img src={imgPath} style={{"width":"200px";"height":"200px"}} />
+			<img src={imgPath} style={{"width":"200px","height":"200px"}} />
 		)
 	}
 
