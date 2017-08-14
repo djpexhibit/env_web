@@ -72,76 +72,28 @@ class User extends React.Component{
 
 	render(){
 
-		let markers = [
-            {
-                name: 'marker1',
-                loc: { lat: this.props.user[0].lat, lng: this.props.user[0].lng }
-            }
-        ];
-
 		if(this.props.user && this.props.user.length > 0 ){
-		return(
-			<div className="container">
-				<br/>
-				<div className="row">
-					<div className="col-md-12">
-						<p>Problem: {this.props.user[0].type}</p>
-					</div>
-					<div className="col-md-12">
-						<p>Location : {this.props.user[0].location} </p>
-					</div>
-					<div className="col-md-12">
-						<p>Party : {this.props.user[0].res_person}</p>
-					</div>
-					<div className="col-md-12">
-						<p>Reported By: {this.props.user[0].user}</p>
-					</div>
-					<div className="col-md-12">
-						<p>On: {this.props.user[0].date}</p>
-					</div>
-					<div className="col-md-12">
-						<p>{this.props.user[0].details}</p>
-					</div>
-					<div className="col-md-12">
-						{this.props.user.map( user => {
-               				return (
-                            	<img src={user.image} />
-                            )
-                        })}
 
-					</div>
-				</div>
-
-				<div style={{width: '80vw', height: '50vh', position: 'relative'}}>
-					<ContainerWrapper markers={markers} lat={this.props.user[0].lat} lng={this.props.user[0].lng} />
-				</div>
-
-				<div className="pex-comment-section">
-					<p> Comments: </p>
-
-			{
-				this.props.comments.map( (comment) => {
-					return <div className="row">
+			return(
+				<div className="container">
+					<br/>
+					<div className="row">
 						<div className="col-md-12">
-							<div>name: {comment.user}</div>
+							<p>Type: {this.props.user[0].type}</p>
 						</div>
 						<div className="col-md-12">
-							<div>on: {comment.date}</div>
+							<p>Name : {this.props.user[0].name} </p>
 						</div>
 						<div className="col-md-12">
-							<p>{comment.details}</p>
+							<p>Username : {this.props.user[0].username}</p>
+						</div>
+						<div className="col-md-12">
+							<p>Email: {this.props.user[0].email}</p>
+						</div>
+						<div className="col-md-12">
+							<p>Mobile: {this.props.user[0].mobile}</p>
 						</div>
 					</div>
-				})
-			}
-
-
-			{ this._generateCommentSection()}
-
-
-
-			</div>
-
 			</div>
 		);
 
