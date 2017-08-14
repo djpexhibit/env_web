@@ -68,3 +68,21 @@ export function loadProfUsers(){
 export function loadProfUsersSuccess(users){
     return{type:types.LOAD_PROF_USERS_SUCCESS, users}
 }
+
+
+export function addToPanel(id){
+	return function(dispatch){
+		dispatch(setLoadingMask());
+		return userApi.addToPanel(id).then(user => {
+				dispatch(removeLoadingMask());
+				dispatch(addToPanelSuccess(user));
+		}).catch(error => {
+				dispatch(removeLoadingMask());
+				throw(error);
+		});
+	}
+}
+
+export function addToPanel(user){
+    return{type:types.ADD_TO_PANEL_SUCCESS, user}
+}

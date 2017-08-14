@@ -804,6 +804,53 @@ function User() {
         });
     };
 
+    this.addToPanel = function(res, id){
+        connection.acquire( function(err,con){
+            if(err){
+                con.release();
+                res.send({ status: false, message: 'Error' });
+                return;
+            }
+            con.beginTransaction(function(err){
+                if(err){
+                    con.release();
+                    res.send({ status: false, message: 'Error' }); return;
+                }
+
+                con.query('update user_details set is_joined_verified = 1 where id = ? ', id, function(err, result){
+                    if (err) {
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' });
+                          return;
+                        });
+                    }
+
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' });
+                              return;
+                            });
+                        }
+
+
+                        con.query(`select id,name,username,email,type,mobile,expert_type as expertType, media_type as mediaType, is_joined as isJoined, is_joined_verified as isJoinedVerified, image from user_details where id = ? `, id ,function (err, result) {
+                            con.release();
+                            res.json(result);
+                            console.log('add to panel - success!');
+
+                        });
+
+                    });
+
+                });
+            })
+
+        });
+    }
+
 }
 
 

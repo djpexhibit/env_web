@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import * as userActions from '../../actions/userActions';
-import * as commentActions from '../../actions/commentActions';
 import {bindActionCreators}  from 'redux';
 import TextInput from '../common/TextInput';
 import ContainerWrapper from '../map/containerWrapper';
@@ -11,7 +10,6 @@ class User extends React.Component{
 	constructor(props) {
 		super(props);
 		props.actions.loadUserById(props.params.id);
-		props.actions.loadCommentById(props.params.id);
 
 		this.state={
 			comment : {
@@ -22,52 +20,13 @@ class User extends React.Component{
 			}
 		}
 
-		this.onChange = this.onChange.bind(this);
-		this.onSave = this.onSave.bind(this);
+		this._addToPanel = this._addToPanel.bind(this);
 	}
 
 
-	onChange(event){
-		const field = event.target.name;
-		const comment = this.state.comment;
-		comment[field] = event.target.value;
-		return this.setState({comment:comment})
-	}
 
-	onSave(event) {
-		event.preventDefault();
-		this.props.actions.addComment(this.state.comment);
-
-		//browserHistory.push("/users");
-	}
-
-	_generateCommentSection(){
-
-		if(sessionStorage.user_session && JSON.parse(sessionStorage.user_session).type === 'ADMIN_FULL'){
-			return(
-				<div className="row">
-					<form>
-						<h4>Add Response: </h4>
-						<textarea name="details" className="form-control" rows="7" value={this.state.comment.details} onChange={this.onChange} />
-						<br/><br/>
-						<div className="col-md-3">
-							<input type="submit" className="btn btn-primary" onClick={this.onSave}/>
-						</div>
-						<div className="col-md-4">
-							<select  className="form-control" >
-								<option>Authority 1</option>
-							</select>
-						</div>
-						<div className="col-md-3">
-							<input type="button" className="btn btn-primary" value="Submit to authorities"/>
-						</div>
-						<div className="col-md-2">
-							<input type="button" className="btn btn-primary" value="Mark as Resolved"/>
-						</div>
-					</form>
-				</div>
-			);
-		}
+	_addToPanel(id){
+		this.props.actions.addToPanel(id);
 	}
 
 	render(){
@@ -93,6 +52,13 @@ class User extends React.Component{
 						<div className="col-md-12">
 							<p>Mobile: {this.props.user[0].mobile}</p>
 						</div>
+						<div>
+							{
+								(this.props.user[0].isJoinedVerified)?
+								<button onClick={() => _addToPanel(this.props.user[0].id)}>Add to panel</button>
+								:null
+							}
+						</div>
 					</div>
 			</div>
 		);
@@ -109,15 +75,14 @@ class User extends React.Component{
 
 function mapStateToProps(state, ownProps) {
     return{
-        user:state.user,
-        comments:state.comments
+        user:state.user
     };
 
 }
 
 function mapDispatchToProps(dispatch){
     return{
-        actions : bindActionCreators(Object.assign({}, userActions, commentActions),dispatch)
+        actions : bindActionCreators(Object.assign({}, userActions),dispatch)
     };
 }
 

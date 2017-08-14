@@ -5,6 +5,8 @@ export default function userDetailsReducer(state = initialState.user, action){
     switch(action.type){
         case types.LOAD_USER_BY_ID_SUCCESS:
             return action.user;
+        case types.ADD_TO_PANEL_SUCCESS:
+              return action.user;
         default:
             return state;
     }

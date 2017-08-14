@@ -236,6 +236,13 @@ app.post('/loadUser', jsonParser ,function(req,res){
   user.loadUser(res,user_id, userId);
 })
 
+
+app.post('/addToPanel', jsonParser ,function(req,res){
+  let user_id = req.body.user_id;
+  console.log(user_id)
+  user.addToPanel(res,user_id);
+})
+
 app.post('/loadComments', jsonParser ,function(req,res){
   console.log("LOADING ONE COMMENTS");
   let comp_id = req.body.comp_id;

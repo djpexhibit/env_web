@@ -132,6 +132,27 @@ class UsersApi {
       })
     }
 
+    static addToPanel(id){
+      return fetch('/addToPanel',{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: id
+        })
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        let users = responseJson;
+        return Object.assign([], users);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+
 
 }
 
