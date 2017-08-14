@@ -54,8 +54,8 @@ class Species extends React.Component{
 												</Col>
 												<Col md={2}>
 													<p>{specie.type}</p>
+													<p>{specie.name}</p>
 													<p>{specie.date}</p>
-													<p>{specie.res_person}</p>
 												</Col>
 												<Col md={3}>
 													{specie.date}

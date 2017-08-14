@@ -52,15 +52,12 @@ class Complains extends React.Component{
 												<Col md={3}>
 													{this._loadImg(complain.id)}
 												</Col>
-												<Col md={3}>
-													{complain.type}
+												<Col md={5}>
+													<p>{complain.type}</p>
+													<p>{complain.date}</p>
+													<p>{complain.res_person}</p>
 												</Col>
-												<Col md={2}>
-													{complain.res_person}
-												</Col>
-												<Col md={3}>
-													{complain.details}...
-												</Col>
+
 											</div>
 										</Link>
 
