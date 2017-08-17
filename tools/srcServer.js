@@ -268,6 +268,13 @@ app.get('/loadAppVersion', function(req,res){
   complain.loadAppVersion(res);
 })
 
+app.post('/loadAppVersion', jsonParser,function(req,res){
+  console.log("LOADING APP VERSION post")
+  let pform = req.body.pform;
+
+  complain.loadAppVersionPOST(res,pform);
+})
+
 app.get('/loadEvents', function(req,res){
   console.log("LOADING EVENTS")
   events.loadEvents(res);
