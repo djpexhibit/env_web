@@ -485,6 +485,12 @@ app.post('/updateAuthority', jsonParser, function(req,res){
 })
 
 
+app.post('/resolved', jsonParser, function(req,res){
+  let complainId = req.body.complainId
+  complain.resolved(res,complainId);
+})
+
+
 /*var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/')

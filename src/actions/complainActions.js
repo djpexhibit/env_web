@@ -58,7 +58,7 @@ export function updateAuthority(complainId,authId){
         dispatch(setLoadingMask());
         return complainApi.updateAuthority(complainId,authId).then( success => {
             dispatch(removeLoadingMask());
-            dispatch(updateAuthoritySuccess(success));
+            dispatch(loadComplainById(complainId));
         }).catch(error => {
             dispatch(removeLoadingMask());
             throw(error);
@@ -67,5 +67,20 @@ export function updateAuthority(complainId,authId){
 }
 
 export function updateAuthoritySuccess(status){
+	debugger
     return {type: types.UPDATE_AUTHORITY_SUCCESS, status}
+}
+
+
+export function resolved(complainId){
+    return function(dispatch){
+        dispatch(setLoadingMask());
+        return complainApi.resolved(complainId).then( success => {
+            dispatch(removeLoadingMask());
+            dispatch(loadComplainById(complainId));
+        }).catch(error => {
+            dispatch(removeLoadingMask());
+            throw(error);
+        })
+    }
 }

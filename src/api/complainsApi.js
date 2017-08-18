@@ -130,6 +130,22 @@ class ComplainsApi {
         })
     }
 
+    static resolved(complanId){
+        return fetch('/resolved',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                complainId: complanId
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
 
 }
 

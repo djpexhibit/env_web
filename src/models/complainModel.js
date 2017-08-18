@@ -153,7 +153,7 @@ function Complain() {
     this.loadComplain = function (res, comp_id, userId) {
         connection.acquire(function (err, con) {
             con.query(`select c.id as id, p.id as pid, p.type as type, e.id as aid, e.action as action, c.res_person as res_person, c.anonymous as anonymous, c.details as details, i.image as image,`
-            +` c.lat as lat, c.lng as lng, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, c.location as location, f.is_favorite as fav, concat(pu.name,"-",pu.email) as assignedTo from complains c left outer join complain_images i on  c.id = i.complain_id join pollution_type p join user_details u `
+            +` c.lat as lat, c.lng as lng, c.closed as closed, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, c.location as location, f.is_favorite as fav, concat(pu.name,"-",pu.email) as assignedTo from complains c left outer join complain_images i on  c.id = i.complain_id join pollution_type p join user_details u `
             + `join expected_action e left outer join complains_favorite f on c.id = f.complain_id and f.user_id = ? and f.is_favorite = 1 left outer join user_details pu on pu.id = c.assigned_to where c.id = ? `
             + ` and p.id = c.type and e.id = c.action and c.user_id = u.id  `, [userId,comp_id] ,function (err, result) {
                 con.release();
@@ -633,6 +633,48 @@ function Complain() {
           })
         });
       }
+
+
+      this.resolved = function(res,complainId){
+        console.log("^^^^^^^^^RESOLVING^^^^^^^");
+        console.log(complainId);
+        connection.acquire( function(err,con){
+          if(err){
+            con.release();
+            res.send({ status: false, message: 'Error' });
+            return;
+          }
+          con.beginTransaction(function(err){
+            if(err){
+                con.release();
+                res.send({ status: false, message: 'Error' }); return;
+            }
+
+            con.query('update complains set closed = 1 where id = ? ', complainId, function(err, result){
+                if (err) {
+                    con.rollback(function() {
+                        con.release();
+                        res.send({ status: false, message: 'Error' });
+                        return;
+                      });
+                }
+
+                con.commit(function(err) {
+                  if (err) {
+                      con.rollback(function() {
+                      con.release();
+                      res.send({ status: false, message: 'Error' });
+                      return;
+                      });
+                  }
+                  con.release();
+                  res.send({ status: true, message: 'resolved successfully' });
+                  console.log('success!');
+                });
+              });
+            })
+          });
+        }
 
 }
 
