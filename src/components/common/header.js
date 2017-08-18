@@ -46,9 +46,9 @@ class Header extends React.Component{
                       { (type === 'ADMIN_FULL')?
                       <li><Link  to="users">Users</Link></li> : null
                       }
-                      { (type === 'ADMIN_FULL')?
+                    {/*  { (type === 'ADMIN_FULL')?
                       <li><Link  to="adv">Advertise</Link></li> : null
-                      }
+                      } */}
                       { (type === 'ADMIN_FULL')?
                       <li><Link  to="event">Events</Link></li> : null
                       }
