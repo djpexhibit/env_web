@@ -10,6 +10,7 @@ import profUsers from './profUsersReducer';
 import isLoading from './loadingMaskReducer';
 import session from './sessionReducer';
 import comments from './commentsReducer';
+import speciesComments from './speciesCommentsReducer';
 import advs from './advReducer';
 import events from './eventReducer';
 import login from './loginReducer';
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
     comments,
     advs,
     events,
-    login
+    login,
+    speciesComments
 });
 
 export default rootReducer;

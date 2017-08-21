@@ -372,7 +372,7 @@ console.log(term);
                     }
                     console.log(details);
                     let whichType = 'user_replied';
-                    if(details.type === 'Media' || details.type === 'Expert'){
+                    if(details.type === 'Media' || details.type === 'Expert' || details.type === 'ADMIN'){
                       whichType = 'expert_replied';
                     }
 

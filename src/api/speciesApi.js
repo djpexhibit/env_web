@@ -47,17 +47,17 @@ class SpeciesApi {
     }
 
 
-    static getCommentsById(id) {
+    static getSpeciesCommentsById(id) {
+debugger
 
-
-      return fetch('/loadComments',{
+      return fetch('/loadSpeciesComments',{
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                comp_id: id
+                spec_id: id
             })
         })
         .then((response) => response.json())
@@ -71,8 +71,8 @@ class SpeciesApi {
     }
 
 
-    static addComment(comment){
-        return fetch('/addComment',{
+    static addSpeciesComment(comment){
+        return fetch('/addSpeciesComment',{
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

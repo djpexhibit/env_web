@@ -9,6 +9,7 @@ export default {
     profUsers:[],
     session: !!sessionStorage.jwt,
     comments:[],
+    speciesComments:[],
     advs:[],
     events:[],
     loggedUser:{}
