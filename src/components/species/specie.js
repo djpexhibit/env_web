@@ -2,6 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import * as specieActions from '../../actions/specieActions';
 import * as specieCommentActions from '../../actions/specieCommentActions';
+import * as userActions from '../../actions/userActions';
+
 import {bindActionCreators}  from 'redux';
 import TextInput from '../common/TextInput';
 import ContainerWrapper from '../map/containerWrapper';
@@ -12,6 +14,8 @@ class Specie extends React.Component{
 		super(props);
 		props.actions.loadSpecieById(props.params.id);
 		props.actions.loadSpeciesCommentById(props.params.id);
+		props.actions.loadProfUsers();
+
 
 		this.state={
 			comment : {
@@ -41,6 +45,10 @@ class Specie extends React.Component{
 		//browserHistory.push("/species");
 	}
 
+	submitToAuth(){
+		this.props.actions.updateAuthority(this.props.params.id, this.refs.profUser.value);
+	}
+
 	_generateCommentSection(){
 
 		if(sessionStorage.user_session && JSON.parse(sessionStorage.user_session).type === 'ADMIN_FULL'){
@@ -61,7 +69,7 @@ class Specie extends React.Component{
 					</div>
 
 
-					{/*<div className="row">
+					<div className="row">
 						Currently Assigned To : {this.props.specie[0].assignedTo}
 					</div>
 
@@ -83,7 +91,7 @@ class Specie extends React.Component{
 
 					</div>
 
-					{
+					{/*{
 						(!this.props.specie[0].closed)?
 						<div className="row" style={{marginTop:"30px", borderTop:"1px solid black", paddingTop:"10px"}}>
 							<input type="button" className="btn btn-primary" value="Mark as Resolved" onClick={() => this._resolved(this.props.complain[0].id)}/>
@@ -191,14 +199,15 @@ function mapStateToProps(state, ownProps) {
 	debugger;
     return{
         specie:state.specie,
-        speciesComments:state.speciesComments
+        speciesComments:state.speciesComments,
+				profUsers: state.profUsers
     };
 
 }
 
 function mapDispatchToProps(dispatch){
     return{
-        actions : bindActionCreators(Object.assign({}, specieActions, specieCommentActions),dispatch)
+        actions : bindActionCreators(Object.assign({}, specieActions, specieCommentActions,userActions),dispatch)
     };
 }
 

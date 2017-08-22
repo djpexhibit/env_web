@@ -113,6 +113,24 @@ debugger
     }
 
 
+    static updateAuthority(specieId,authId){
+        return fetch('/updateSpecieAuthority',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                specieId: specieId,
+                authId: authId
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
+
 }
 
 export default SpeciesApi;

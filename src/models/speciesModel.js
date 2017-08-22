@@ -196,8 +196,8 @@ console.log(term);
 
     this.loadSpecie = function (res, spec_id, userId) {
         connection.acquire(function (err, con) {
-            con.query(`select s.id as id, s.type as type, s.name as name,s.anonymous as anonymous, s.specname as specname, i.image as image,`
-            +` s.lat as lat, s.lng as lng, DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, s.location as location, f.is_favorite as fav  from species s left outer join species_images i on  s.id = i.species_id join user_details u left outer join species_favorite f on s.id = f.species_id and f.user_id = ? and f.is_favorite = 1 where s.id = ? `
+            con.query(`select s.id as id, s.type as type, concat(pu.name,"-",pu.email) as assignedTo, s.name as name,s.anonymous as anonymous, s.specname as specname, i.image as image,`
+            +` s.lat as lat, s.lng as lng, DATE_FORMAT(s.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, s.location as location, f.is_favorite as fav  from species s left outer join species_images i on  s.id = i.species_id join user_details u left outer join species_favorite f on s.id = f.species_id and f.user_id = ? and f.is_favorite = 1 left outer join user_details pu on pu.id = s.assigned_to where s.id = ? `
             + ` and s.user_id = u.id `, [userId, spec_id] ,function (err, result) {
                 con.release();
                 res.json(result);
@@ -473,6 +473,48 @@ console.log(term);
 
         });
     }
+
+
+    this.updateAuthority = function(res,specieId, authId){
+      console.log("^^^^^^^^^UPDATING SPECIE AUTHORITY^^^^^^^");
+      console.log(specieId); console.log(authId);
+      connection.acquire( function(err,con){
+        if(err){
+          con.release();
+          res.send({ status: false, message: 'Error' });
+          return;
+        }
+        con.beginTransaction(function(err){
+          if(err){
+              con.release();
+              res.send({ status: false, message: 'Error' }); return;
+          }
+
+          con.query('update species set assigned_to = ? where id = ? ', [authId,specieId], function(err, result){
+              if (err) {
+                  con.rollback(function() {
+                      con.release();
+                      res.send({ status: false, message: 'Error' });
+                      return;
+                    });
+              }
+
+              con.commit(function(err) {
+                if (err) {
+                    con.rollback(function() {
+                    con.release();
+                    res.send({ status: false, message: 'Error' });
+                    return;
+                    });
+                }
+                con.release();
+                res.send({ status: true, message: 'specie authority updated successfully' });
+                console.log('success!');
+              });
+            });
+          })
+        });
+      }
 
 }
 

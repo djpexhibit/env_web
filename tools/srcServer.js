@@ -484,6 +484,13 @@ app.post('/updateAuthority', jsonParser, function(req,res){
   complain.updateAuthority(res,complainId,authId);
 })
 
+app.post('/updateSpecieAuthority', jsonParser, function(req,res){
+  let specieId = req.body.specieId;
+  let authId = req.body.authId;
+
+  species.updateAuthority(res,specieId,authId);
+})
+
 
 app.post('/resolved', jsonParser, function(req,res){
   let complainId = req.body.complainId

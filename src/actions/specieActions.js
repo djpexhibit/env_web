@@ -51,3 +51,16 @@ export function removeSpecie(specie){
         });
     }
 }
+
+export function updateAuthority(specieId,authId){
+    return function(dispatch){
+        dispatch(setLoadingMask());
+        return specieApi.updateAuthority(specieId,authId).then( success => {
+            dispatch(removeLoadingMask());
+            dispatch(loadSpecieById(specieId));
+        }).catch(error => {
+            dispatch(removeLoadingMask());
+            throw(error);
+        })
+    }
+}
