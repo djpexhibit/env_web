@@ -7,6 +7,10 @@ export default function userDetailsReducer(state = initialState.user, action){
             return action.user;
         case types.ADD_TO_PANEL_SUCCESS:
               return action.user;
+        case types.VERIFY_ADD_TO_PANEL_SUCCESS:
+              return action.user;
+        case types.VERIFY_SUCCESS:
+              return action.user;
         default:
             return state;
     }

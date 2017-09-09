@@ -548,8 +548,7 @@ function User() {
                     con.release();
                     res.send({ status: false, message: 'Error' }); return;
                 }
-
-                con.query('update user_details set name=?, email=?, image=?, password=?, username=?, type=? , expert_type=?, media_type=?, is_joined=? where id=?', [details.name, details.email, details.image, details.password,details.username, details.mobile, details.type, details.expertType, details.mediaType, details.isJoined, details.id], function(err, result){
+                con.query('update user_details set name=?, email=?, image=?, password=?, username=?, mobile=?, type=? , expert_type=?, media_type=?, is_joined=? where id=?', [details.name, details.email, details.image, details.password,details.username, details.mobile, details.type, details.expertType, details.mediaType, details.isJoined, details.id], function(err, result){
                     if (err) {
                         con.rollback(function() {
                           con.release();
@@ -797,7 +796,7 @@ function User() {
 
     this.loadUser = function (res, user_id, userId) {
         connection.acquire(function (err, con) {
-            con.query(`select id,name,username,email,type,mobile,expert_type as expertType, media_type as mediaType, is_joined as isJoined, is_joined_verified as isJoinedVerified, image from user_details where id = ? `, user_id ,function (err, result) {
+            con.query(`select id,name,username,email,type,mobile,expert_type as expertType, media_type as mediaType, is_joined as isJoined, is_joined_verified as isJoinedVerified, image, verified from user_details where id = ? `, user_id ,function (err, result) {
                 con.release();
                 res.json(result);
             });
@@ -836,10 +835,106 @@ function User() {
                         }
 
 
-                        con.query(`select id,name,username,email,type,mobile,expert_type as expertType, media_type as mediaType, is_joined as isJoined, is_joined_verified as isJoinedVerified, image from user_details where id = ? `, id ,function (err, result) {
+                        con.query(`select id,name,username,email,type,mobile,expert_type as expertType, media_type as mediaType, is_joined as isJoined, is_joined_verified as isJoinedVerified, image, verified from user_details where id = ? `, id ,function (err, result) {
                             con.release();
                             res.json(result);
                             console.log('add to panel - success!');
+
+                        });
+
+                    });
+
+                });
+            })
+
+        });
+    }
+
+
+    this.verifyAddToPanel = function(res, id){
+        connection.acquire( function(err,con){
+            if(err){
+                con.release();
+                res.send({ status: false, message: 'Error' });
+                return;
+            }
+            con.beginTransaction(function(err){
+                if(err){
+                    con.release();
+                    res.send({ status: false, message: 'Error' }); return;
+                }
+
+                con.query('update user_details set is_joined = 1 where id = ? ', id, function(err, result){
+                    if (err) {
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' });
+                          return;
+                        });
+                    }
+
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' });
+                              return;
+                            });
+                        }
+
+
+                        con.query(`select id,name,username,email,type,mobile,expert_type as expertType, media_type as mediaType, is_joined as isJoined, is_joined_verified as isJoinedVerified, image, verified from user_details where id = ? `, id ,function (err, result) {
+                            con.release();
+                            res.json(result);
+                            console.log('verify add to panel - success!');
+
+                        });
+
+                    });
+
+                });
+            })
+
+        });
+    }
+
+
+    this.verify = function(res, id){
+        connection.acquire( function(err,con){
+            if(err){
+                con.release();
+                res.send({ status: false, message: 'Error' });
+                return;
+            }
+            con.beginTransaction(function(err){
+                if(err){
+                    con.release();
+                    res.send({ status: false, message: 'Error' }); return;
+                }
+
+                con.query('update user_details set verified = 1 where id = ? ', id, function(err, result){
+                    if (err) {
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' });
+                          return;
+                        });
+                    }
+
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' });
+                              return;
+                            });
+                        }
+
+
+                        con.query(`select id,name,username,email,type,mobile,expert_type as expertType, media_type as mediaType, is_joined as isJoined, is_joined_verified as isJoinedVerified, image, verified from user_details where id = ? `, id ,function (err, result) {
+                            con.release();
+                            res.json(result);
+                            console.log('verified - success!');
 
                         });
 

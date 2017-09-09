@@ -86,3 +86,51 @@ export function addToPanel(id){
 export function addToPanelSuccess(user){
     return{type:types.ADD_TO_PANEL_SUCCESS, user}
 }
+
+export function verifyAddToPanel(id){
+	return function(dispatch){
+		dispatch(setLoadingMask());
+		return userApi.verifyAddToPanel(id).then(user => {
+				dispatch(removeLoadingMask());
+				dispatch(verifyAddToPanelSuccess(user));
+		}).catch(error => {
+				dispatch(removeLoadingMask());
+				throw(error);
+		});
+	}
+}
+
+export function verifyAddToPanelSuccess(user){
+    return{type:types.VERIFY_ADD_TO_PANEL_SUCCESS, user}
+}
+
+export function verify(id){
+	return function(dispatch){
+		dispatch(setLoadingMask());
+		return userApi.verify(id).then(user => {
+				dispatch(removeLoadingMask());
+				dispatch(verifySuccess(user));
+		}).catch(error => {
+				dispatch(removeLoadingMask());
+				throw(error);
+		});
+	}
+}
+
+export function verifySuccess(user){
+    return{type:types.VERIFY_SUCCESS, user}
+}
+
+
+export function editUser(user){
+	return function(dispatch){
+		dispatch(setLoadingMask());
+		return userApi.editUser(user).then(userRet => {
+				dispatch(removeLoadingMask());
+				dispatch(loadUserByIdSuccess(user));
+		}).catch(error => {
+				dispatch(removeLoadingMask());
+				throw(error);
+		});
+	}
+}

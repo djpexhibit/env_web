@@ -20,6 +20,14 @@ h1,h2,h3,h4,h5.h6{
     font-family: 'Roboto Slab', serif;
 }
 
+.indic{
+  min-width: 100px;
+  width: 100px;
+  display: inline-block;
+  padding: 5px 0px 5px 0px;
+  margin: 5px 0px 5px 0px;
+}
+
 .shoe-img{
     float: left;
 }
@@ -258,11 +266,11 @@ ul.brit_socials li{
 
 .brit_product{
     text-align: center;
-    
+
   position: relative;
   z-index: 90;
 }
-    
+
 
 .slick-slide{
     border-left: 1px solid #eee;
@@ -270,7 +278,7 @@ ul.brit_socials li{
 
 .slick-slide:nth-child(4n+1){
     border-left: 0 none;
-    
+
 }
 
 
@@ -359,7 +367,7 @@ div.panel-default{
 .slides {
   position: relative;
 }
-.slick-prev:before, .slick-next:before { 
+.slick-prev:before, .slick-next:before {
     color:#333 !important;
 }
 
@@ -427,11 +435,11 @@ div.panel-default{
   top: 15px;
   width: 120px;
   background-color: #BFDC7A;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#BFDC7A), to(#8EBF45)); 
-  background-image: -webkit-linear-gradient(top, #BFDC7A, #8EBF45); 
-  background-image:    -moz-linear-gradient(top, #BFDC7A, #8EBF45); 
-  background-image:     -ms-linear-gradient(top, #BFDC7A, #8EBF45); 
-  background-image:      -o-linear-gradient(top, #BFDC7A, #8EBF45); 
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#BFDC7A), to(#8EBF45));
+  background-image: -webkit-linear-gradient(top, #BFDC7A, #8EBF45);
+  background-image:    -moz-linear-gradient(top, #BFDC7A, #8EBF45);
+  background-image:     -ms-linear-gradient(top, #BFDC7A, #8EBF45);
+  background-image:      -o-linear-gradient(top, #BFDC7A, #8EBF45);
   color: #6a6340;
   -webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
   -moz-box-shadow:    0px 0px 3px rgba(0,0,0,0.3);
@@ -440,7 +448,7 @@ div.panel-default{
 
 .ribbon-green:before, .ribbon-green:after {
   content: "";
-  border-top:   3px solid #6e8900;   
+  border-top:   3px solid #6e8900;
   border-left:  3px solid transparent;
   border-right: 3px solid transparent;
   position:absolute;
