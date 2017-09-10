@@ -7,6 +7,8 @@ import * as userActions from '../../actions/userActions';
 import {bindActionCreators}  from 'redux';
 import TextInput from '../common/TextInput';
 import ContainerWrapper from '../map/containerWrapper';
+import ImageZoom from 'react-medium-image-zoom'
+
 
 class Specie extends React.Component{
 
@@ -143,10 +145,22 @@ class Specie extends React.Component{
 						<p>{this.props.specie[0].details}</p>
 					</div>
 					<div className="col-md-12">
-						{this.props.specie.map( specie => {
-               				return (
-                            	<img src={specie.image} />
-                            )
+						{this.props.specie.map( (specie,index) => {
+							return (
+								<ImageZoom
+									image={{
+										src: specie.image,
+										alt: '',
+										className: 'img',
+										style : { width: '10%',height: '10%' }
+									}}
+									zoomImage={{
+										src: 'http://139.59.63.193:3000' + '/species/'+this.props.specie[0].id+'_'+index+'.jpg',
+										alt: '',
+										style : { width: '100%', height: '100%' }
+									}}
+						/>
+										)
                         })}
 
 					</div>
