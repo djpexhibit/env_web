@@ -84,3 +84,30 @@ export function resolved(complainId){
         })
     }
 }
+
+
+export function toggleHidePost(complainId, hide){
+    return function(dispatch){
+        dispatch(setLoadingMask());
+        return complainApi.toggleHidePost(complainId, hide).then( success => {
+            dispatch(removeLoadingMask());
+            dispatch(loadComplainById(complainId));
+        }).catch(error => {
+            dispatch(removeLoadingMask());
+            throw(error);
+        })
+    }
+}
+
+export function deletePost(complainId){
+    return function(dispatch){
+        dispatch(setLoadingMask());
+        return complainApi.deletePost(complainId).then( success => {
+            dispatch(removeLoadingMask());
+            dispatch(loadComplainById(complainId));
+        }).catch(error => {
+            dispatch(removeLoadingMask());
+            throw(error);
+        })
+    }
+}

@@ -56,6 +56,14 @@ class Complain extends React.Component{
 		this.props.actions.resolved(compId);
 	}
 
+	_toggleHidePost(compId,hide){
+		this.props.actions.toggleHidePost(compId,hide);
+	}
+
+	_deletePost(compId){
+		this.props.actions.deletePost(compId);
+	}
+
 	_generateCommentSection(){
 
 		if(sessionStorage.user_session && JSON.parse(sessionStorage.user_session).type === 'ADMIN_FULL'){
@@ -200,6 +208,22 @@ class Complain extends React.Component{
 
 
 			</div>
+
+			{
+				(sessionStorage.user_session && JSON.parse(sessionStorage.user_session).type === 'ADMIN_FULL') ?
+
+				<div>
+					(!this.props.complain[0].hidden)?
+						<button onClick={ this._toggleHidePost(this.props.complain[0].id,1)}>Hide</button>
+					: <button onClick={ this._toggleHidePost(this.props.complain[0].id,0)}>Visible</button>
+
+					(!this.props.complain[0].deleted)?
+						<button onClick={ this._deletePost(this.props.complain[0].id)}>Delete</button>
+					: null;
+
+				</div>
+				: null
+			}
 
 			</div>
 		);

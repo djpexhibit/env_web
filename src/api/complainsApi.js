@@ -146,6 +146,39 @@ class ComplainsApi {
         })
     }
 
+    static toggleHidePost(complanId, hide){
+        return fetch('/toggleHidePost',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                complainId: complanId,
+                hide: hide
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
+    static deletePost(complanId){
+        return fetch('/deletePost',{
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                complainId: complanId
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
+
 
 }
 

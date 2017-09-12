@@ -509,6 +509,18 @@ app.post('/resolved', jsonParser, function(req,res){
   complain.resolved(res,complainId);
 })
 
+app.post('/toggleHidePost', jsonParser, function(req,res){
+  let complainId = req.body.complainId
+  let hide = req.body.hide
+
+  complain.toggleHidePost(res,complainId, hide);
+})
+
+app.post('/deletePost', jsonParser, function(req,res){
+  let complainId = req.body.complainId
+  complain.deletePost(res,complainId);
+})
+
 
 /*var storage = multer.diskStorage({
     destination: function (req, file, cb) {

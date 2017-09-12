@@ -503,7 +503,7 @@ function Complain() {
                 con.query(`select c.id as id, p.type as type ,c.res_person as res_person,c.anonymous as anonymous,SUBSTRING(c.details,1,42) as details, `+
                 `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments, `+
                 `c.expert_replied as expertReplied, c.user_replied as userReplied, c.closed as closed, `+
-                ` f.is_favorite as fav from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1 join complains_favorite f on c.id = f.complain_id and f.user_id = ?  and f.is_favorite = 1 where p.id = c.type and c.user_id = u.id order by u.id = ? desc, c.date desc limit 30 `, [user_id,user_id], function (err, result) {
+                ` f.is_favorite as fav from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1 join complains_favorite f on c.id = f.complain_id and f.user_id = ?  and f.is_favorite = 1 where p.id = c.type and c.user_id = u.id and c.hidden = 0 and c.deleted = 0 order by u.id = ? desc, c.date desc limit 30 `, [user_id,user_id], function (err, result) {
                 con.release();
                 res.json(result);
                 });
@@ -511,7 +511,7 @@ function Complain() {
                 con.query(`select c.id as id, p.type as type ,c.res_person as res_person,c.anonymous as anonymous,SUBSTRING(c.details,1,42) as details, `+
                 `c.expert_replied as expertReplied, c.user_replied as userReplied, c.closed as closed, `+
                 `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments `+
-                `from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1  where p.id = c.type and c.user_id = u.id limit 30 `, function (err, result) {
+                `from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1  where p.id = c.type and c.user_id = u.id and c.deleted = o limit 30 `, function (err, result) {
                 con.release();
                 //console.log("EEEE");console.log(result)
                 res.json(result);
@@ -528,7 +528,7 @@ function Complain() {
               con.query(`select c.id as id, p.type as type ,c.res_person as res_person,c.anonymous as anonymous,SUBSTRING(c.details,1,42) as details, `+
               `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , IF(i.image IS NULL, FALSE, TRUE) as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments, `+
               `c.expert_replied as expertReplied, c.user_replied as userReplied, c.closed as closed, `+
-              ` f.is_favorite as fav from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1 join complains_favorite f on c.id = f.complain_id and f.user_id = ?  and f.is_favorite = 1 where p.id = c.type and c.user_id = u.id order by c.assigned_to = ? desc, u.id = ? desc, c.date desc limit ?,? `, [user_id,user_id,user_id,start,end], function (err, result) {
+              ` f.is_favorite as fav from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1 join complains_favorite f on c.id = f.complain_id and f.user_id = ?  and f.is_favorite = 1 where p.id = c.type and c.user_id = u.id and c.hidden = 0 and c.deleted = 0 order by c.assigned_to = ? desc, u.id = ? desc, c.date desc limit ?,? `, [user_id,user_id,user_id,start,end], function (err, result) {
               con.release();
               res.json(result);
                 });
@@ -536,7 +536,7 @@ function Complain() {
                 con.query(`select c.id as id, p.type as type ,c.res_person as res_person,c.anonymous as anonymous,SUBSTRING(c.details,1,42) as details, `+
                 `c.expert_replied as expertReplied, c.user_replied as userReplied, c.closed as closed, `+
                 `DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user , i.image as image, u.id as user_id, (select count(*) from comments co where co.complain_id = c.id group by complain_id) as comments `+
-                `from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1  where p.id = c.type and c.user_id = u.id limit 30 `, function (err, result) {
+                `from complains c join pollution_type p join user_details u left outer join complain_images i on c.id = i.complain_id and i.selected = 1  where p.id = c.type and c.user_id = u.id and c.hidden = 0 limit 30 `, function (err, result) {
                 con.release();
                 //console.log("EEEE");console.log(result)
                 res.json(result);
@@ -558,7 +558,7 @@ function Complain() {
 
     this.loadNumberOfPosts = function(res){
       connection.acquire(function (err, con) {
-              con.query(`SELECT COUNT(*) as species,(SELECT COUNT(*) FROM complains) as complains FROM species `, function (err, result) {
+              con.query(`SELECT COUNT(*) as species,(SELECT COUNT(*) FROM complains where c.hidden = 0 and c.deleted = 0) as complains FROM species `, function (err, result) {
               con.release();
               res.json(result);
               });
@@ -585,7 +585,7 @@ function Complain() {
 
     this.loadNumberOfOwnPosts = function(res, user_id){
       connection.acquire(function (err, con) {
-              con.query(`SELECT COUNT(*) as species,(SELECT COUNT(*) FROM complains c WHERE  c.user_id = ? ) as complains FROM species s WHERE s.user_id = ? `, [user_id, user_id],function (err, result) {
+              con.query(`SELECT COUNT(*) as species,(SELECT COUNT(*) FROM complains c WHERE  c.user_id = ? and c.hidden = 0 and c.deleted = 0 ) as complains FROM species s WHERE s.user_id = ? `, [user_id, user_id],function (err, result) {
               con.release();
               res.json(result);
               });
@@ -675,6 +675,90 @@ function Complain() {
             })
           });
         }
+
+
+        this.toggleHidePost = function(res,complainId,hide){
+          console.log("^^^^^^^^^TOGGLE HIDE^^^^^^^");
+          console.log(complainId);
+          connection.acquire( function(err,con){
+            if(err){
+              con.release();
+              res.send({ status: false, message: 'Error' });
+              return;
+            }
+            con.beginTransaction(function(err){
+              if(err){
+                  con.release();
+                  res.send({ status: false, message: 'Error' }); return;
+              }
+
+              con.query('update complains set hidden = ? where id = ? ', [hide,complainId], function(err, result){
+                  if (err) {
+                      con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' });
+                          return;
+                        });
+                  }
+
+                  con.commit(function(err) {
+                    if (err) {
+                        con.rollback(function() {
+                        con.release();
+                        res.send({ status: false, message: 'Error' });
+                        return;
+                        });
+                    }
+                    con.release();
+                    res.send({ status: true, message: 'toggle successfully' });
+                    console.log('success!');
+                  });
+                });
+              })
+            });
+          }
+
+
+          this.deletePost = function(res,complainId){
+            console.log("^^^^^^^^^DELETING POST^^^^^^^");
+            console.log(complainId);
+            connection.acquire( function(err,con){
+              if(err){
+                con.release();
+                res.send({ status: false, message: 'Error' });
+                return;
+              }
+              con.beginTransaction(function(err){
+                if(err){
+                    con.release();
+                    res.send({ status: false, message: 'Error' }); return;
+                }
+
+                con.query('update complains set deleted = 1 where id = ? ', complainId, function(err, result){
+                    if (err) {
+                        con.rollback(function() {
+                            con.release();
+                            res.send({ status: false, message: 'Error' });
+                            return;
+                          });
+                    }
+
+                    con.commit(function(err) {
+                      if (err) {
+                          con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' });
+                          return;
+                          });
+                      }
+                      con.release();
+                      res.send({ status: true, message: 'deleted successfully' });
+                      console.log('success!');
+                    });
+                  });
+                })
+              });
+            }
 
 }
 
