@@ -15,7 +15,7 @@ import {Banner} from './components/home/banner';
 
 export class App extends React.Component {
    render() {
-    
+
       return (
         <div>
           <Header/>

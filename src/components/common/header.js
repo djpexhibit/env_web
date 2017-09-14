@@ -35,6 +35,11 @@ class Header extends React.Component{
 
         return(
           <div>
+            <div className="row">
+              <div className="col-md-10">
+                <img src={require('../../images/logo.jpg')} style={{width:"150px",height:'auto'}} className="img-responsive" alt=""/>
+              </div>
+            </div>
             <div className="brit_top_strip">
               <div className="container">
                 <div className="brit_top_strip_content">
