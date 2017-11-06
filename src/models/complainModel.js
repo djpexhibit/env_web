@@ -151,6 +151,8 @@ function Complain() {
 
 
     this.loadComplain = function (res, comp_id, userId) {
+      console.log("^^^^^^^^^^^^^^^^^^^");
+      console.log(comp_id); console.log(userId);
         connection.acquire(function (err, con) {
             con.query(`select c.id as id, p.id as pid, p.type as type, e.id as aid, e.action as action, c.res_person as res_person, c.anonymous as anonymous, c.details as details, i.image as image,`
             +` c.lat as lat, c.lng as lng, c.closed as closed, DATE_FORMAT(c.date,'%b %d %Y %h:%i %p') as date, u.name as user, u.id as uid, c.hidden as hidden, c.deleted as deleted, c.location as location, f.is_favorite as fav, concat(pu.name,"-",pu.email) as assignedTo from complains c left outer join complain_images i on  c.id = i.complain_id join pollution_type p join user_details u `
