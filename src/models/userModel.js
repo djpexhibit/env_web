@@ -743,6 +743,24 @@ function User() {
       });
     }
 
+    this.loadTutorial = function(res,id){
+      connection.acquire(function(err,con){
+        if(err){
+          con.release();
+          res.json({status:"ERROR",error:"400"}); return;
+        }
+        con.query('select tutorialDid from user_details where id = ? ',id,function(err,result){
+          con.release();
+
+          if(err){
+            res.json({status:"ERROR",error:"400"}); return;
+          }
+
+          res.json(result);
+        })
+      });
+    }
+
     this.updateAgree = function(res, id){
         connection.acquire( function(err,con){
             if(err){
@@ -775,6 +793,48 @@ function User() {
                         }
                         con.release();
                         res.send({ status: true, message: 'agreed updated successfully' });
+                        console.log('success!');
+                    });
+
+                });
+            })
+
+        });
+    }
+
+
+    this.updateTutorialDid = function(res, id){
+        connection.acquire( function(err,con){
+            if(err){
+                con.release();
+                res.send({ status: false, message: 'Error' });
+                return;
+            }
+            con.beginTransaction(function(err){
+                if(err){
+                    con.release();
+                    res.send({ status: false, message: 'Error' }); return;
+                }
+
+                con.query('update user_details set tutorialDid = 1 where id = ? ', id, function(err, result){
+                    if (err) {
+                        con.rollback(function() {
+                          con.release();
+                          res.send({ status: false, message: 'Error' });
+                          return;
+                        });
+                    }
+
+                    con.commit(function(err) {
+                        if (err) {
+                            con.rollback(function() {
+                              con.release();
+                              res.send({ status: false, message: 'Error' });
+                              return;
+                            });
+                        }
+                        con.release();
+                        res.send({ status: true, message: 'tutorial updated successfully' });
                         console.log('success!');
                     });
 

@@ -325,9 +325,19 @@ app.post('/loadAgreement', jsonParser, function(req,res){
   user.loadAgreement(res,user_id);
 })
 
+app.post('/loadTutorial', jsonParser, function(req,res){
+  let user_id = req.body.user_id;
+  user.loadTutorial(res,user_id);
+})
+
 app.post('/updateAgree', jsonParser, function(req,res){
   let user_id = req.body.user_id;
   user.updateAgree(res,user_id);
+})
+
+app.post('/updateTutorial', jsonParser, function(req,res){
+  let user_id = req.body.user_id;
+  user.updateTutorialDid(res,user_id);
 })
 
 app.post('/verifyMobileCode', jsonParser, function(req,res){
