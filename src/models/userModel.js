@@ -231,6 +231,7 @@ function User() {
                     res.json({status:"OK",msg:"FAILED"});return;
                 }else{
                     let user=result[0];
+                    console.log(user)
 
                       var rand = utils.getRandomInt(100000,999999);
                       // send that random number via sms gateway
